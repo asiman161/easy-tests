@@ -1,0 +1,9 @@
+@mixin no-avatar-circle($size) {
+  background: #5fbb20;
+  color: white;
+  text-align: center;
+  width: $size;
+  height: $size;
+  line-height: $size;
+  border-radius: 50%;
+}

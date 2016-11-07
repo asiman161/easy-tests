@@ -1,0 +1,26 @@
+!.keep
+.env
+.byebug_history
+*.DS_Store
+*.swo
+*.swp
+/.bundle
+/.env.local
+/coverage/*
+/db/*.sqlite3
+/log/*
+/public/system
+/public/assets
+/tags
+/tmp/*
+/.vendor
+/vendor/ruby
+/node_modules
+/frontend/node_modules
+/frontend/typings
+# IDEs
+/.idea
+/public/app.js
+/public/dashboard.html
+/public/polyfills.js
+/public/vendor.js

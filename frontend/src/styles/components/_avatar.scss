@@ -1,0 +1,9 @@
+.avatar-circle {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+}
+
+.no-avatar {
+  @include no-avatar-circle(30px);
+}

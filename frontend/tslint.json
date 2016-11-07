@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
+    "variable-name": [
+      true,
+      "ban-keywords"
+    ],
+    "no-duplicate-variable": true,
+    "semicolon": true
+  }
+}
