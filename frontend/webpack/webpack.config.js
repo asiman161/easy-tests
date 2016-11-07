@@ -4,8 +4,7 @@ const NODE_ENV = process.env.NODE_ENV,
   webpack = require('webpack'),
   path = require('path'),
   precss = require('precss'),
-  autoprefixer = require('autoprefixer'),
-  HtmlWebpackPlugin = require('html-webpack-plugin');
+  autoprefixer = require('autoprefixer');
 
 const rootPath = path.resolve(__dirname, '../..'),
   frontendPath = path.resolve(rootPath, 'frontend/src'),
@@ -78,11 +77,6 @@ module.exports = {
 
   plugins: [
     new webpack.NoErrorsPlugin(),
-    new HtmlWebpackPlugin({
-      template: path.resolve(frontendPath, 'dashboard.html'),
-      filename: 'dashboard.html',
-      chunksSortMode: 'dependency'
-    }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(NODE_ENV)
     }),

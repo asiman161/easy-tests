@@ -7,7 +7,7 @@
     "build:s": "webpack-dev-server --hot --progress",
     "webpack:deploy": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
     "heroku-postbuild": "typings install && npm run webpack:deploy",
-    "postinstall": "typings install"
+    "postinstall": "typings install && npm run webpack:deploy"
   },
   "dependencies": {
     "@angular/common": "2.0.0",

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { Angular2TokenService } from 'angular2-token';
+import {Angular2TokenService} from 'angular2-token';
 
 import {AuthService} from './auth.service';
 
@@ -11,7 +12,9 @@ import {AuthService} from './auth.service';
 })
 
 export class AuthComponent {
-  constructor(private _tokenService: Angular2TokenService){}
+  constructor(private router:Router,
+              private _tokenService:Angular2TokenService) {
+  }
 
   register() {
     this._tokenService.registerAccount(
@@ -19,8 +22,11 @@ export class AuthComponent {
       'secretPassword',
       'secretPassword'
     ).subscribe(
-      res =>      console.log(res),
-      error =>    console.log(error)
+      res => {
+        console.log(res);
+        this.router.navigate(['']);
+      },
+      error => console.log(error)
     );
   }
 
@@ -29,33 +35,34 @@ export class AuthComponent {
       'example@example.org',
       'secretPassword'
     ).subscribe(
-      res =>      console.log(res),
-      error =>    console.log(error)
+      res => {
+        console.log(res);
+        this.router.navigate(['']);
+      },
+      error => console.log(error)
     );
   }
-  
+
   signOut() {
     this._tokenService.signOut().subscribe(
-      res =>      console.log(res),
-      error =>    console.log(error)
+      res => console.log(res),
+      error => console.log(error)
     );
   }
 
   validateToken() {
     this._tokenService.validateToken().subscribe(
-      res =>      console.log(res),
-      error =>    console.log(error)
+      res => console.log(res),
+      error => console.log(error)
     );
   }
 
-  deleteAccount(){
+  deleteAccount() {
     this._tokenService.deleteAccount().subscribe(
-      res =>      console.log(res),
-      error =>    console.log(error)
+      res => console.log(res),
+      error => console.log(error)
     );
   }
-  
-
 
 
 }
