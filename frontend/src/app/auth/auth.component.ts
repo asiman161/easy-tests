@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {Angular2TokenService} from 'angular2-token';
+import { Angular2TokenService } from 'angular2-token';
 
-import {AuthService} from './auth.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'et-auth',
@@ -12,8 +12,8 @@ import {AuthService} from './auth.service';
 })
 
 export class AuthComponent {
-  constructor(private router:Router,
-              private _tokenService:Angular2TokenService) {
+  constructor(private router: Router,
+              private _tokenService: Angular2TokenService) {
   }
 
   register() {

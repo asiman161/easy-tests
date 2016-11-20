@@ -5,9 +5,8 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Angular2TokenService} from 'angular2-token';
 
 @Component({
-  selector: 'et-auth-in',
+  selector: 'et-sign-in',
   template: require('./sign-in.component.html')
-  //template: ''
 })
 
 export class SignInComponent implements OnInit {

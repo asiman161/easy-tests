@@ -2,12 +2,11 @@
   "name": "easy-tests",
   "version": "0.0.1",
   "scripts": {
-    "build": "NODE_ENV=development webpack --config ./webpack/webpack.config.js --progress --watch",
-    "build:prod": "NODE_ENV=production webpack --progress",
-    "build:s": "webpack-dev-server --hot --progress",
-    "webpack:deploy": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
-    "heroku-postbuild": "typings install && npm run webpack:deploy",
-    "postinstall": "typings install && npm run webpack:deploy"
+    "start": "webpack-dev-server --config ./webpack/webpack.config.js --hot --progress",
+    "build": "NODE_ENV=development webpack --config ./webpack/webpack.config.js --progress",
+    "build:watch": "NODE_ENV=development webpack --config ./webpack/webpack.config.js --progress --watch",
+    "build:prod": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
+    "postinstall": "typings install && npm run build:prod"
   },
   "dependencies": {
     "@angular/common": "2.0.0",
@@ -19,17 +18,18 @@
     "@angular/platform-browser-dynamic": "2.0.0",
     "@angular/router": "3.0.0",
     "@angular/upgrade": "2.0.0",
+    "angular2-token": "^0.1.4",
     "core-js": "^2.4.1",
+    "flexboxgrid": "^6.3.1",
     "reflect-metadata": "^0.1.3",
     "rxjs": "5.0.0-beta.12",
-    "zone.js": "0.6.23",
-    "angular2-token": "^0.1.4"
+    "zone.js": "0.6.23"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.24.1",
-    "node-sass": "^3.8.0",
+    "node-sass": "^3.13.0",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
     "raw-loader": "^0.5.1",
@@ -39,7 +39,7 @@
     "ts-loader": "^0.8.2",
     "tslint": "^3.13.0",
     "tslint-loader": "^2.1.5",
-    "typescript": "^2.0.2",
+    "typescript": "^2.1.1",
     "typings": "^1.3.2",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"

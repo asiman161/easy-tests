@@ -8,3 +8,6 @@ import '@angular/router';
 
 // RxJS
 import 'rxjs';
+//import 'rxjs/operator/map';
+//import 'rxjs/operator/catch';
+//import 'rxjs/observable/throw';

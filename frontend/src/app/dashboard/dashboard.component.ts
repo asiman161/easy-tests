@@ -1,24 +1,22 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {Http} from '@angular/http';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Http } from '@angular/http';
 
-import {Angular2TokenService} from 'angular2-token';
+import { Angular2TokenService } from 'angular2-token';
 
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/operator/map';
-import 'rxjs/operator/catch';
-import 'rxjs/observable/throw';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
-  selector: '[et-dashboard]',
-  template: require('./dashboard.component.html')
+  selector: 'et-dashboard',
+  template: require('./dashboard.component.html'),
+  styles: [require('./dashboard.component.scss')]
 })
 export class DashboardComponent {
   private result = 1;
 
-  constructor(private http:Http,
-              private router:Router,
-              private _tokenService:Angular2TokenService) {
+  constructor(private http: Http,
+              private router: Router,
+              private _tokenService: Angular2TokenService) {
   }
 
   signOut() {
@@ -42,8 +40,8 @@ export class DashboardComponent {
   }
 
 
-  private handle(e:any):Observable<any> {
-    console.log('resss');
+  private handle(e: any): Observable<any> {
+    console.error('error log');
     return Observable.throw(e.message || e);
   }
 }
