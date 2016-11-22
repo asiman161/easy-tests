@@ -57,8 +57,6 @@ module.exports = {
     extensions: ['', '.js', '.ts']
   },
 
-  watch: NODE_ENV != 'production',
-
   module: {
     preLoaders: [
       {test: /\.ts$/, loader: "tslint"}
@@ -78,7 +76,9 @@ module.exports = {
   plugins: [
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      NODE_ENV: JSON.stringify(NODE_ENV)
+      'process.env':{
+        'NODE_ENV': JSON.stringify(NODE_ENV)
+      }
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor', 'polyfills']
