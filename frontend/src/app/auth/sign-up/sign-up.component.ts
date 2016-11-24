@@ -6,7 +6,7 @@ import {Angular2TokenService} from 'angular2-token';
 
 @Component({
   selector: 'et-sign-up',
-  template: require('./sign-up.component.html'),
+  templateUrl: './sign-up.component.html',
 
 })
 

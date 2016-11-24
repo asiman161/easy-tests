@@ -8,8 +8,8 @@ import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'et-dashboard',
-  template: require('./dashboard.component.html'),
-  styles: [require('./dashboard.component.scss')]
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
   private result = 1;

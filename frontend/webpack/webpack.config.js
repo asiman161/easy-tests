@@ -62,7 +62,7 @@ module.exports = {
       {test: /\.ts$/, loader: "tslint"}
     ],
     loaders: [
-      {test: /\.ts$/, loader: 'ts'},
+      {test: /\.ts$/, loaders: ['ts', 'angular2-template']},
       {test: /\.html$/, loader: 'raw'},
       {test: /\.scss$/, loader: 'raw!postcss!sass!sass-resources'}
     ]

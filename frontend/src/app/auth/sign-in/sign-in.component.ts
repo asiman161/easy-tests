@@ -6,7 +6,7 @@ import {Angular2TokenService} from 'angular2-token';
 
 @Component({
   selector: 'et-sign-in',
-  template: require('./sign-in.component.html')
+  templateUrl: './sign-in.component.html'
 })
 
 export class SignInComponent implements OnInit {

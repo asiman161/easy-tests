@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 
 @Component({
   selector: 'et-auth',
-  template: require('./auth.component.html'),
+  templateUrl: './auth.component.html',
   providers: [AuthService]
 })
 

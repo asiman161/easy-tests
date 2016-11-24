@@ -4,8 +4,8 @@ import { Angular2TokenService } from 'angular2-token';
 
 @Component({
   selector: 'my-app',
-  template: require('./app.component.html'),
-  styles: [require('../styles/application.scss')],
+  templateUrl: './app.component.html',
+  styleUrls: ['../styles/application.scss'],
   encapsulation: ViewEncapsulation.None
 })
 

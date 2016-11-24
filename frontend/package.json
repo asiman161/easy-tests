@@ -26,6 +26,7 @@
     "zone.js": "0.6.23"
   },
   "devDependencies": {
+    "angular2-template-loader": "^0.6.0",
     "autoprefixer": "^6.3.7",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.24.1",
