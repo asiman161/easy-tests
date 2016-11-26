@@ -1,27 +1,6 @@
-.logo1 {
-  color: $color;
+.dash-left {
+  background-color: cornflowerblue;
 }
-
-body {
-  font-family:$base-font-family;
-}
-
-$bool: true;
-@if $bool {
-  .logo2 {
-    color: #0093ff;
-  }
-}
-
-@for $i from 2 through 4 {
-  @if $i < 4 {
-    .logo#{$i} {
-      user-select: none;
-    }
-  }
-  @if $i != 2 {
-    .logo#{$i} {
-      color: red;
-    }
-  }
+.dash-right {
+  background-color: blueviolet;
 }

@@ -3,3 +3,22 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.layout {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.main-wrapper {
+  margin: 4rem auto 0;
+  height: calc(100% - 4em);
+  width: 75rem;
+  background-color: rgba(126, 13, 0, 0.58);
+  overflow-y: auto;
+}
+
+.sidebar-wrapper {
+  height: 100%;
+  overflow-y: auto;
+}

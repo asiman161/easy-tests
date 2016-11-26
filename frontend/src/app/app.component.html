@@ -1,4 +1,12 @@
-<et-navbar></et-navbar>
-<et-sidebar></et-sidebar>
+<div class="layout">
+    <et-navbar></et-navbar>
+    <div class="main-wrapper row">
+        <div class="sidebar-wrapper col-sm-3">
+            <et-sidebar style="background-color: yellowgreen;"></et-sidebar>
+        </div>
+        <div class="content-wrapper col-sm-9" style="background-color: gold;">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
 
-<router-outlet></router-outlet>
