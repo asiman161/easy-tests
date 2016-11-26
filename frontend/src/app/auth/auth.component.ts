@@ -30,10 +30,22 @@ export class AuthComponent {
     );
   }
 
-  signIn() {
+  signIn(role: number) {
+    let user:any;
+    switch (role){
+      case 1 : 
+        user = user = {email : 'student@st.st', password: 'student1'};
+        break;
+      case 2 :
+        user = {email : 'elder@el.el', password: 'elder123'};
+        break;
+      case 3:
+        user = {email : 'teacher@th.th', password: 'teacher1'};
+        break;
+    }
     this._tokenService.signIn(
-      'example@example.org',
-      'secretPassword'
+      user.email,
+      user.password
     ).subscribe(
       res => {
         console.log(res);

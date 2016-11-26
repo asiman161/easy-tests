@@ -1,6 +1,5 @@
 <section class="sidebar row">
     <div class="col-xs-12">
-        <div>Список групп</div>
-        <div>Список студентов</div>
+        <div *ngFor="let link of sidebarLinks">{{link.name}}</div>
     </div>
 </section>
