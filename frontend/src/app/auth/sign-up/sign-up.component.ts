@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
-import {Angular2TokenService} from 'angular2-token';
+import {Angular2TokenService} from '../../shared/api-factory/angular2-token.service';
 
 @Component({
   selector: 'et-sign-up',

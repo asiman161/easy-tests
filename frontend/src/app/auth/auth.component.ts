@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Angular2TokenService } from 'angular2-token';
+import { Angular2TokenService } from '../shared/api-factory/angular2-token.service';
 
 import { AuthService } from './auth.service';
 

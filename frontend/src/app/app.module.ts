@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-import { Angular2TokenService } from 'angular2-token';
+import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './shared/navbar/index';
-import { SidebarComponent } from './shared/sidebar/index';
+import { NavbarComponent } from './navbar/index';
+import { SidebarComponent } from './sidebar/index';
 import { DashboardComponent } from './dashboard/index';
 import { AuthComponent } from './auth/index';
 import { SignInComponent } from './auth/sign-in/index';
@@ -34,7 +35,8 @@ import { AuthService } from './auth/auth.service';
   ],
   providers: [
     AuthService,
-    Angular2TokenService
+    Angular2TokenService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

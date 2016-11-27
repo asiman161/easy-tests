@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Angular2TokenService } from 'angular2-token';
+import { Angular2TokenService } from '../shared/api-factory/angular2-token.service';
 
 @Component({
   selector: 'et-sidebar',
@@ -11,7 +11,6 @@ import { Angular2TokenService } from 'angular2-token';
 export class SidebarComponent implements OnInit {
 
   private sidebarLinks: Object[] = [{name: '', routeLink: ''}];
-  private user: any = {};
 
   constructor(private tokenService: Angular2TokenService) {
 
@@ -21,18 +20,15 @@ export class SidebarComponent implements OnInit {
     this.getUserRole();
   }
 
-  private getUserRole(){
-    let self = this;
-    let user: any;
-    setTimeout(function repeat(){
-      user = self.tokenService.currentUserData;
-      setTimeout(() => {
-        user ? self.setSidebarLinks(user.role) : repeat();
-      }, 50);
-    }, 50);
+
+  private getUserRole() {
+    this.tokenService.validateToken().subscribe(() => {
+      let user: any = this.tokenService.currentUserData;
+      this.setSidebarLinks(user.role);
+    });
   }
 
-  private setSidebarLinks(role:number){
+  private setSidebarLinks(role: number) {
     switch (role) {
       case 1 :
       case 2 :
@@ -52,7 +48,7 @@ export class SidebarComponent implements OnInit {
         break;
       default :
         this.sidebarLinks = [
-          {name: 'Профиль', routeLink: '/'},
+          {name: 'Профиль', routeLink: '/'}
         ];
         break;
     }
