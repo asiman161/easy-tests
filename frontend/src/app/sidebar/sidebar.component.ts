@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Angular2TokenService } from '../shared/api-factory/angular2-token.service';
+import {Component, OnInit} from '@angular/core';
+import * as _ from 'lodash';
+import {Angular2TokenService} from '../shared/api-factory/angular2-token.service';
+import {SidebarTestsList} from './sidebar-tests-list.model';
+import {SidebarTestList} from './sidebar-test-list.model';
 
 @Component({
   selector: 'et-sidebar',
@@ -10,7 +12,11 @@ import { Angular2TokenService } from '../shared/api-factory/angular2-token.servi
 
 export class SidebarComponent implements OnInit {
 
-  private sidebarLinks: Object[] = [{name: '', routeLink: ''}];
+  private sidebarLinks: Object = [{name: '', routeLink: ''}];
+  private expandedLists: Object = {currentTasks: true, completedTasks: true};
+  private studentLists: any = {currentTasks: [], completedTasks: []};
+  private sidebarTestsList: SidebarTestsList;
+  private userRole: number = 0;
 
   constructor(private tokenService: Angular2TokenService) {
 
@@ -24,7 +30,8 @@ export class SidebarComponent implements OnInit {
   private getUserRole() {
     this.tokenService.validateToken().subscribe(() => {
       let user: any = this.tokenService.currentUserData;
-      this.setSidebarLinks(user.role);
+      this.userRole = user.role;
+      this.setSidebarLinks(this.userRole);
     });
   }
 
@@ -36,6 +43,25 @@ export class SidebarComponent implements OnInit {
           {name: 'Список группы', routeLink: '/'},
           {name: 'Работы', routeLink: '/'}
         ];
+        this.sidebarTestsList = {
+          tests: [{
+            expanded: true,
+            caption: 'Английский',
+            tests: [
+              {name: 'Времена', data: {completed: false}},
+              {name: 'Основы английского', data: {completed: false}},
+              {name: 'продвинутый англ', data: {completed: true, rate: 5}},
+            ]
+          }, {
+            expanded: true,
+            caption: 'Программирование',
+            tests: [
+              {name: 'c++ циклы', data: {completed: false}},
+              {name: 'c++ условные конструкции', data: {completed: true, rate: 4}}
+            ]
+          }]
+        };
+        this.buildStudentLists();
         break;
       case 3 :
         this.sidebarLinks = [
@@ -45,6 +71,61 @@ export class SidebarComponent implements OnInit {
           {name: 'Список работ', routeLink: '/'},
           {name: 'Список предметов', routeLink: '/'}
         ];
+        this.sidebarTestsList = {
+          tests: [{
+            expanded: true,
+            caption: 'ПОКС-11',
+            tests: [{
+              name: 'Основы программирования',
+              expanded: true,
+              data: {
+                examName: 'Алгоритмы',
+                expanded: true,
+                students: [
+                  {name: 'Иванов Иван'},
+                  {name: 'Петров Петр', rate: 5}
+                ]
+              }
+            }, {
+              name: 'Основы C++',
+              expanded: true,
+              data: {
+                examName: 'циклы',
+                expanded: true,
+                students: [
+                  {name: 'Иванов Иван', rate: 3},
+                  {name: 'Петров Петр', rate: 4}
+                ]
+              }
+            }]
+          }, {
+            expanded: true,
+            caption: 'ПОКС-22',
+            tests: [{
+              name: 'Кибернетика',
+              expanded: true,
+              data: {
+                examName: 'Ардуино',
+                expanded: true,
+                students: [
+                  {name: 'Александр Павлов', rate: 3},
+                  {name: 'Мария Павлова'}
+                ]
+              }
+            }, {
+              name: 'Машинное обучение',
+              expanded: true,
+              data: {
+                examName: 'Python',
+                expanded: true,
+                students: [
+                  {name: 'Александр Павлов'},
+                  {name: 'Мария Павлова', rate: 5}
+                ]
+              }
+            }]
+          }]
+        };
         break;
       default :
         this.sidebarLinks = [
@@ -52,6 +133,24 @@ export class SidebarComponent implements OnInit {
         ];
         break;
     }
+  }
+
+  private buildStudentLists() {
+    this.studentLists.currentTasks = _.cloneDeep(this.sidebarTestsList);
+    this.studentLists.completedTasks = _.cloneDeep(this.sidebarTestsList);
+
+    this.studentLists.currentTasks.tests = this.studentLists.currentTasks.tests.map((test: any) => {
+
+      test.tests = test.tests.filter((item) => !item.data.completed);
+      return test;
+    });
+    console.log(this.studentLists.currentTasks);
+    
+    this.studentLists.completedTasks.tests = this.studentLists.completedTasks.tests.map((task: any) => {
+      console.log(task);
+      task.tests = task.tests.filter(item => item.data.completed);
+      return task;
+    });
   }
 
 }

@@ -1,5 +1,63 @@
 <section class="sidebar row">
-    <div class="col-xs-12">
-        <div *ngFor="let link of sidebarLinks">{{link.name}}</div>
-    </div>
+  <div class="col-xs-12">
+    <ul class="list list_clickable margin-reset">
+      <li class="list__item" *ngFor="let link of sidebarLinks">{{link.name}}</li>
+    </ul>
+    <div class="li-separator"></div>
+    <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList && userRole === 3">
+      <li class="list__item active"  *ngFor="let testList of sidebarTestsList.tests">
+        <div class="multi-levels__main-item" (click)="testList.expanded = !testList.expanded">{{testList.caption}}</div>
+        <ul class="list" *ngIf="testList.expanded">
+          <li class="list__item" *ngFor="let test of testList.tests">
+            <div (click)="test.expanded = !test.expanded">{{test.name}}</div>
+            <ul *ngIf="test.expanded" class="list">
+              <li class="list__item">
+                <div (click)="test.data.expanded = !test.data.expanded">{{test.data.examName}}</div>
+                <ul *ngIf="test.data.expanded" class="list">
+                  <li class="list__item" *ngFor="let student of test.data.students">
+                    <div>{{student.name}} <span *ngIf="student.rate">({{student.rate}})</span> </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList && (userRole === 1 || userRole === 2)">
+      <li class="list__item active">
+        <div class="multi-levels__main-item"
+             (click)="expandedLists.currentTasks = !expandedLists.currentTasks">Текущие</div>
+        <ul class="list" *ngIf="expandedLists.currentTasks">
+          <li class="list__item" *ngFor="let testList of studentLists.currentTasks.tests">
+            <div (click)="testList.expanded = !testList.expanded">{{testList.caption}}</div>
+            <ul class="list" *ngIf="testList.expanded">
+              <li class="list__item" *ngFor="let test of testList.tests">
+                <div>{{test.name}}</div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+    <ul class="list list_clickable multi-levels expanded margin-reset" *ngIf="sidebarTestsList && (userRole === 1 || userRole === 2)">
+      <li class="list__item active">
+        <div class="multi-levels__main-item"
+             (click)="expandedLists.completedTasks = !expandedLists.completedTasks">Выполненные</div>
+        <ul class="list" *ngIf="expandedLists.completedTasks">
+
+          <li class="list__item" *ngFor="let testList of studentLists.completedTasks.tests">
+            <div (click)="testList.expanded = !testList.expanded">{{testList.caption}}</div>
+            <ul class="list" *ngIf="testList.expanded">
+              <li class="list__item" *ngFor="let test of testList.tests">
+                <div>{{test.name }}</div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </section>

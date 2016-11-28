@@ -1,5 +1,9 @@
 {
   "scripts": {
-    "install": "cd frontend && npm install"
+    "start": "cd ./frontend && npm start",
+    "build": "cd ./frontend && npm run build",
+    "build:watch": "cd ./frontend && npm run build:watch",
+    "build:prod": "cd ./frontend && npm run build:prod",
+    "install": "cd ./frontend && npm install"
   }
 }

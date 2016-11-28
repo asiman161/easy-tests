@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
@@ -15,6 +15,7 @@ import { SignInComponent } from './auth/sign-in/index';
 import { SignUpComponent } from './auth/sign-up/index';
 import { routing } from './app.routing';
 import { AuthService } from './auth/auth.service';
+import { SidebarListPipe } from './sidebar/sidebar-list.pipe';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AuthService } from './auth/auth.service';
     BrowserModule,
     HttpModule,
     routing,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [
     AppComponent,
@@ -31,7 +33,8 @@ import { AuthService } from './auth/auth.service';
     DashboardComponent,
     AuthComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    SidebarListPipe
   ],
   providers: [
     AuthService,
