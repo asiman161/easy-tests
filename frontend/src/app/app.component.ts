@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this._tokenService.init({
+      apiPath: 'api',
       signInRedirect: 'auth'
     });
   }
