@@ -22,7 +22,6 @@ export class DashboardComponent {
   signOut() {
     this._tokenService.signOut().subscribe(
       res => {
-        console.log(res);
         this.router.navigateByUrl('auth');
       },
       error => console.log(error)

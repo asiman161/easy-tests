@@ -16,20 +16,6 @@ export class AuthComponent {
               private _tokenService: Angular2TokenService) {
   }
 
-  register() {
-    this._tokenService.registerAccount(
-      'example@example.org',
-      'secretPassword',
-      'secretPassword'
-    ).subscribe(
-      res => {
-        console.log(res);
-        this.router.navigate(['']);
-      },
-      error => console.log(error)
-    );
-  }
-
   signIn(role: number) {
     let user:any;
     switch (role){
@@ -48,33 +34,10 @@ export class AuthComponent {
       user.password
     ).subscribe(
       res => {
-        console.log(res);
         this.router.navigate(['']);
       },
       error => console.log(error)
     );
   }
-
-  signOut() {
-    this._tokenService.signOut().subscribe(
-      res => console.log(res),
-      error => console.log(error)
-    );
-  }
-
-  validateToken() {
-    this._tokenService.validateToken().subscribe(
-      res => console.log(res),
-      error => console.log(error)
-    );
-  }
-
-  deleteAccount() {
-    this._tokenService.deleteAccount().subscribe(
-      res => console.log(res),
-      error => console.log(error)
-    );
-  }
-
 
 }

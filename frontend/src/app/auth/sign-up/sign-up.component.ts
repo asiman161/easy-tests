@@ -27,7 +27,6 @@ export class SignUpComponent implements OnInit{
   }
 
   signUp(event) {
-    console.log(this.signUpForm.controls);
     event.preventDefault();
     this._tokenService.registerAccount(
      this.signUpForm.value.email,

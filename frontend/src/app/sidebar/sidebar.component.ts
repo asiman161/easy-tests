@@ -144,10 +144,8 @@ export class SidebarComponent implements OnInit {
       test.tests = test.tests.filter((item) => !item.data.completed);
       return test;
     });
-    console.log(this.studentLists.currentTasks);
-    
+
     this.studentLists.completedTasks.tests = this.studentLists.completedTasks.tests.map((task: any) => {
-      console.log(task);
       task.tests = task.tests.filter(item => item.data.completed);
       return task;
     });
