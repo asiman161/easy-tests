@@ -6,14 +6,9 @@
     </div>
     <div class="content-wrapper col-xs-9" style="background-color: gold;">
       <div class="row">
-        <div class="dash-left col-xs-6">123123</div>
-        <div class="dash-right col-xs-6">123123</div>
-
-        <button (click)="getInfo()">get info</button>
-        <br>
-        <button (click)="signOut()">sign out</button>
-        <br>
-        <a routerLink="/auth">to auth</a>
+        <div class="col-xs-12 pd-reset">
+          <router-outlet></router-outlet>
+        </div>
       </div>
     </div>
   </div>

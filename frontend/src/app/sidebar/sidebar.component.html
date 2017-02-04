@@ -1,7 +1,9 @@
 <section class="sidebar row">
   <div class="col-xs-12">
     <ul class="list list_clickable margin-reset">
-      <li class="list__item" *ngFor="let link of sidebarLinks">{{link.name}}</li>
+      <li routerLink="{{link.routeLink}}" class="list__item" *ngFor="let link of sidebarLinks">
+        {{link.name}}
+      </li>
     </ul>
     <div class="li-separator"></div>
     <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList && userRole === 3">

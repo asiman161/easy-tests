@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 
-import { Angular2TokenService } from '../shared/api-factory/angular2-token.service';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -14,19 +12,9 @@ import { Observable } from 'rxjs/Observable';
 export class DashboardComponent {
   private result = 1;
 
-  constructor(private http: Http,
-              private router: Router,
-              private _tokenService: Angular2TokenService) {
+  constructor(private http: Http) {
   }
 
-  signOut() {
-    this._tokenService.signOut().subscribe(
-      res => {
-        this.router.navigateByUrl('auth');
-      },
-      error => console.log(error)
-    );
-  }
 
   getInfo() {
     this.getInfo2().subscribe(res => console.log(res));

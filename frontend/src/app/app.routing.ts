@@ -7,12 +7,20 @@ import { AuthComponent } from './auth/index';
 import { AuthService } from './auth/auth.service';
 import { SignInComponent } from './auth/sign-in/index';
 import { SignUpComponent } from './auth/sign-up/index';
+import {ProfileComponent} from './dashboard/profile/profile.component';
 
 
 
 //noinspection TypeScriptValidateTypes
 const appRoutes: Routes = [
-  { path: '', component: DashboardComponent, canActivate: [Angular2TokenService] },
+  {
+    path: '', component: DashboardComponent, canActivate: [Angular2TokenService],
+    children: [
+      {path: '', redirectTo: 'profile'},
+      { path: 'profile', component: ProfileComponent, canActivate: [Angular2TokenService] }
+    ]
+  },
+
   {
     path: 'auth', component: AuthComponent,
     children: [
