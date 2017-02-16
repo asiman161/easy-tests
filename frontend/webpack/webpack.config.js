@@ -54,32 +54,51 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.js', '.ts']
+    extensions: ['.js', '.ts']
   },
 
   module: {
-    preLoaders: [
-      {test: /\.ts$/, loader: "tslint"}
-    ],
-    loaders: [
-      {test: /\.ts$/, loaders: ['ts', 'angular2-template']},
-      {test: /\.html$/, loader: 'raw'},
-      {test: /\.scss$/, loader: 'raw!postcss!sass!sass-resources'}
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.ts$/,
+        use: ['tslint-loader']
+      }, {
+        test: /\.ts$/,
+        use: ['ts-loader', 'angular2-template-loader']
+      }, {
+        test: /\.html$/,
+        use: ['raw-loader']
+      }, {
+        test: /\.scss$/,
+        use: ['raw-loader', {
+          loader: 'postcss-loader',
+          options: {
+            plugins: () => {
+              return [precss, autoprefixer({browsers: ['last 2 version']})];
+            }
+          }
+        }, 'sass-loader', {
+          loader: 'sass-resources-loader',
+          options: {
+            resources: sassResourcesPath
+          }
+        }]
+      }
     ]
   },
-  postcss: function () {
-    return [precss, autoprefixer({browsers: ['last 2 version']})];
-  },
-
-  sassResources: sassResourcesPath,
 
   plugins: [
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env':{
+      'process.env': {
         'NODE_ENV': JSON.stringify(NODE_ENV)
       }
     }),
+    new webpack.ContextReplacementPlugin(
+      /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+      frontendPath
+    ),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor', 'polyfills']
     })
@@ -93,6 +112,10 @@ if (NODE_ENV == 'production') {
         warnings: false,
         unsafe: true
       }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
     })
   );
 }
