@@ -69,7 +69,7 @@ export class SidebarComponent implements OnInit {
           {name: 'Профиль', routeLink: '/profile'},
           {name: 'Список группы', routeLink: '/'},
           {name: 'Список студентов', routeLink: '/'},
-          {name: 'Создание работы', routeLink: '/'},
+          {name: 'Создание работы', routeLink: '/create-test'},
           {name: 'Список работ', routeLink: '/'},
           {name: 'Список предметов', routeLink: '/'}
         ];

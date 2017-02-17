@@ -1,6 +1,7 @@
 class Api::UploadsController < ApplicationController
   def file_upload
-    puts params
-    render json: {complete: true}
+    require 'yomu'
+    x = Yomu.new File.open(params[:file].path)
+    puts x.text
   end
 end
