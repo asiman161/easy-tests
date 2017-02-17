@@ -16,7 +16,7 @@ const appRoutes: Routes = [
   {
     path: '', component: DashboardComponent, canActivate: [Angular2TokenService],
     children: [
-      {path: '', redirectTo: 'profile'},
+      {path: '', redirectTo: 'profile', pathMatch: 'full'},
       { path: 'profile', component: ProfileComponent, canActivate: [Angular2TokenService] }
     ]
   },
@@ -24,7 +24,7 @@ const appRoutes: Routes = [
   {
     path: 'auth', component: AuthComponent,
     children: [
-      {path: '', redirectTo: 'sign-in'},
+      {path: '', redirectTo: 'sign-in', pathMatch: 'full'},
       {path: 'sign-in', component: SignInComponent , canActivate: [AuthService]},
       {path: 'sign-up', component: SignUpComponent , canActivate: [AuthService]}
     ]
