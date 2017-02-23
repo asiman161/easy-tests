@@ -1,4 +1,8 @@
 users = [{
+  email: "guest@gst.gst",
+  password: "guest111",
+  role: 0,
+},{
   email: "student@st.st",
   password: "student1",
   role: 1,

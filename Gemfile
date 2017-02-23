@@ -8,6 +8,7 @@ gem 'pg'
 gem 'puma', '~> 3.0'
 gem 'paperclip', '~> 5.0.0'
 gem 'omniauth'
+gem 'yomu'
 gem 'devise_token_auth'
 
 

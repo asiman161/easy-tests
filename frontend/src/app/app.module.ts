@@ -5,11 +5,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
+import { NgUploaderModule } from 'ngx-uploader';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/index';
 import { SidebarComponent } from './sidebar/index';
 import { DashboardComponent } from './dashboard/index';
+import { ProfileComponent } from './dashboard/profile/index';
+import { CreateTestComponent } from './dashboard/create-test/index';
 import { AuthComponent } from './auth/index';
 import { SignInComponent } from './auth/sign-in/index';
 import { SignUpComponent } from './auth/sign-up/index';
@@ -24,13 +27,16 @@ import { SidebarListPipe } from './sidebar/sidebar-list.pipe';
     HttpModule,
     routing,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgUploaderModule
   ],
   declarations: [
     AppComponent,
     NavbarComponent,
     SidebarComponent,
     DashboardComponent,
+    ProfileComponent,
+    CreateTestComponent,
     AuthComponent,
     SignInComponent,
     SignUpComponent,
