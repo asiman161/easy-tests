@@ -2,7 +2,7 @@
   "name": "easy-tests",
   "version": "0.0.1",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack/webpack.config.js --hot --progress",
+    "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress",
     "build": "NODE_ENV=development webpack --config ./webpack/webpack.config.js --progress",
     "build:watch": "NODE_ENV=development webpack --config ./webpack/webpack.config.js --progress --watch",
     "build:prod": "NODE_ENV=production webpack --optimize-minimize --config ./webpack/webpack.config.js --progress",
