@@ -10,10 +10,71 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161107173743) do
+ActiveRecord::Schema.define(version: 20170224202742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "completed_tests", force: :cascade do |t|
+    t.integer  "test_rate",                      null: false
+    t.boolean  "first_complete", default: false
+    t.bigint   "time_start",                     null: false
+    t.bigint   "time_end",                       null: false
+    t.integer  "group_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  create_table "completed_tests_users", force: :cascade do |t|
+    t.integer "completed_test_id"
+    t.integer "user_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "group_name",             null: false
+    t.integer  "group_age",  default: 0
+    t.string   "elder_id",               null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "groups_subjects", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "subject_id"
+  end
+
+  create_table "groups_tests", id: false, force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "test_id"
+  end
+
+  create_table "rates", force: :cascade do |t|
+    t.integer  "rate",       default: 0
+    t.integer  "subject_id",             null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "rates_users", force: :cascade do |t|
+    t.integer "rate_id"
+    t.integer "user_id"
+  end
+
+  create_table "subjects", force: :cascade do |t|
+    t.string   "subject_name", null: false
+    t.integer  "user_id",      null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "tests", force: :cascade do |t|
+    t.json     "test_data",                  null: false
+    t.bigint   "time_end",   default: 0
+    t.boolean  "show_test",  default: false
+    t.integer  "user_id",                    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false
@@ -31,6 +92,7 @@ ActiveRecord::Schema.define(version: 20161107173743) do
     t.json     "tokens"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.integer  "group_id"
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
