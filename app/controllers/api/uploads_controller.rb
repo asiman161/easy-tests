@@ -1,7 +1,11 @@
 class Api::UploadsController < ApplicationController
   def file_upload
-    require 'yomu'
-    x = Yomu.new File.open(params[:file].path)
-    puts x.text
+    status = Test.parse_task(
+      params[:file].path,
+      params[:user_id],
+      params[:test_type].to_i,
+      params[:variants_count].to_i
+    )
+    render json: status
   end
 end

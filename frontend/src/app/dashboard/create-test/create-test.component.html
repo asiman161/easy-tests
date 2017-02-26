@@ -1,8 +1,13 @@
 <div style="background-color: white;">
   <h1>create test</h1>
   <input type="file"
+         *ngIf="userIdLoaded"
          ngFileSelect
          [options]="options"
          (onUpload)="handleUpload($event)"
   >
+
+  <!--<et-input-text></et-input-text>
+  <et-text-area [errorMessage]="error"></et-text-area>-->
+  <button (click)="send()">send</button>
 </div>

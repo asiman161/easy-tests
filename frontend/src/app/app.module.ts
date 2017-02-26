@@ -8,17 +8,21 @@ import { Angular2TokenService } from './shared/api-factory/angular2-token.servic
 import { NgUploaderModule } from 'ngx-uploader';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/index';
-import { SidebarComponent } from './sidebar/index';
-import { DashboardComponent } from './dashboard/index';
-import { ProfileComponent } from './dashboard/profile/index';
-import { CreateTestComponent } from './dashboard/create-test/index';
-import { AuthComponent } from './auth/index';
-import { SignInComponent } from './auth/sign-in/index';
-import { SignUpComponent } from './auth/sign-up/index';
-import { routing } from './app.routing';
+import { NavbarComponent } from './navbar/navbar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './dashboard/profile/profile.component';
+import { CreateTestComponent } from './dashboard/create-test/create-test.component';
+import { VariantComponent } from './dashboard/create-test/variant/variant.component';
+import { AuthComponent } from './auth/auth.component';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+
+import { InputTextComponent } from './shared/elements/input-text/input-text.component';
+import { TextAreaComponent } from './shared/elements/text-area/text-area.component';
 import { AuthService } from './auth/auth.service';
 import { SidebarListPipe } from './sidebar/sidebar-list.pipe';
+import { routing } from './app.routing';
 
 
 @NgModule({
@@ -37,9 +41,12 @@ import { SidebarListPipe } from './sidebar/sidebar-list.pipe';
     DashboardComponent,
     ProfileComponent,
     CreateTestComponent,
+    VariantComponent,
     AuthComponent,
     SignInComponent,
     SignUpComponent,
+    InputTextComponent,
+    TextAreaComponent,
     SidebarListPipe
   ],
   providers: [

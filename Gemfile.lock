@@ -47,6 +47,9 @@ GEM
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
     concurrent-ruby (1.0.2)
+    debase (0.2.1)
+      debase-ruby_core_source
+    debase-ruby_core_source (0.9.6)
     devise (4.2.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -151,6 +154,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  debase
   devise_token_auth
   listen (~> 3.0.5)
   omniauth
@@ -167,4 +171,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.14.2
+   1.14.5

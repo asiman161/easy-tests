@@ -1,5 +1,16 @@
 <nav class="navbar">
-    <h2>navbar</h2>
-  <button (click)="signOut()">sign out</button>
-  <a routerLink="/auth">to auth</a>
+  <div class="navbar-container">
+    <div class="col-xs-12">
+      <div class="row between-xs">
+        <div class="navbar-open md-hide lg-hide" (click)="showSidebar()" (openSidebarEvent)="test()">
+          <i class="fa fa-bars"></i>
+        </div>
+        <div class="navbar-logo"><h2>navbar</h2></div>
+        <div class="navbar-profile">
+          <button (click)="signOut()">sign out</button>
+          <a routerLink="/auth">to auth</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </nav>

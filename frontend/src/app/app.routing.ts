@@ -2,13 +2,13 @@ import { Routes, RouterModule }   from '@angular/router';
 
 import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
 
-import { DashboardComponent } from './dashboard/index';
-import { AuthComponent } from './auth/index';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './auth/auth.service';
-import { SignInComponent } from './auth/sign-in/index';
-import { SignUpComponent } from './auth/sign-up/index';
-import { ProfileComponent } from './dashboard/profile/index';
-import { CreateTestComponent } from './dashboard/create-test/index';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { ProfileComponent } from './dashboard/profile/profile.component';
+import { CreateTestComponent } from './dashboard/create-test/create-test.component';
 
 
 const appRoutes: Routes = [

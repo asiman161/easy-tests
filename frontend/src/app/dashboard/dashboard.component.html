@@ -1,10 +1,10 @@
 <div class="layout">
   <et-navbar></et-navbar>
   <div class="main-wrapper row">
-    <div class="sidebar-wrapper col-xs-3">
+    <div class="sidebar-wrapper col-xs-12 col-md-3" (openSidebarEvent)="test()">
       <et-sidebar></et-sidebar>
     </div>
-    <div class="content-wrapper col-xs-9" style="background-color: gold;">
+    <div class="content-wrapper col-xs-12 col-md-9" style="background-color: gold;">
       <div class="row">
         <div class="col-xs-12 pd-reset">
           <router-outlet></router-outlet>
@@ -13,4 +13,3 @@
     </div>
   </div>
 </div>
-

@@ -31,5 +31,9 @@ export class DashboardComponent {
     console.error('error log');
     return Observable.throw(e.message || e);
   }
+
+  test(){
+    console.log(2);
+  }
 }
 

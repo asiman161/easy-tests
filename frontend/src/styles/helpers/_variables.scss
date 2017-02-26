@@ -7,6 +7,12 @@ $base-color: #333;
 $white: #fff;
 
 // Media Queries
-$mobile-screen: 479px;
-$mobile-screen-max: max-width 767px;
-$tablet-screen-max: max-width 959px;
+$xs-screen: "only screen and (max-width: 47em)";
+$sm-screen: "only screen and (min-width: 48em)";
+$md-screen: "only screen and (min-width: 64em)";
+$lg-screen: "only screen and (min-width: 75em)";
+$xs-screen-value: 47em;
+$sm-screen-value: 48em;
+$md-screen-value: 64em;
+$lg-screen-value: 75em;
+

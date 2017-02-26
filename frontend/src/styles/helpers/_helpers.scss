@@ -11,3 +11,24 @@
 .clickable {
   cursor: pointer;
 }
+
+@media #{$xs-screen} {
+  .xs-hide {
+    display: none !important;
+  }
+}
+@media #{$sm-screen} {
+  .sm-hide {
+    display: none !important;
+  }
+}
+@media #{$md-screen} {
+  .md-hide {
+    display: none !important;
+  }
+}
+@media #{$lg-screen} {
+  .lg-hide {
+    display: none !important;
+  }
+}

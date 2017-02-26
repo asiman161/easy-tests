@@ -1,6 +1,15 @@
-.dash-left {
-  background-color: cornflowerblue;
+@media #{$xs-screen} {
+  .sidebar-wrapper {
+    position: absolute;
+    width: 15rem;
+    left: -15rem;
+  }
 }
-.dash-right {
-  background-color: blueviolet;
+
+@media (min-width: $xs-screen-value) and (max-width: $md-screen-value - 1) {
+  .sidebar-wrapper {
+    position: absolute;
+    width: 20rem;
+    left: -20rem;
+  }
 }
