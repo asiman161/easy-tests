@@ -26,12 +26,10 @@ export class SignInComponent implements OnInit {
 
   signIn(event) {
     event.preventDefault();
-    console.log(1);
     this._tokenService.signIn(
       this.signInForm.value.email,
       this.signInForm.value.password
     ).subscribe(res => {
-        console.log(res);
         this.router.navigateByUrl('');
       },
       error => console.log(error)

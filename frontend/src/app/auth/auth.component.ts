@@ -19,8 +19,11 @@ export class AuthComponent {
   signIn(role: number) {
     let user:any;
     switch (role){
-      case 1 : 
-        user = user = {email : 'student@st.st', password: 'student1'};
+      case 0 :
+        user = {email : 'guest@gst.gst', password: 'guest111'};
+        break;
+      case 1 :
+        user = {email : 'student@st.st', password: 'student1'};
         break;
       case 2 :
         user = {email : 'elder@el.el', password: 'elder123'};

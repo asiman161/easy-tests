@@ -40,6 +40,7 @@ export class SidebarComponent implements OnInit {
       case 1 :
       case 2 :
         this.sidebarLinks = [
+          {name: 'Профиль', routeLink: '/profile'},
           {name: 'Список группы', routeLink: '/'},
           {name: 'Работы', routeLink: '/'}
         ];
@@ -65,9 +66,10 @@ export class SidebarComponent implements OnInit {
         break;
       case 3 :
         this.sidebarLinks = [
+          {name: 'Профиль', routeLink: '/profile'},
           {name: 'Список группы', routeLink: '/'},
           {name: 'Список студентов', routeLink: '/'},
-          {name: 'Создание работы', routeLink: '/'},
+          {name: 'Создание работы', routeLink: '/create-test'},
           {name: 'Список работ', routeLink: '/'},
           {name: 'Список предметов', routeLink: '/'}
         ];
@@ -129,7 +131,7 @@ export class SidebarComponent implements OnInit {
         break;
       default :
         this.sidebarLinks = [
-          {name: 'Профиль', routeLink: '/'}
+          {name: 'Профиль', routeLink: '/profile'}
         ];
         break;
     }

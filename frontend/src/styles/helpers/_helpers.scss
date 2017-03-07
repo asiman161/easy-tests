@@ -1,8 +1,34 @@
 .margin-reset {
-  margin-left: -.5rem;
   margin-right: -.5rem;
+  margin-left: -.5rem;
+}
+
+.pd-reset {
+  padding-right: 0;
+  padding-left: 0;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+@media #{$xs-screen} {
+  .xs-hide {
+    display: none !important;
+  }
+}
+@media #{$sm-screen} {
+  .sm-hide {
+    display: none !important;
+  }
+}
+@media #{$md-screen} {
+  .md-hide {
+    display: none !important;
+  }
+}
+@media #{$lg-screen} {
+  .lg-hide {
+    display: none !important;
+  }
 }
