@@ -12,7 +12,7 @@ export class TextAreaComponent {
   constructor() { }
 
   getValue(){
-    console.log(this.test);
+
   }
 
 }

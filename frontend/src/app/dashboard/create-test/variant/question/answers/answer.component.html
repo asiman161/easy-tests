@@ -1,0 +1,9 @@
+<div [formGroup]="answerForm">
+  <label>
+    <input type="checkbox" (change)="setAnswerIndex()">
+  </label>
+  <input type="text" formControlName="answer">
+  <small [hidden]="answerForm.controls.answer.valid" class="text-danger">
+    Ответ обязателен
+  </small>
+</div>

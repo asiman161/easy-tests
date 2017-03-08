@@ -3,7 +3,9 @@ class Api::TestsController < ApplicationController
 
   def create_test
     test = Test.new test_data: params[:testData]
-
+    puts "============="
+    puts params[:testData]
+    puts "============="
     current_user.tests << test if current_user.teacher?
 
     render json: {status: 0}

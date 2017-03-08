@@ -1,12 +1,50 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'et-variant',
   templateUrl: 'variant.component.html'
 })
 export class VariantComponent {
-  // we will pass in address from App component
   @Input('group')
   public variantForm: FormGroup;
+
+  @Input('testType')
+  public testType: number;
+
+  constructor(private _fb: FormBuilder){}
+
+
+  addQuestion() {
+    const control = <FormArray>this.variantForm.controls['questions'];
+    control.push(this.initQuestions());
+  }
+
+  initQuestions() {
+    if (this.testType == 0) {
+      return this._fb.group({
+        question_text: ['', Validators.required]
+      });
+    } else if (this.testType == 1) {
+      return this._fb.group({
+        question_text: ['', Validators.required],
+        question_right_answers: [],
+        question_answers: this._fb.array([
+          this.initAnswers()
+        ])
+      });
+    }
+  }
+
+  initAnswers(){
+    return this._fb.group({
+      answer: ['', Validators.required]
+    });
+  }
+
+  removeQuestion(i: number) {
+    const control = <FormArray>this.variantForm.controls['questions'];
+    control.removeAt(i);
+  }
+
 }

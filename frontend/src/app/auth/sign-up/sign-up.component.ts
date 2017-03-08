@@ -33,10 +33,9 @@ export class SignUpComponent implements OnInit{
      this.signUpForm.value.password,
      this.signUpForm.value.confirmPassword
     ).subscribe(res => {
-       console.log(res);
        this.router.navigateByUrl('');
      },
-     error => console.log(error)
+     error => console.error(error)
     );
   }
 }

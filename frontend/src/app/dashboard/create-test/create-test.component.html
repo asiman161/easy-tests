@@ -6,8 +6,40 @@
          [options]="options"
          (onUpload)="handleUpload($event)"
   >
+  <ul>
+    <li>
+      <label>
+        <input type="radio" name="test_type" (click)="changeTestType(0)" checked>
+        контрольная
+      </label>
+    </li>
+    <li>
+      <label>
+        <input type="radio" name="test_type" (click)="changeTestType(1)">
+        тест
+      </label>
+    </li>
+  </ul>
+  <form [formGroup]="createWork" novalidate style="margin-top: 100px;">
+    <div class="form-group">
+      <label>Название</label>
+      <input type="text" class="form-control" formControlName="title">
+      <small *ngIf="!createWork.controls.title.valid">
+        Название обязательно, 5+ символов
+      </small>
+    </div>
+    <div formArrayName="variants">
+      <div *ngFor="let variant of createWork.controls.variants.controls; let i=index">
+        <span>Вариант № {{i + 1}}</span>
+        <i class="fa fa-times" *ngIf="createWork.controls.variants.controls.length > 1" (click)="removeVariant(i)"
+           aria-hidden="true"></i>
+        <div [formGroupName]="i">
+          <et-variant [group]="createWork.controls.variants.controls[i]" [testType]="testType"></et-variant>
+        </div>
+        <button (click)="addVariant()">Добавить вариант</button>
+      </div>
+    </div>
+  </form>
 
-  <!--<et-input-text></et-input-text>
-  <et-text-area [errorMessage]="error"></et-text-area>-->
-  <button (click)="send()">send</button>
+  <button (click)="save()">Сохранить</button>
 </div>
