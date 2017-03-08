@@ -12,7 +12,7 @@ import { Angular2TokenService } from '../shared/api-factory/angular2-token.servi
 
 export class NavbarComponent {
   @Output()
-  openSidebarEvent: EventEmitter<any> = new EventEmitter();
+  openSidebar: EventEmitter<any> = new EventEmitter();
 
   constructor(private router: Router,
               private _tokenService: Angular2TokenService) {
@@ -27,12 +27,7 @@ export class NavbarComponent {
   }
 
   showSidebar() {
-    console.log(1);
-    this.openSidebarEvent.emit();
-  }
-
-  test(){
-    console.log('catch event in navbar');
+    this.openSidebar.emit();
   }
 
 }

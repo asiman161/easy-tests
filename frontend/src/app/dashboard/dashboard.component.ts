@@ -10,16 +10,13 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  private result = 1;
+  result = 1;
+  public showSidebar = false;
 
   constructor(private http: Http) {
   }
 
-
-  getInfo() {
-    this.getInfo2().subscribe(res => console.log(res));
-  }
-
+  //TODO: remove it
   getInfo2() {
     return this.http.post('/dashboard/custom', {name: 'test'})
       .map(res => this.result = res.json())
@@ -33,7 +30,7 @@ export class DashboardComponent {
   }
 
   test(){
-    console.log(2);
+    this.showSidebar = !this.showSidebar;
   }
 }
 

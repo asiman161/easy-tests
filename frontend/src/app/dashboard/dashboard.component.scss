@@ -1,8 +1,21 @@
+.sidebar-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  transition: left .15s;
+}
+
+.sidebar-wrapper {
+  background-color: #37474f;
+}
+
 @media #{$xs-screen} {
   .sidebar-wrapper {
     position: absolute;
     width: 15rem;
     left: -15rem;
+    &.open-sidebar {
+      left: 0;
+    }
   }
 }
 
@@ -11,5 +24,8 @@
     position: absolute;
     width: 20rem;
     left: -20rem;
+    &.open-sidebar {
+      left: 0;
+    }
   }
 }

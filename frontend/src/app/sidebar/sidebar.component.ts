@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import {Angular2TokenService} from '../shared/api-factory/angular2-token.service';
 import {SidebarTestsList} from './sidebar-tests-list.model';
@@ -12,10 +12,10 @@ import {SidebarTestList} from './sidebar-test-list.model';
 
 export class SidebarComponent implements OnInit {
 
-  private sidebarLinks: Object = [{name: '', routeLink: ''}];
-  private expandedLists: Object = {currentTasks: true, completedTasks: true};
-  private studentLists: any = {currentTasks: [], completedTasks: []};
-  private sidebarTestsList: SidebarTestsList;
+  public sidebarLinks: Object = [{name: '', routeLink: ''}];
+  public expandedLists: Object = {currentTasks: true, completedTasks: true};
+  public studentLists: any = {currentTasks: [], completedTasks: []};
+  public sidebarTestsList: SidebarTestsList;
   private userRole: number = 0;
 
   constructor(private tokenService: Angular2TokenService) {
