@@ -70,7 +70,7 @@ export class SidebarComponent implements OnInit {
           {name: 'Список группы', routeLink: '/'},
           {name: 'Список студентов', routeLink: '/'},
           {name: 'Создание работы', routeLink: '/create-test'},
-          {name: 'Список работ', routeLink: '/'},
+          {name: 'Список работ', routeLink: '/tests-list'},
           {name: 'Список предметов', routeLink: '/'}
         ];
         this.sidebarTestsList = {

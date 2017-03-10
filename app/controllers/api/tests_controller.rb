@@ -3,15 +3,13 @@ class Api::TestsController < ApplicationController
 
   def create_test
     test = Test.new test_data: params[:testData]
-    puts "============="
-    puts params[:testData]
-    puts "============="
     current_user.tests << test if current_user.teacher?
 
     render json: {status: 0}
   end
 
-  def abc
-    params.require(:testData).permit(:title, :variant)
+  def user_tests
+    #TODO: need to return only test_data
+    render json: {user_tests: current_user.tests}
   end
 end
