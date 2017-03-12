@@ -15,7 +15,7 @@ export class CreateTestComponent implements OnInit {
   hasBaseDropZoneOver: boolean;
   userId: number;
   userIdLoaded: boolean = false;
-  public testType: number = 0;
+  public testType: number = 1;
   public createWork: FormGroup;
 
   constructor(@Inject(NgZone) private zone: NgZone,
@@ -56,7 +56,7 @@ export class CreateTestComponent implements OnInit {
   }
 
   initQuestions() {
-    if(this.testType == 0) {
+    if (this.testType == 0) {
       return this._fb.group({
         question_text: ['', Validators.required]
       });
@@ -71,7 +71,7 @@ export class CreateTestComponent implements OnInit {
     }
   }
 
-  initAnswers(){
+  initAnswers() {
     return this._fb.group({
       answer: ['', Validators.required]
     });
@@ -87,7 +87,7 @@ export class CreateTestComponent implements OnInit {
     control.removeAt(i);
   }
 
-  changeTestType(testType){
+  changeTestType(testType) {
     this.testType = testType;
     this.createWork = this._fb.group({
       title: ['', [Validators.required, Validators.minLength(5)]],
@@ -98,10 +98,11 @@ export class CreateTestComponent implements OnInit {
   }
 
   save() {
-    if(this.createWork.valid){
-    this._token.post('create-test', {testData: this.createWork.value})
-      .subscribe(res => {})
-      .unsubscribe();
+    if (this.createWork.valid) {
+      this._token.post('create-test', {testData: this.createWork.value})
+        .subscribe(res => {
+        })
+        .unsubscribe();
     } else {
       console.error('form doesn\'t valid');
     }

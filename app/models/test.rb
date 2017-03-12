@@ -1,6 +1,8 @@
 class Test < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :groups
+  belongs_to :subject
+  has_many :completed_tests
 
   TEST_TYPES = [WORK = 0, TEST = 1]
 
@@ -20,7 +22,9 @@ class Test < ApplicationRecord
       end
       if @user_test.class == Hash
         require 'json'
-        user.tests << Test.new(test_data: @user_test.to_json)
+        test = Test.new(test_data: @user_test.to_json)
+        test.subject = Subject.all.first #TODO: WARNING! IMPORTANT! REMOVE THIS!
+        user.tests << test
         if user.save
           return {status: 0}
         else
@@ -32,8 +36,29 @@ class Test < ApplicationRecord
     end
   end
 
-  private
+  def self.complete_test(user, test_id, answers)
+    test = Test.find(test_id)
+    test_questions = test[:test_data]['variants'][0]['questions']
+    test_rate = 0
+    test_questions.each_with_index do |q, i|
+      test_rate += 1 if q['question_right_answers'].sort == answers[i].sort
+    end
+    completed_test = CompletedTest.new(test_rate: test_rate)
+    completed_test.user = user
+    completed_test.test = test
 
+
+    #return {rate: test_rate}
+    if completed_test.save
+      return {status: 0, rate: test_rate, test: test[:test_data]['variants'][0]['questions']}
+    else
+      return {status: 3, error: 'can\'t save'}
+    end
+
+
+  end
+
+  private
 
   #work_data = {
   #  title: '',
@@ -129,4 +154,6 @@ class Test < ApplicationRecord
     end
     test_data
   end
+
+
 end

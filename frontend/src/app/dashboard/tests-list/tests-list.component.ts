@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
 
-
-import { Observable } from 'rxjs/Observable';
 import {Angular2TokenService} from '../../shared/api-factory/angular2-token.service';
 
 @Component({
@@ -11,12 +8,11 @@ import {Angular2TokenService} from '../../shared/api-factory/angular2-token.serv
 })
 export class TestsListComponent implements OnInit{
   public testsList;
-  constructor(private _token: Angular2TokenService, private http: Http) {
+  constructor(private _token: Angular2TokenService) {
   }
 
   ngOnInit(){
     this.getTests();
-    console.log(1);
   }
 
   getTests(){
@@ -24,15 +20,7 @@ export class TestsListComponent implements OnInit{
       .subscribe(res => {
         let tests:any = res;
         this.testsList = JSON.parse(tests._body).user_tests;
-
-
-      })
-
-    /*this.http.get('api/user-tests')
-      .subscribe(res => {
-        console.log(res);});*/
-      //.unsubscribe();
+      });
   }
-
 }
 

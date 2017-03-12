@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import * as _ from 'lodash';
 import {Angular2TokenService} from '../shared/api-factory/angular2-token.service';
 import {SidebarTestsList} from './sidebar-tests-list.model';
-import {SidebarTestList} from './sidebar-test-list.model';
 
 @Component({
   selector: 'et-sidebar',
@@ -16,20 +14,27 @@ export class SidebarComponent implements OnInit {
   public expandedLists: Object = {currentTasks: true, completedTasks: true};
   public studentLists: any = {currentTasks: [], completedTasks: []};
   public sidebarTestsList: SidebarTestsList;
+  public testsList: any;
   private userRole: number = 0;
 
-  constructor(private tokenService: Angular2TokenService) {
+  constructor(private _token: Angular2TokenService) {
 
   }
 
   ngOnInit(): void {
     this.getUserRole();
+
+    this._token.get('user-tests')
+      .subscribe(res => {
+        let tests:any = res;
+        this.testsList = JSON.parse(tests._body).user_tests;
+      });
   }
 
 
   private getUserRole() {
-    this.tokenService.validateToken().subscribe(() => {
-      let user: any = this.tokenService.currentUserData;
+    this._token.validateToken().subscribe(() => {
+      let user: any = this._token.currentUserData;
       this.userRole = user.role;
       this.setSidebarLinks(this.userRole);
     });
@@ -44,24 +49,6 @@ export class SidebarComponent implements OnInit {
           {name: 'Список группы', routeLink: '/'},
           {name: 'Работы', routeLink: '/'}
         ];
-        this.sidebarTestsList = {
-          tests: [{
-            expanded: true,
-            caption: 'Английский',
-            tests: [
-              {name: 'Времена', data: {completed: false}},
-              {name: 'Основы английского', data: {completed: false}},
-              {name: 'продвинутый англ', data: {completed: true, rate: 5}},
-            ]
-          }, {
-            expanded: true,
-            caption: 'Программирование',
-            tests: [
-              {name: 'c++ циклы', data: {completed: false}},
-              {name: 'c++ условные конструкции', data: {completed: true, rate: 4}}
-            ]
-          }]
-        };
         this.buildStudentLists();
         break;
       case 3 :
@@ -138,18 +125,11 @@ export class SidebarComponent implements OnInit {
   }
 
   private buildStudentLists() {
-    this.studentLists.currentTasks = _.cloneDeep(this.sidebarTestsList);
-    this.studentLists.completedTasks = _.cloneDeep(this.sidebarTestsList);
-
-    this.studentLists.currentTasks.tests = this.studentLists.currentTasks.tests.map((test: any) => {
-
-      test.tests = test.tests.filter((item) => !item.data.completed);
-      return test;
-    });
-
-    this.studentLists.completedTasks.tests = this.studentLists.completedTasks.tests.map((task: any) => {
-      task.tests = task.tests.filter(item => item.data.completed);
-      return task;
+    this._token.get('user-tests').subscribe(res => {
+      let tests:any = res;
+      tests = (JSON.parse(tests._body));
+      this.studentLists.currentTasks = tests.current_tests;
+      this.studentLists.completedTasks = tests.completed_tests;
     });
   }
 

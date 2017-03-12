@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
 
 import * as _ from 'lodash';
@@ -7,7 +7,7 @@ import * as _ from 'lodash';
   selector: 'et-question',
   templateUrl: 'question.component.html'
 })
-export class QuestionComponent {
+export class QuestionComponent implements OnInit{
   @Input('group')
   public questionForm: FormGroup;
 
@@ -16,17 +16,21 @@ export class QuestionComponent {
 
   private question_right_answers: number[] = [];
 
-  constructor(private _fb: FormBuilder){
+  constructor(private _fb: FormBuilder) {}
+
+  ngOnInit(){
     this.question_right_answers = [];
+    this.questionForm.controls['question_right_answers'].setValue(this.question_right_answers);
   }
 
-  setAnswer(answerValue){
-    if(_.includes(this.question_right_answers, answerValue)){
+  setAnswer(answerValue) {
+    if (_.includes(this.question_right_answers, answerValue)) {
       this.question_right_answers.splice(this.question_right_answers.indexOf(answerValue), 1);
-      this.questionForm.value.question_right_answers = `[${this.question_right_answers}]`;
-    } else if (!!answerValue){
+      this.questionForm.controls['question_right_answers'].setValue(this.question_right_answers);
+    } else if (answerValue > -1) {
       this.question_right_answers.push(answerValue);
-      this.questionForm.value.question_right_answers = `[${this.question_right_answers}]`;
+      this.questionForm.value.question_right_answers = this.question_right_answers;
+      this.questionForm.controls['question_right_answers'].setValue(this.question_right_answers);
     }
 
   }
@@ -36,7 +40,7 @@ export class QuestionComponent {
     control.push(this.initAnswers());
   }
 
-  initAnswers(){
+  initAnswers() {
     return this._fb.group({
       answer: ['', Validators.required]
     });
@@ -46,13 +50,13 @@ export class QuestionComponent {
     const control = <FormArray>this.questionForm.controls['question_answers'];
     control.removeAt(i);
 
-    if(_.includes(this.question_right_answers, i)){
+    if (_.includes(this.question_right_answers, i)) {
       this.question_right_answers.splice(this.question_right_answers.indexOf(i), 1);
-      this.question_right_answers = this.question_right_answers.map((item)=>{
+      this.question_right_answers = this.question_right_answers.map((item) => {
         return item >= i ? item - 1 : item;
       });
     }
-    this.questionForm.value.question_right_answers = this.question_right_answers;
+    this.questionForm.controls['question_right_answers'].setValue(this.question_right_answers);
   }
 
 }

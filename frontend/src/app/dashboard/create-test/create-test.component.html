@@ -9,14 +9,14 @@
   <ul>
     <li>
       <label>
-        <input type="radio" name="test_type" (click)="changeTestType(0)" checked>
-        контрольная
+        <input type="radio" name="test_type" (change)="changeTestType(1)" checked>
+        тест
       </label>
     </li>
     <li>
       <label>
-        <input type="radio" name="test_type" (click)="changeTestType(1)">
-        тест
+        <input type="radio" name="test_type" (change)="changeTestType(0)">
+        контрольная
       </label>
     </li>
   </ul>
