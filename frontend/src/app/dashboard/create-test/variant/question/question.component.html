@@ -1,0 +1,15 @@
+<div [formGroup]="questionForm">
+  <input type="text" formControlName="question_text">
+  <small [hidden]="questionForm.controls.question_text.valid" class="text-danger">
+    Вопрос обязателен
+  </small>
+  <div formArrayName="question_answers" *ngIf="testType === 1">
+    <div *ngFor="let answer of questionForm.controls.question_answers.controls; let i=index">
+      <label>ответ № {{i + 1}}</label>
+      <i class="fa fa-times" *ngIf="questionForm.controls.question_answers.controls.length > 1" (click)="removeAnswer(i)"
+         aria-hidden="true"></i>
+        <et-answer [group]="questionForm.controls.question_answers.controls[i]" [answerIndex]="i" (setAnswer)="setAnswer($event)"></et-answer>
+    </div>
+    <button (click)="addAnswer()">добавить ответ</button>
+  </div>
+</div>

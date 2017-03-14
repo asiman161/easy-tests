@@ -22,7 +22,7 @@ export class NavbarComponent {
     this._tokenService.signOut().subscribe(res => {
         this.router.navigateByUrl('auth');
       },
-      error => console.log(error)
+      error => console.error(error)
     );
   }
 

@@ -1,9 +1,15 @@
 <div [formGroup]="variantForm">
   <div class="form-group col-xs-6">
-    <label>Вопрос</label>
-    <input type="text" class="form-control" formControlName="questionText">
-    <small [hidden]="variantForm.controls.questionText.valid" class="text-danger">
-      Вопрос обязателен
-    </small>
+    <div formArrayName="questions">
+      <div *ngFor="let question of variantForm.controls.questions.controls; let i=index">
+        <label>Вопрос № {{i + 1}}</label>
+        <i class="fa fa-times" *ngIf="variantForm.controls.questions.controls.length > 1" (click)="removeQuestion(i)"
+           aria-hidden="true"></i>
+        <div [formGroupName]="i">
+          <et-question [group]="question" [testType]="testType"></et-question>
+        </div>
+      </div>
+      <button (click)="addQuestion()">добавить вопрос</button>
+    </div>
   </div>
 </div>

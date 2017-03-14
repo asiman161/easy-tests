@@ -15,6 +15,7 @@ export class CreateTestComponent implements OnInit {
   hasBaseDropZoneOver: boolean;
   userId: number;
   userIdLoaded: boolean = false;
+  public testType: number = 1;
   public createWork: FormGroup;
 
   constructor(@Inject(NgZone) private zone: NgZone,
@@ -28,7 +29,7 @@ export class CreateTestComponent implements OnInit {
         allowedExtensions: ['doc', 'docx'],
         data: {
           user_id: _token.currentUserData.id,
-          test_type: 1,
+          test_type: this.testType,
           variants_count: 999
         },
         autoUpload: true,
@@ -37,23 +38,75 @@ export class CreateTestComponent implements OnInit {
     });
   }
 
-  ngOnInit(){
-
+  ngOnInit() {
+    this.createWork = this._fb.group({
+      title: ['', [Validators.required, Validators.minLength(5)]],
+      variants: this._fb.array([
+        this.initVariants()
+      ])
+    });
   }
 
-  send() {
-    let testData = {
-      title: 'test work',
-      variants: [
-        {questions: ['var 1 quest 1', 'var 1 quest 2', 'var 1 quest 3']},
-        {questions: ['var 2 quest 1', 'var 2 quest 2', 'var 2 quest 3']}
-      ]
-    };
-    this._token.post('create-test', {testData})
-      .subscribe(res => console.log(res))
-      .unsubscribe();
+  initVariants() {
+    return this._fb.group({
+      questions: this._fb.array([
+        this.initQuestions()
+      ])
+    });
   }
 
+  initQuestions() {
+    if (this.testType == 0) {
+      return this._fb.group({
+        question_text: ['', Validators.required]
+      });
+    } else if (this.testType == 1) {
+      return this._fb.group({
+        question_text: ['', Validators.required],
+        question_right_answers: [],
+        question_answers: this._fb.array([
+          this.initAnswers()
+        ])
+      });
+    }
+  }
+
+  initAnswers() {
+    return this._fb.group({
+      answer: ['', Validators.required]
+    });
+  }
+
+  addVariant() {
+    const control = <FormArray>this.createWork.controls['variants'];
+    control.push(this.initVariants());
+  }
+
+  removeVariant(i: number) {
+    const control = <FormArray>this.createWork.controls['variants'];
+    control.removeAt(i);
+  }
+
+  changeTestType(testType) {
+    this.testType = testType;
+    this.createWork = this._fb.group({
+      title: ['', [Validators.required, Validators.minLength(5)]],
+      variants: this._fb.array([
+        this.initVariants()
+      ])
+    });
+  }
+
+  save() {
+    if (this.createWork.valid) {
+      this._token.post('create-test', {testData: this.createWork.value})
+        .subscribe(res => {
+        })
+        .unsubscribe();
+    } else {
+      console.error('form doesn\'t valid');
+    }
+  }
 
   handleUpload(data: any) {
     setTimeout(() => {

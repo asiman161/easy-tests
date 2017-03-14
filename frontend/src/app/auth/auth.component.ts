@@ -39,7 +39,7 @@ export class AuthComponent {
       res => {
         this.router.navigate(['']);
       },
-      error => console.log(error)
+      error => console.error(error)
     );
   }
 

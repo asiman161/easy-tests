@@ -1,3 +1,5 @@
 class CompletedTest < ApplicationRecord
-  has_and_belongs_to_many :users
+  #TODO: remove group_id from database bcs it's doesn't need
+  belongs_to :user
+  belongs_to :test
 end

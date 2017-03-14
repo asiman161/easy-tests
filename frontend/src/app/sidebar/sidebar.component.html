@@ -27,34 +27,33 @@
       </li>
     </ul>
 
-    <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList && (userRole === 1 || userRole === 2)">
+    <ul class="list list_clickable multi-levels margin-reset" *ngIf="userRole === 1 || userRole === 2">
       <li class="list__item active">
         <div class="multi-levels__main-item"
              (click)="expandedLists.currentTasks = !expandedLists.currentTasks">Текущие</div>
         <ul class="list" *ngIf="expandedLists.currentTasks">
-          <li class="list__item" *ngFor="let testList of studentLists.currentTasks.tests">
-            <div (click)="testList.expanded = !testList.expanded">{{testList.caption}}</div>
-            <ul class="list" *ngIf="testList.expanded">
-              <li class="list__item" *ngFor="let test of testList.tests">
-                <div>{{test.name}}</div>
+          <li class="list__item" *ngFor="let testList of studentLists.currentTasks">
+            <div *ngIf="testList.tests.length > 0" (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
+            <ul class="list" *ngIf="testList.expanded && testList.tests.length > 0">
+              <li class="list__item" routerLink="/test/{{test.id}}/do" *ngFor="let test of testList.tests">
+                <div>{{test.title}}</div>
               </li>
             </ul>
           </li>
         </ul>
       </li>
-
     </ul>
-    <ul class="list list_clickable multi-levels expanded margin-reset" *ngIf="sidebarTestsList && (userRole === 1 || userRole === 2)">
+
+    <ul class="list list_clickable multi-levels margin-reset" *ngIf="userRole === 1 || userRole === 2">
       <li class="list__item active">
         <div class="multi-levels__main-item"
              (click)="expandedLists.completedTasks = !expandedLists.completedTasks">Выполненные</div>
         <ul class="list" *ngIf="expandedLists.completedTasks">
-
-          <li class="list__item" *ngFor="let testList of studentLists.completedTasks.tests">
-            <div (click)="testList.expanded = !testList.expanded">{{testList.caption}}</div>
-            <ul class="list" *ngIf="testList.expanded">
-              <li class="list__item" *ngFor="let test of testList.tests">
-                <div>{{test.name }}</div>
+          <li class="list__item" *ngFor="let testList of studentLists.completedTasks">
+            <div *ngIf="testList.tests.length > 0" (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
+            <ul class="list" *ngIf="testList.expanded && testList.tests.length > 0">
+              <li class="list__item" routerLink="/test/{{test.id}}/show" *ngFor="let test of testList.tests">
+                <div>{{test.title}}</div>
               </li>
             </ul>
           </li>

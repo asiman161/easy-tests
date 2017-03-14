@@ -10,6 +10,7 @@
       "ban-keywords"
     ],
     "no-duplicate-variable": true,
-    "semicolon": true
+    "semicolon": true,
+    "no-console": [true, "log"]
   }
 }

@@ -9,6 +9,9 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { ProfileComponent } from './dashboard/profile/profile.component';
 import { CreateTestComponent } from './dashboard/create-test/create-test.component';
+import { TestsListComponent } from './dashboard/tests-list/tests-list.component';
+import { TestDoComponent } from './dashboard/test-do/test-do.component';
+import { TestShowComponent } from './dashboard/test-show/test-show.component';
 
 
 const appRoutes: Routes = [
@@ -17,7 +20,10 @@ const appRoutes: Routes = [
     children: [
       {path: '', redirectTo: 'profile', pathMatch: 'full'},
       {path: 'profile', component: ProfileComponent, canActivate: [Angular2TokenService]},
-      {path: 'create-test', component: CreateTestComponent, canActivate: [Angular2TokenService]}
+      {path: 'create-test', component: CreateTestComponent, canActivate: [Angular2TokenService]},
+      {path: 'tests-list', component: TestsListComponent, canActivate: [Angular2TokenService]},
+      {path: 'test/:id/do', component: TestDoComponent, canActivate: [Angular2TokenService]},
+      {path: 'test/:id/show', component: TestShowComponent, canActivate: [Angular2TokenService]}
     ]
   },
 

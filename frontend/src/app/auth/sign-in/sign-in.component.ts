@@ -32,7 +32,7 @@ export class SignInComponent implements OnInit {
     ).subscribe(res => {
         this.router.navigateByUrl('');
       },
-      error => console.log(error)
+      error => console.error(error)
     );
   }
 }
