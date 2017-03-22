@@ -46,7 +46,7 @@ export class SidebarComponent implements OnInit {
       case 2 :
         this.sidebarLinks = [
           {name: 'Профиль', routeLink: '/profile'},
-          {name: 'Список группы', routeLink: '/'},
+          {name: 'Список группы', routeLink: '/group-list'},
           {name: 'Работы', routeLink: '/'}
         ];
         this.buildStudentLists();

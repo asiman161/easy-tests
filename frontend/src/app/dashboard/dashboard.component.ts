@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  result = 1;
   public showSidebar = false;
 
   constructor() {}

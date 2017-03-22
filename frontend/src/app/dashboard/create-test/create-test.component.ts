@@ -21,14 +21,17 @@ export class CreateTestComponent implements OnInit {
   constructor(@Inject(NgZone) private zone: NgZone,
               private _token: Angular2TokenService,
               private _fb: FormBuilder) {
-    _token.validateToken().subscribe(() => {
+  }
+
+  ngOnInit() {
+    this._token.validateToken().subscribe(() => {
       this.userIdLoaded = true;
       this.options = new NgUploaderOptions({
         url: 'api/uploads',
         filterExtensions: true,
         allowedExtensions: ['doc', 'docx'],
         data: {
-          user_id: _token.currentUserData.id,
+          user_id: this._token.currentUserData.id,
           test_type: this.testType,
           variants_count: 999
         },
@@ -36,9 +39,7 @@ export class CreateTestComponent implements OnInit {
         calculateSpeed: true
       });
     });
-  }
 
-  ngOnInit() {
     this.createWork = this._fb.group({
       title: ['', [Validators.required, Validators.minLength(5)]],
       variants: this._fb.array([

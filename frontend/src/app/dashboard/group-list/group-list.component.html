@@ -1,0 +1,63 @@
+<div *ngIf="!!user.group_id">
+  <div *ngIf="user.role === 2">
+    Вы можете обновить данные о вашей группе
+  </div>
+  <div>
+    <form [formGroup]="groupNewInfo" novalidate (submit)="updateGroup(groupNewInfo)">
+      <div>
+        <label for="group-new-name">Новое имя</label>
+        <input type="text" id="group-new-name" formControlName="group_name">
+        <small *ngIf="!groupNewInfo.controls.group_name.valid">
+          Название обязательно, 2+ символов
+        </small>
+      </div>
+      <div>
+        <label for="group-new-age">Курс</label>
+        <input type="text" id="group-new-age" formControlName="group_age">
+      </div>
+      <div>
+        <label>
+          <input type="checkbox" value="false" formControlName="reset_key">
+          <span>Обновить ключ</span>
+        </label>
+      </div>
+      <button type="submit">Обновить</button>
+    </form>
+  </div>
+  <div *ngIf="user.role === 1">
+    ваша группа
+  </div>
+</div>
+
+<div *ngIf="!user.group_id">
+  <div *ngIf="user.role === 2">
+    <div>Вы можете создать группу</div>
+    <form [formGroup]="createGroup" novalidate (submit)="save(createGroup)">
+      <div>
+        <label for="group-name">Имя группы</label>
+        <input type="text" id="group-name" formControlName="group_name">
+        <small *ngIf="!createGroup.controls.group_name.valid">
+          Название обязательно, 2+ символов
+        </small>
+      </div>
+      <div>
+        <label for="group-age">Курс</label>
+        <input type="text" id="group-age" formControlName="group_age">
+      </div>
+      <button type="submit">Создать</button>
+    </form>
+  </div>
+  <div *ngIf="user.role === 1">
+    <div>Вы можете ввести ключ к вашей группе. Вы можете его узнать у вашего старосты</div>
+    <form [formGroup]="insertGroup" novalidate (submit)="save(insertGroup)">
+      <div>
+        <label for="group-hash">Ключ группы</label>
+        <input type="text" id="group-hash" formControlName="group_key">
+        <small *ngIf="!insertGroup.controls.group_key.valid">
+          Ключ обязателен
+        </small>
+      </div>
+      <button type="submit">Создать</button>
+    </form>
+  </div>
+</div>
