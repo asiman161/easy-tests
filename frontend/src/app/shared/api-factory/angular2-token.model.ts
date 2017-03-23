@@ -14,6 +14,8 @@ export interface UserData {
     nickname:       string;
     image:          any;
     email:          string;
+    role:           number;
+    group_id:       number;
 }
 
 // Configuration Options

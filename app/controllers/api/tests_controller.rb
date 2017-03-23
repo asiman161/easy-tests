@@ -37,7 +37,6 @@ class Api::TestsController < ApplicationController
           end
         end
       end
-
       render json: {current_tests: current_tests, completed_tests: completed_tests}
     end
   end

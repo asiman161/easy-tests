@@ -19,6 +19,7 @@ import { AnswerComponent } from './dashboard/create-test/variant/question/answer
 import { TestsListComponent } from './dashboard/tests-list/tests-list.component';
 import { TestDoComponent } from './dashboard/test-do/test-do.component';
 import { TestShowComponent } from './dashboard/test-show/test-show.component';
+import { GroupListComponent } from './dashboard/group-list/group-list.component';
 import { AuthComponent } from './auth/auth.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
@@ -52,6 +53,7 @@ import { routing } from './app.routing';
     TestsListComponent,
     TestDoComponent,
     TestShowComponent,
+    GroupListComponent,
     AuthComponent,
     SignInComponent,
     SignUpComponent,
