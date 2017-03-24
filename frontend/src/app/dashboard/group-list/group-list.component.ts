@@ -15,6 +15,7 @@ export class GroupListComponent implements OnInit {
   public createGroup: FormGroup;
   public insertGroup: FormGroup;
   public groupNewInfo: FormGroup;
+  public newTeacher: FormGroup;
 
   constructor(private _token: Angular2TokenService,
               private _fb: FormBuilder) {}
@@ -44,6 +45,10 @@ export class GroupListComponent implements OnInit {
       group_age: '',
       reset_key: false
     });
+
+    this.newTeacher = this._fb.group({
+      key: ['', [Validators.required, Validators.minLength(8)]]
+    })
   }
 
   updateGroup(form){
@@ -61,5 +66,12 @@ export class GroupListComponent implements OnInit {
       });
     }
   }
-}
 
+  addTeacher(form){
+    if (form.valid) {
+      this._token.post('add-teacher', form.value).subscribe(res => {
+
+      });
+    }
+  }
+}
