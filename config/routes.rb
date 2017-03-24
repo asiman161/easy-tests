@@ -9,5 +9,8 @@ Rails.application.routes.draw do
     post 'user-test/:id', to: 'tests#user_test'
     post 'new-group', to: 'groups#create'
     post 'update-group', to: 'groups#update'
+    get 'get-key', to: 'groups#get_key'
+    get 'reset-key', to: 'groups#reset_key'
+    post 'add-teacher', to: 'groups#add_teacher'
   end
 end

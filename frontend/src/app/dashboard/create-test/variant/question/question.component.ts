@@ -7,7 +7,7 @@ import * as _ from 'lodash';
   selector: 'et-question',
   templateUrl: 'question.component.html'
 })
-export class QuestionComponent implements OnInit{
+export class QuestionComponent implements OnInit {
   @Input('group')
   public questionForm: FormGroup;
 
@@ -16,11 +16,14 @@ export class QuestionComponent implements OnInit{
 
   private question_right_answers: number[] = [];
 
-  constructor(private _fb: FormBuilder) {}
+  constructor(private _fb: FormBuilder) {
+  }
 
-  ngOnInit(){
-    this.question_right_answers = [];
-    this.questionForm.controls['question_right_answers'].setValue(this.question_right_answers);
+  ngOnInit() {
+    if (!!this.questionForm.controls['question_right_answers']) {
+      this.question_right_answers = [];
+      this.questionForm.controls['question_right_answers'].setValue(this.question_right_answers);
+    }
   }
 
   setAnswer(answerValue) {

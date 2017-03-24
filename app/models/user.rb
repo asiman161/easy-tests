@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   belongs_to :group, required: false
   has_many :tests
   has_many :rates
-  has_and_belongs_to_many :users
+  has_and_belongs_to_many :groups, required: false
   has_many :subjects
   has_many :completed_tests
 
