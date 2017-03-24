@@ -36,7 +36,7 @@ export class GroupListComponent implements OnInit {
     });
 
     this.insertGroup = this._fb.group({
-      group_key: ['', [Validators.required, Validators.minLength(2)]]
+      group_key: ['', [Validators.required, Validators.minLength(8)]]
     });
 
     this.groupNewInfo = this._fb.group({
@@ -48,7 +48,7 @@ export class GroupListComponent implements OnInit {
 
     this.newTeacher = this._fb.group({
       key: ['', [Validators.required, Validators.minLength(8)]]
-    })
+    });
   }
 
   updateGroup(form){

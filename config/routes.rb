@@ -12,5 +12,6 @@ Rails.application.routes.draw do
     get 'get-key', to: 'groups#get_key'
     get 'reset-key', to: 'groups#reset_key'
     post 'add-teacher', to: 'groups#add_teacher'
+    get 'get-groups', to: 'groups#get_groups'
   end
 end

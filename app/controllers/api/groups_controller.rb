@@ -11,9 +11,9 @@ class Api::GroupsController < ApplicationController
       group = Group.new({
         group_name: params[:group_name],
         group_age: params[:group_age],
-        key: generate_key,
-        elder_id: current_user.id
+        key: generate_key
       })
+      group.user = current_user
       group.users << current_user
       current_user.group = group
       if group.save && current_user.save
@@ -109,6 +109,20 @@ class Api::GroupsController < ApplicationController
         end
       end
     end
+  end
+
+  def get_groups
+    groups = current_user.groups.select(:group_name, :group_age, :user_id).map do |gr|
+      u = gr.user
+      {
+        group_name: gr[:group_name],
+        group_age: gr[:group_age],
+        first_name: u[:first_name],
+        last_name: u[:last_name],
+        patronymic: u[:patronymic]
+      }
+    end
+    render json: groups
   end
 
   private

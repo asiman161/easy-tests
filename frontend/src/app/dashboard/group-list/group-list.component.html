@@ -70,7 +70,7 @@
         <label for="group-hash">Ключ группы</label>
         <input type="text" id="group-hash" formControlName="group_key">
         <small *ngIf="!insertGroup.controls.group_key.valid">
-          Ключ обязателен
+          Ключ обязателен, 8+ символов
         </small>
       </div>
       <button type="submit">Создать</button>
