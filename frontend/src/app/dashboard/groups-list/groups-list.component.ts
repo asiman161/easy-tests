@@ -34,4 +34,8 @@ export class GroupsListComponent implements OnInit {
     });
   }
 
+  deleteGroup(id){
+    this._token.delete(`/groups/${id}`).subscribe();
+  }
+
 }

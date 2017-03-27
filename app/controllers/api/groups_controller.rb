@@ -112,9 +112,10 @@ class Api::GroupsController < ApplicationController
   end
 
   def get_groups
-    groups = current_user.groups.select(:group_name, :group_age, :user_id).map do |gr|
+    groups = current_user.groups.select(:id, :group_name, :group_age, :user_id).map do |gr|
       u = gr.user
       {
+        id: gr[:id],
         group_name: gr[:group_name],
         group_age: gr[:group_age],
         first_name: u[:first_name],
@@ -123,6 +124,20 @@ class Api::GroupsController < ApplicationController
       }
     end
     render json: groups
+  end
+
+  def destroy
+    #TODO: move to model
+    if current_user.teacher?
+      group = Group.find(params[:id])
+      if current_user.groups.delete(group) &&
+        group.subjects.delete(Subject.where(user_id: current_user.id)) &&
+        group.tests.delete(Test.where(user_id: current_user.id))
+        render json: {status: 0}
+      else
+        render json: {status: 10, error: "can't delete"}
+      end
+    end
   end
 
   private

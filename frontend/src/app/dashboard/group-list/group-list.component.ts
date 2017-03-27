@@ -12,6 +12,7 @@ import { UserData } from '../../shared/api-factory/angular2-token.model';
 export class GroupListComponent implements OnInit {
 
   public user: UserData = <UserData>{};
+  public teachers: UserData[] ;
   public createGroup: FormGroup;
   public insertGroup: FormGroup;
   public groupNewInfo: FormGroup;
@@ -24,9 +25,11 @@ export class GroupListComponent implements OnInit {
   ngOnInit() {
     if (this._token.currentUserData) {
       this.user = this._token.currentUserData;
+      this.getTeachers();
     } else {
       this._token.validateToken().subscribe(() => {
         this.user = this._token.currentUserData;
+        this.getTeachers();
       });
     }
 
@@ -73,5 +76,16 @@ export class GroupListComponent implements OnInit {
 
       });
     }
+  }
+
+  getTeachers(){
+    this._token.get('teachers').subscribe((res:any) => {
+      this.teachers = JSON.parse(res._body).data;
+    });
+  }
+
+  deleteGroup(id){
+    this._token.delete(`teachers/${id}`).subscribe((res:any) => {
+    });
   }
 }

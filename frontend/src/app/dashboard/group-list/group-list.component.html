@@ -24,7 +24,6 @@
       </form>
     </div>
     <div>
-      <div>Список преподавателей</div>
       <form [formGroup]="newTeacher" (submit)="addTeacher(newTeacher)">
         <label for="teacher-key">Ключ преподавателя</label>
         <input type="text" id="teacher-key" formControlName="key">
@@ -34,6 +33,13 @@
         <br>
         <button type="submit">Добавить</button>
       </form>
+    </div>
+    <div>
+      <div>Список преподавателей</div>
+      <div *ngFor="let teacher of teachers">
+        <span>{{teacher.first_name}}</span>
+        <button (click)="deleteGroup(teacher.id)">Удалить</button>
+      </div>
     </div>
 
   </div>
