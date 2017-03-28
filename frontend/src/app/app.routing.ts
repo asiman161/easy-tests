@@ -13,6 +13,7 @@ import { TestsListComponent } from './dashboard/tests-list/tests-list.component'
 import { TestDoComponent } from './dashboard/test-do/test-do.component';
 import { TestShowComponent } from './dashboard/test-show/test-show.component';
 import { GroupListComponent } from './dashboard/group-list/group-list.component';
+import { GroupsListComponent } from './dashboard/groups-list/groups-list.component';
 
 
 const appRoutes: Routes = [
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
       {path: 'tests-list', component: TestsListComponent, canActivate: [Angular2TokenService]},
       {path: 'test/:id/do', component: TestDoComponent, canActivate: [Angular2TokenService]},
       {path: 'test/:id/show', component: TestShowComponent, canActivate: [Angular2TokenService]},
-      {path: 'group-list', component: GroupListComponent, canActivate: [Angular2TokenService]}
+      {path: 'group-list', component: GroupListComponent, canActivate: [Angular2TokenService]},
+      {path: 'groups-list', component: GroupsListComponent, canActivate: [Angular2TokenService]}
     ]
   },
 
