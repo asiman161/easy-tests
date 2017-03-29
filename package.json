@@ -7,6 +7,7 @@
     "build": "cd ./frontend && npm run build",
     "build:watch": "cd ./frontend && npm run build:watch",
     "build:prod": "cd ./frontend && npm run build:prod",
+    "heroku-prebuild": "cd ./frontend && npm install yarn",
     "install": "cd ./frontend && node ./node_modules/.bin/yarn install"
   }
 }
