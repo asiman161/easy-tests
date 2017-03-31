@@ -59,6 +59,7 @@ module.exports = {
   },
 
   module: {
+    exprContextCritical: false,
     rules: [
       {
         enforce: 'pre',
