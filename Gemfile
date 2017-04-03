@@ -10,7 +10,7 @@ gem 'paperclip', '~> 5.0.0'
 gem 'omniauth'
 gem 'yomu'
 gem 'devise_token_auth'
-
+gem 'dotenv-rails'
 
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

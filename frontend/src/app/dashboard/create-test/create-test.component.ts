@@ -16,11 +16,16 @@ export class CreateTestComponent implements OnInit {
   userId: number;
   userIdLoaded: boolean = false;
   public testType: number = 1;
+  public subjects: Object[] = [];
   public createWork: FormGroup;
 
   constructor(@Inject(NgZone) private zone: NgZone,
               private _token: Angular2TokenService,
               private _fb: FormBuilder) {
+  }
+
+  setSubject(subject) {
+    this.createWork.controls['subject_id'].setValue(subject.value);
   }
 
   ngOnInit() {
@@ -42,9 +47,17 @@ export class CreateTestComponent implements OnInit {
 
     this.createWork = this._fb.group({
       title: ['', [Validators.required, Validators.minLength(5)]],
+      subject_id: '',
       variants: this._fb.array([
         this.initVariants()
       ])
+    });
+
+    this._token.get('subjects').subscribe((res: any) => {
+      let subjectsResponse = JSON.parse(res._body).data;
+      this.subjects = subjectsResponse.map(item => {
+        return {label: item.subject_name, value: item.id};
+      });
     });
   }
 
@@ -100,7 +113,14 @@ export class CreateTestComponent implements OnInit {
 
   save() {
     if (this.createWork.valid) {
-      this._token.post('create-test', {testData: this.createWork.value})
+      let test_data = {
+        subject_id: this.createWork.value.subject_id,
+        test: {
+          title: this.createWork.value.title,
+          variants: this.createWork.value.variants
+        }
+      };
+      this._token.post('create-test', {test_data: test_data})
         .subscribe(res => {
         })
         .unsubscribe();
