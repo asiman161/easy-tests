@@ -17,5 +17,6 @@ Rails.application.routes.draw do
     delete 'teachers/:id', to: 'teachers#destroy'
     get 'teachers', to: 'teachers#index'
     get 'subjects', to: 'subjects#index'
+    delete 'subjects/:id', to: 'subjects#destroy'
   end
 end

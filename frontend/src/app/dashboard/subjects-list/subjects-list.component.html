@@ -1,0 +1,8 @@
+<div>Список предметов:</div>
+<ul>
+  <li *ngFor="let subject of subjects">
+    <span>{{subject.subject_name}}</span>
+    <button (click)="deleteSubject(subject.id)">удалить</button>
+  </li>
+
+</ul>
