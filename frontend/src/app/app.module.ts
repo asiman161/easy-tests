@@ -4,9 +4,10 @@ import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
 import { NgUploaderModule } from 'ngx-uploader';
+import { SelectModule } from 'ng-select';
 
+import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -39,7 +40,8 @@ import { routing } from './app.routing';
     routing,
     ReactiveFormsModule,
     FormsModule,
-    NgUploaderModule
+    NgUploaderModule,
+    SelectModule
   ],
   declarations: [
     AppComponent,

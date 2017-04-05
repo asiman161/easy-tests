@@ -2,11 +2,20 @@ class Api::TestsController < ApplicationController
   before_action :authenticate_user!
 
   def create_test
-    test = Test.new test_data: params[:testData]
-    test.subject = Subject.all.first #TODO: add subject by params
-    current_user.tests << test if current_user.teacher?
-    Group.first.tests << test if current_user.teacher? #TODO: WARNING! IMPORTANT! REMOVE THIS!
-    render json: {status: 0}
+    if current_user.teacher?
+    test = Test.new test_data: params[:test_data][:test]
+      subject = Subject.find_by id: params[:test_data]['subject_id']
+      if subject && subject.user == current_user
+        test.subject = subject
+        current_user.tests << test
+        Group.first.tests << test #TODO: WARNING! IMPORTANT! REMOVE THIS!
+        render json: {status: 0}
+      else
+        render json: {status: 11, error: "you don't have this subject"}
+      end
+    else
+      render json: {status: 6, error: "you don't have permissions"}
+    end
   end
 
   def user_tests

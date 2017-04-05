@@ -59,6 +59,10 @@ GEM
     devise_token_auth (0.1.39)
       devise (> 3.5.2, <= 4.2)
       rails (< 6)
+    dotenv (2.2.0)
+    dotenv-rails (2.2.0)
+      dotenv (= 2.2.0)
+      railties (>= 3.2, < 5.1)
     erubis (2.7.0)
     ffi (1.9.14)
     globalid (0.3.7)
@@ -156,6 +160,7 @@ DEPENDENCIES
   byebug
   debase
   devise_token_auth
+  dotenv-rails
   listen (~> 3.0.5)
   omniauth
   paperclip (~> 5.0.0)
