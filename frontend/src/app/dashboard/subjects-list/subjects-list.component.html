@@ -1,0 +1,21 @@
+<div>Список предметов:</div>
+<ul>
+  <li *ngFor="let subject of subjects">
+    <span>{{subject.subject_name}}</span>
+    <button (click)="deleteSubject(subject.id)">удалить</button>
+  </li>
+</ul>
+<div>
+  <button (click)="createSubject()" *ngIf="!creatingSubject">Создать предмет</button>
+</div>
+<div *ngIf="creatingSubject">
+  <form [formGroup]="createSubjectForm" novalidate (submit)="saveSubject(createSubjectForm)">
+    <label>Название</label>
+    <input type="text" class="form-control" formControlName="subject_name">
+    <small *ngIf="!createSubjectForm.controls.subject_name.valid">
+      Название обязательно, 2 или более символов
+    </small>
+    <button type="button" (click)="creatingSubject = !creatingSubject">Отмена</button>
+    <button type="submit">Добавить</button>
+  </form>
+</div>

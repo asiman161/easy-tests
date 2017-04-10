@@ -22,6 +22,7 @@ import { TestDoComponent } from './dashboard/test-do/test-do.component';
 import { TestShowComponent } from './dashboard/test-show/test-show.component';
 import { GroupListComponent } from './dashboard/group-list/group-list.component';
 import { GroupsListComponent } from './dashboard/groups-list/groups-list.component';
+import { SubjectsListComponent } from './dashboard/subjects-list/subjects-list.component';
 import { AuthComponent } from './auth/auth.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
@@ -58,6 +59,7 @@ import { routing } from './app.routing';
     TestShowComponent,
     GroupListComponent,
     GroupsListComponent,
+    SubjectsListComponent,
     AuthComponent,
     SignInComponent,
     SignUpComponent,
