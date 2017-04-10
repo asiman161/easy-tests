@@ -122,8 +122,7 @@ export class CreateTestComponent implements OnInit {
       };
       this._token.post('create-test', {test_data: test_data})
         .subscribe(res => {
-        })
-        .unsubscribe();
+        });
     } else {
       console.error('form doesn\'t valid');
     }
