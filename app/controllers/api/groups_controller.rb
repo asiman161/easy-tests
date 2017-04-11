@@ -46,6 +46,23 @@ class Api::GroupsController < ApplicationController
     end
   end
 
+  def index
+    groups = current_user.groups.select(:id, :group_name, :group_age, :user_id).map do |gr|
+      u = gr.user
+      {
+        id: gr[:id],
+        subjects: gr.subjects.select(:id, :subject_name),
+        group_name: gr[:group_name],
+        group_age: gr[:group_age],
+        first_name: u[:first_name],
+        last_name: u[:last_name],
+        patronymic: u[:patronymic]
+      }
+    end
+    render json: {status: 0, data: groups}
+  end
+
+
   def update
     if current_user.elder?
       #TODO: нужно ли записывать в группу id старосты? подумать
@@ -57,6 +74,18 @@ class Api::GroupsController < ApplicationController
         render json: {status: 0}
       else
         render json: {status: 3, error: "can't save"}
+      end
+    end
+  end
+
+  def add_subject
+    if current_user.teacher?
+      group = current_user.groups.find params[:id]
+      subject = current_user.subjects.find params[:subject_id]
+      if group && subject && group.subjects.exclude?(subject)
+        render json: {status: 0, data: group.subjects} if group.subjects << subject
+      else
+        render json: {status: 13, error: "this group already have this subject"}
       end
     end
   end
@@ -111,21 +140,6 @@ class Api::GroupsController < ApplicationController
     end
   end
 
-  def get_groups
-    groups = current_user.groups.select(:id, :group_name, :group_age, :user_id).map do |gr|
-      u = gr.user
-      {
-        id: gr[:id],
-        group_name: gr[:group_name],
-        group_age: gr[:group_age],
-        first_name: u[:first_name],
-        last_name: u[:last_name],
-        patronymic: u[:patronymic]
-      }
-    end
-    render json: groups
-  end
-
   def destroy
     #TODO: move to model
     if current_user.teacher?
@@ -133,9 +147,19 @@ class Api::GroupsController < ApplicationController
       if current_user.groups.delete(group) &&
         group.subjects.delete(Subject.where(user_id: current_user.id)) &&
         group.tests.delete(Test.where(user_id: current_user.id))
-        render json: {status: 0}
+        index
       else
         render json: {status: 10, error: "can't delete"}
+      end
+    end
+  end
+
+  def remove_subject
+    if current_user.teacher?
+      group = current_user.groups.find params[:id]
+      subject = current_user.subjects.find params[:subject_id]
+      if group && subject && group.subjects.delete(subject)
+        render json: {status: 0}
       end
     end
   end

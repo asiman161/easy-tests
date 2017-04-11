@@ -20,8 +20,9 @@
       </label>
     </li>
   </ul>
-  <ng-select [options]="subjects" (selected)="setSubject($event)">
-  </ng-select>
+  <ng-select [items]="subjects"
+             (selected)="setSubject($event)"
+             placeholder="Не выбран предмет"></ng-select>
   <form [formGroup]="createWork" novalidate style="margin-top: 100px;">
     <div class="form-group">
       <label>Название</label>

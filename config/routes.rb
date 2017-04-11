@@ -12,12 +12,14 @@ Rails.application.routes.draw do
     get 'get-key', to: 'groups#get_key'
     get 'reset-key', to: 'groups#reset_key'
     post 'add-teacher', to: 'groups#add_teacher'
-    get 'get-groups', to: 'groups#get_groups'
+    get 'groups', to: 'groups#index'
     delete 'groups/:id', to: 'groups#destroy'
+    patch 'groups/:id', to: 'groups#add_subject'
     delete 'teachers/:id', to: 'teachers#destroy'
     get 'teachers', to: 'teachers#index'
     get 'subjects', to: 'subjects#index'
     post 'subjects', to: 'subjects#create'
     delete 'subjects/:id', to: 'subjects#destroy'
+    post 'group_subjects/:id', to: 'groups#remove_subject'
   end
 end
