@@ -25,7 +25,7 @@ export class CreateTestComponent implements OnInit {
   }
 
   setSubject(subject) {
-    this.createWork.controls['subject_id'].setValue(subject.value);
+    this.createWork.controls['subject_id'].setValue(subject.id);
   }
 
   ngOnInit() {
@@ -56,7 +56,7 @@ export class CreateTestComponent implements OnInit {
     this._token.get('subjects').subscribe((res: any) => {
       let subjectsResponse = JSON.parse(res._body).data;
       this.subjects = subjectsResponse.map(item => {
-        return {label: item.subject_name, value: item.id};
+        return {text: item.subject_name, id: item.id};
       });
     });
   }

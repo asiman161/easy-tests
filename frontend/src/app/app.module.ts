@@ -5,7 +5,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { NgUploaderModule } from 'ngx-uploader';
-import { SelectModule } from 'ng-select';
+//import { SelectModule } from 'ng-select';
+import {SelectModule} from 'ng2-select';
 
 import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
 import { AppComponent } from './app.component';

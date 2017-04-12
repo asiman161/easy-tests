@@ -2391,6 +2391,10 @@ ng-select@^1.0.0-beta.5:
   version "1.0.0-beta.5"
   resolved "https://registry.yarnpkg.com/ng-select/-/ng-select-1.0.0-beta.5.tgz#1ba39ed4f5aaac2b132c8f7672e3040d78ef0739"
 
+ng2-select@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ng2-select/-/ng2-select-1.2.0.tgz#5c90618bffbe32acc5ee1c128c88547059b4f11c"
+
 ng2-toastr@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/ng2-toastr/-/ng2-toastr-4.0.1.tgz#87d5ea60e4fd0ff3626980a3c1bd9c76dc06bfdc"

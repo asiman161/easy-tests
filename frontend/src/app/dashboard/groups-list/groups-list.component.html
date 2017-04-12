@@ -2,4 +2,11 @@
 <div *ngFor="let group of groups">
   <span>{{group.group_name}}</span>
   <button (click)="deleteGroup(group.id)">Удалить</button>
+
+  <ng-select  [multiple]="true"
+              [items]="subjects"
+              [active]="group.subjects"
+              (selected)="addSubjectToGroup($event, group.id)"
+              (removed)="removeSubjectFromGroup($event, group.id)"
+              placeholder="Не выбраны предметы для данной группы"></ng-select>
 </div>
