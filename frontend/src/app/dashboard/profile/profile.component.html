@@ -1,7 +1,9 @@
 <div style="background-color: white;">
-<h1>profile</h1>
+  <h1>profile</h1>
   <div *ngIf="user.role === 2 || user.role === 3">
-  <div>Ключ доступа: {{key}}</div>
-  <button (click)="resetKey()">Обновить ключ</button>
+    <div>Ключ доступа: {{key}}</div>
+    <button (click)="resetKey()">Обновить ключ</button>
+    <br>
+    <button (click)="test()">test</button>
   </div>
 </div>

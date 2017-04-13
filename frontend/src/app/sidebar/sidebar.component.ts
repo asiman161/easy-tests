@@ -14,6 +14,7 @@ export class SidebarComponent implements OnInit {
   public expandedLists: Object = {currentTasks: true, completedTasks: true};
   public studentLists: any = {currentTasks: [], completedTasks: []};
   public sidebarTestsList: SidebarTestsList;
+  public sidebarTestsList2: any;
   public testsList: any;
   private userRole: number = 0;
 
@@ -23,12 +24,6 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserRole();
-
-    this._token.get('user-tests')
-      .subscribe(res => {
-        let tests:any = res;
-        this.testsList = JSON.parse(tests._body).user_tests;
-      });
   }
 
 
@@ -41,6 +36,7 @@ export class SidebarComponent implements OnInit {
   }
 
   private setSidebarLinks(role: number) {
+    this.buildStudentLists(role);
     switch (role) {
       case 1 :
       case 2 :
@@ -49,7 +45,6 @@ export class SidebarComponent implements OnInit {
           {name: 'Список группы', routeLink: '/group-list'},
           {name: 'Работы', routeLink: '/'}
         ];
-        this.buildStudentLists();
         break;
       case 3 :
         this.sidebarLinks = [
@@ -60,61 +55,6 @@ export class SidebarComponent implements OnInit {
           {name: 'Список работ', routeLink: '/tests-list'},
           {name: 'Список предметов', routeLink: '/subjects-list'}
         ];
-        this.sidebarTestsList = {
-          tests: [{
-            expanded: true,
-            caption: 'ПОКС-11',
-            tests: [{
-              name: 'Основы программирования',
-              expanded: true,
-              data: {
-                examName: 'Алгоритмы',
-                expanded: true,
-                students: [
-                  {name: 'Иванов Иван'},
-                  {name: 'Петров Петр', rate: 5}
-                ]
-              }
-            }, {
-              name: 'Основы C++',
-              expanded: true,
-              data: {
-                examName: 'циклы',
-                expanded: true,
-                students: [
-                  {name: 'Иванов Иван', rate: 3},
-                  {name: 'Петров Петр', rate: 4}
-                ]
-              }
-            }]
-          }, {
-            expanded: true,
-            caption: 'ПОКС-22',
-            tests: [{
-              name: 'Кибернетика',
-              expanded: true,
-              data: {
-                examName: 'Ардуино',
-                expanded: true,
-                students: [
-                  {name: 'Александр Павлов', rate: 3},
-                  {name: 'Мария Павлова'}
-                ]
-              }
-            }, {
-              name: 'Машинное обучение',
-              expanded: true,
-              data: {
-                examName: 'Python',
-                expanded: true,
-                students: [
-                  {name: 'Александр Павлов'},
-                  {name: 'Мария Павлова', rate: 5}
-                ]
-              }
-            }]
-          }]
-        };
         break;
       default :
         this.sidebarLinks = [
@@ -124,12 +64,20 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  private buildStudentLists() {
-    this._token.get('user-tests').subscribe(res => {
-      let tests:any = res;
-      tests = (JSON.parse(tests._body));
-      this.studentLists.currentTasks = tests.current_tests;
-      this.studentLists.completedTasks = tests.completed_tests;
+  private buildStudentLists(role: number) {
+    this._token.get('user-tests').subscribe((res: any) => {
+      let tests: any = JSON.parse(res._body).data;
+      switch(role){
+        case 1 :
+        case 2 :
+          this.studentLists.currentTasks = tests.current_tests;
+          this.studentLists.completedTasks = tests.completed_tests;
+          break;
+        case 3 :
+          this.sidebarTestsList2 = tests;
+          break;
+      }
+
     });
   }
 

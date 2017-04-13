@@ -3,7 +3,9 @@ class Api::TestsController < ApplicationController
 
   def create_test
     if current_user.teacher?
-    test = Test.new test_data: params[:test_data][:test]
+      test = Test.new
+      test[:test_name] = params[:test_data][:test][:title]
+      test[:test_data] = params[:test_data]
       subject = Subject.find_by id: params[:test_data]['subject_id']
       if subject && subject.user == current_user
         test.subject = subject
@@ -19,11 +21,61 @@ class Api::TestsController < ApplicationController
   end
 
   def user_tests
+
+    groups = current_user.groups.select(:id, :group_name, :group_age, :user_id).map do |gr|
+      u = gr.user
+      {
+        id: gr[:id],
+        subjects: gr.subjects.select(:id, :subject_name),
+        group_name: gr[:group_name],
+        group_age: gr[:group_age],
+        first_name: u[:first_name],
+        last_name: u[:last_name],
+        patronymic: u[:patronymic]
+      }
+    end
+
     user_tests = []
     #TODO: need to return only test_data
     if current_user.teacher?
-      user_tests = current_user.tests
-      render json: {user_tests: user_tests}
+      tests = current_user.groups.select(:id, :group_name).map do |gr|
+        {
+          id: gr[:id],
+          group_name: gr[:group_name],
+          subjects: gr.subjects.where(user_id: current_user.id).select(:id, :subject_name).map do |sbj|
+            {
+              id: sbj[:id],
+              subject_name: sbj[:subject_name],
+              tests: Test.where(subject_id: sbj[:id]).select(:id, :test_name).map do |t|
+                completed_tests = CompletedTest.where(test_id: t[:id]).select(:user_id, :test_rate)
+                completed_tests_users = []
+                completed_tests_rates = []
+                completed_tests.each do |d|
+                  completed_tests_users.push d[:user_id]
+                  completed_tests_rates.push d[:test_rate]
+                end
+                {
+                  id: t[:id],
+                  test_name: t[:test_name],
+                  users: User.where(id: completed_tests_users, group_id: gr[:id]).select(:id, :first_name, :last_name).map.with_index do |u, i|
+                    {
+                      id: u[:id],
+                      first_name: u[:first_name],
+                      last_name: u[:last_name],
+                      test_rate: completed_tests_rates[i]
+                    }
+                  end
+                }
+              end
+            }
+          end
+        }
+      end
+
+      render json: {
+        status: 0,
+        data: {tests: tests}
+      }
     elsif current_user.student? || current_user.elder?
       user_tests = current_user.group.tests
       group_subjects = current_user.group.subjects
@@ -39,14 +91,17 @@ class Api::TestsController < ApplicationController
         current_tests[i] = {subject_name: s[:subject_name], tests: []}
         completed_tests[i] = {subject_name: s[:subject_name], tests: []}
         user_tests.each do |t|
-          if  user_completed_tests.include? t.id
-            completed_tests[i][:tests].push({title: t[:test_data]['title'], id: t[:id]}) if s[:id] == t[:subject_id]
+          if user_completed_tests.include? t.id
+            completed_tests[i][:tests].push({title: t[:test_name], id: t[:id]}) if s[:id] == t[:subject_id]
           else
-            current_tests[i][:tests].push({title: t[:test_data]['title'], id: t[:id]}) if s[:id] == t[:subject_id]
+            current_tests[i][:tests].push({title: t[:test_name], id: t[:id]}) if s[:id] == t[:subject_id]
           end
         end
       end
-      render json: {current_tests: current_tests, completed_tests: completed_tests}
+      render json: {status: 0, data: {
+        current_tests: current_tests,
+        completed_tests: completed_tests}
+      }
     end
   end
 

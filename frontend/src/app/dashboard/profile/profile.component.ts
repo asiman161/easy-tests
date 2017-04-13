@@ -40,4 +40,12 @@ export class ProfileComponent implements OnInit {
       this.key = JSON.parse(res._body).key;
     });
   }
+
+  test(){
+    this._token.get('user-tests').subscribe((res: any) => {
+      let tests: any = JSON.parse(res._body).data;
+      console.log(tests);
+    });
+  };
+
 }

@@ -6,18 +6,18 @@
       </li>
     </ul>
     <div class="li-separator"></div>
-    <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList && userRole === 3">
-      <li class="list__item active"  *ngFor="let testList of sidebarTestsList.tests">
-        <div class="multi-levels__main-item" (click)="testList.expanded = !testList.expanded">{{testList.caption}}</div>
+    <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList2 && userRole === 3">
+      <li class="list__item active"  *ngFor="let testList of sidebarTestsList2.tests">
+        <div class="multi-levels__main-item" (click)="testList.expanded = !testList.expanded">{{testList.group_name}}</div>
         <ul class="list" *ngIf="testList.expanded">
-          <li class="list__item" *ngFor="let test of testList.tests">
-            <div (click)="test.expanded = !test.expanded">{{test.name}}</div>
-            <ul *ngIf="test.expanded" class="list">
-              <li class="list__item">
-                <div (click)="test.data.expanded = !test.data.expanded">{{test.data.examName}}</div>
-                <ul *ngIf="test.data.expanded" class="list">
-                  <li class="list__item" *ngFor="let student of test.data.students">
-                    <div>{{student.name}} <span *ngIf="student.rate">({{student.rate}})</span> </div>
+          <li class="list__item" *ngFor="let subject of testList.subjects">
+            <div (click)="subject.expanded = !subject.expanded">{{subject.subject_name}}</div>
+            <ul *ngIf="subject.expanded" class="list">
+              <li class="list__item" *ngFor="let test of subject.tests">
+                <div (click)="test.expanded = !test.expanded">{{test.test_name}}</div>
+                <ul *ngIf="test.expanded" class="list">
+                  <li class="list__item" *ngFor="let user of test.users">
+                    <div>{{user.first_name}} {{user.last_name}}<span *ngIf="user.test_rate">({{user.test_rate}})</span> </div>
                   </li>
                 </ul>
               </li>
