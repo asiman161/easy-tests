@@ -1,5 +1,5 @@
-import {Injectable}       from '@angular/core';
-import {CanActivate}      from '@angular/router';
+import {Injectable} from '@angular/core';
+import {CanActivate} from '@angular/router';
 import {
   Http,
   Response,
@@ -8,8 +8,8 @@ import {
   RequestMethod,
   RequestOptions
 } from '@angular/http';
-import {ActivatedRoute, Router}   from '@angular/router';
-import {Observable}       from 'rxjs/Observable';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 
 import {

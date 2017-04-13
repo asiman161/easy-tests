@@ -1,16 +1,52 @@
 {
   "rules": {
-    "quotemark": [
+    "array-type": [
       true,
-      "single",
-      "avoid-escape"
+      "array"
     ],
-    "variable-name": [
+    "class-name": true,
+    "comment-format": [
       true,
-      "ban-keywords"
+      "check-space"
     ],
+    "eofline": true,
+    "forin": true,
+    "import-spacing": true,
+    "indent": [
+      true,
+      "spaces"
+    ],
+    "jsdoc-format": true,
+    "label-position": true,
+    "max-line-length": [
+      true,
+      140
+    ],
+    "member-access": false,
+    "member-ordering": [
+      true,
+      "static-before-instance",
+      "variables-before-functions"
+    ],
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-conditional-assignment": true,
+    "no-consecutive-blank-lines": [
+      true,
+      2
+    ],
+    "no-console": [
+      true,
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
+    "no-construct": true,
+    "no-debugger": true,
+    "no-default-export": true,
     "no-duplicate-variable": true,
-    "semicolon": true,
-    "no-console": [true, "log"]
+    "semicolon": true
   }
 }

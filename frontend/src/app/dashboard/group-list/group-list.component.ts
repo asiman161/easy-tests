@@ -43,7 +43,7 @@ export class GroupListComponent implements OnInit {
     });
 
     this.groupNewInfo = this._fb.group({
-      //TODO: получить значения группы с сервера, сделать инициализацию формы и изменение группы по нажатию кнопки
+      // TODO: получить значения группы с сервера, сделать инициализацию формы и изменение группы по нажатию кнопки
       group_name: ['', [Validators.required, Validators.minLength(2)]],
       group_age: '',
       reset_key: false

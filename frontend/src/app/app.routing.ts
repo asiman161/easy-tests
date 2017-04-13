@@ -1,4 +1,4 @@
-import { Routes, RouterModule }   from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
 

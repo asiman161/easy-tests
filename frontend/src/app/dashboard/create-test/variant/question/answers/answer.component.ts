@@ -16,7 +16,6 @@ export class AnswerComponent {
   public setAnswer: EventEmitter<any> = new EventEmitter();
 
 
-
   setAnswerIndex() {
     this.setAnswer.emit(this.answerIndex);
   }
