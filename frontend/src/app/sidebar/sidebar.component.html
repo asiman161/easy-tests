@@ -6,8 +6,8 @@
       </li>
     </ul>
     <div class="li-separator"></div>
-    <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList2 && userRole === 3">
-      <li class="list__item active"  *ngFor="let testList of sidebarTestsList2.tests">
+    <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList && userRole === 3">
+      <li class="list__item active"  *ngFor="let testList of sidebarTestsList.tests">
         <div class="multi-levels__main-item" (click)="testList.expanded = !testList.expanded">{{testList.group_name}}</div>
         <ul class="list" *ngIf="testList.expanded">
           <li class="list__item" *ngFor="let subject of testList.subjects">

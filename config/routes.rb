@@ -8,10 +8,11 @@ Rails.application.routes.draw do
     post 'user-test/complete', to: 'tests#test_complete'
     post 'user-test/:id', to: 'tests#user_test'
     post 'new-group', to: 'groups#create'
-    post 'update-group', to: 'groups#update'
+    post 'update-group', to: 'groups#update' #TODO: should be patch
     get 'get-key', to: 'groups#get_key'
     get 'reset-key', to: 'groups#reset_key'
     post 'add-teacher', to: 'groups#add_teacher'
+    post 'group_subjects/:id', to: 'groups#remove_subject' #TODO: should be delete
     get 'groups', to: 'groups#index'
     delete 'groups/:id', to: 'groups#destroy'
     patch 'groups/:id', to: 'groups#add_subject'
@@ -20,6 +21,6 @@ Rails.application.routes.draw do
     get 'subjects', to: 'subjects#index'
     post 'subjects', to: 'subjects#create'
     delete 'subjects/:id', to: 'subjects#destroy'
-    post 'group_subjects/:id', to: 'groups#remove_subject'
+    patch 'profiles', to: 'profiles#update'
   end
 end

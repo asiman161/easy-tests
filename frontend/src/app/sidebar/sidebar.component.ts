@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Angular2TokenService} from '../shared/api-factory/angular2-token.service';
-import {SidebarTestsList} from './sidebar-tests-list.model';
+
+import { SidebarTestsList } from './sidebar-tests-list.model';
+import { Angular2TokenService } from '../shared/api-factory/angular2-token.service';
+import { EventsService } from '../shared/events.service';
 
 @Component({
   selector: 'et-sidebar',
@@ -14,15 +16,16 @@ export class SidebarComponent implements OnInit {
   public expandedLists: Object = {currentTasks: true, completedTasks: true};
   public studentLists: any = {currentTasks: [], completedTasks: []};
   public sidebarTestsList: SidebarTestsList;
-  public sidebarTestsList2: any;
-  public testsList: any;
   private userRole: number = 0;
 
-  constructor(private _token: Angular2TokenService) {
-
+  constructor(private _token: Angular2TokenService,
+              private _eventsService: EventsService) {
   }
 
   ngOnInit(): void {
+    this._eventsService.sidebarUpdate.subscribe(() => {
+      this.getUserRole();
+    });
     this.getUserRole();
   }
 
@@ -64,21 +67,23 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+  // TODO: rename this method
   private buildStudentLists(role: number) {
-    this._token.get('user-tests').subscribe((res: any) => {
-      let tests: any = JSON.parse(res._body).data;
-      switch(role){
-        case 1 :
-        case 2 :
-          this.studentLists.currentTasks = tests.current_tests;
-          this.studentLists.completedTasks = tests.completed_tests;
-          break;
-        case 3 :
-          this.sidebarTestsList2 = tests;
-          break;
-      }
+    if (role > 0) {
+      this._token.get('user-tests').subscribe((res: any) => {
+        let tests: any = JSON.parse(res._body).data;
+        switch (role) {
+          case 1 :
+          case 2 :
+            this.studentLists.currentTasks = tests.current_tests;
+            this.studentLists.completedTasks = tests.completed_tests;
+            break;
+          case 3 :
+            this.sidebarTestsList = tests;
+            break;
+        }
 
-    });
+      });
+    }
   }
-
 }

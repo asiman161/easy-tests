@@ -8,6 +8,7 @@ import { NgUploaderModule } from 'ngx-uploader';
 import {SelectModule} from 'ng2-select';
 
 import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
+import { EventsService } from './shared/events.service';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -70,6 +71,7 @@ import { routing } from './app.routing';
   providers: [
     AuthService,
     Angular2TokenService,
+    EventsService,
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
