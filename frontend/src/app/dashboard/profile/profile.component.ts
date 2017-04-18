@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms'
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { UserData } from '../../shared/api-factory/angular2-token.model';
 import { ProfileRegexp, ProfileRegexps } from './profile-regexps.model';
+import { EventsService } from '../../shared/events.service';
 
 @Component({
   selector: 'et-profile',
@@ -18,7 +19,8 @@ export class ProfileComponent implements OnInit {
   private regexps: ProfileRegexp = new ProfileRegexps().regexps;
 
   constructor(private _token: Angular2TokenService,
-              private _fb: FormBuilder) {
+              private _fb: FormBuilder,
+              private eventService: EventsService) {
   }
 
   ngOnInit() {
@@ -33,7 +35,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  setProfileForm(role = 1){
+  setProfileForm(role = 1) {
     this.profileForm = this._fb.group({
       first_name: ['', [
         Validators.required,
@@ -59,7 +61,7 @@ export class ProfileComponent implements OnInit {
   saveProfile() {
     if (this.profileForm.valid) {
       this._token.patch('profiles', this.profileForm.value).subscribe((res: any) => {
-
+        this.eventService.sidebarUpdate.emit({role: JSON.parse(res._body).data.role});
       });
 
     } else {
@@ -82,7 +84,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private generateProfileValidators(role: number, isKey: boolean): ValidatorFn[] {
-    switch(role){
+    switch (role) {
       case 1:
         return isKey ? [Validators.required, Validators.pattern(this.regexps.groupKey)] : null;
       case 2:

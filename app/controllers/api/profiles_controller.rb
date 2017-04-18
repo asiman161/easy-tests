@@ -10,12 +10,10 @@ class Api::ProfilesController < ApplicationController
       if group
         current_user.group = group
         if current_user.save
-          render json: {status: 0, data: {
-            role: current_user[:role]
-          }}
+          render json: {status: 0, data: {role: current_user[:role]}}, status: 200
         end
       else
-        render json: {status: 14, error: 'group not found'}
+        render json: {status: 14, error: 'group not found'}, status: 400
       end
     when 2
       group = Group.new
@@ -25,19 +23,19 @@ class Api::ProfilesController < ApplicationController
       group.user = current_user
       current_user.group = group
       if group.save && current_user.save
-        render json: {status: 0}
+        render json: {status: 0, data: {role: current_user[:role]}}, status: 200
       else
-        render json: {status: 4, error: "cannot create new group or update profile"}
+        render json: {status: 4, error: "cannot create new group or update profile"}, status: 400
       end
     when 3
       current_user[:key] = Group.generate_key
       if current_user.save
-        render json: {status: 0}
+        render json: {status: 0, data: {role: current_user[:role]}}, status: 200
       else
-        render json: {status: 5, error: "cannot update the profile"}
+        render json: {status: 5, error: "cannot update the profile"}, status: 400
       end
     else
-      render json: {status: 15, error: "wrong role"}
+      render json: {status: 15, error: "wrong role"}, status: 400
     end
   end
 end

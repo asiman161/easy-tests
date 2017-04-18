@@ -23,19 +23,24 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._eventsService.sidebarUpdate.subscribe(() => {
-      this.getUserRole();
+    this._eventsService.sidebarUpdate.subscribe((data) => {
+      this.getUserRole(data);
     });
     this.getUserRole();
   }
 
 
-  private getUserRole() {
-    this._token.validateToken().subscribe(() => {
-      let user: any = this._token.currentUserData;
-      this.userRole = user.role;
-      this.setSidebarLinks(this.userRole);
-    });
+  private getUserRole(data?) {
+    if(data && data.type === 'role'){
+      this.userRole = data.role;
+      this.setSidebarLinks(data.role);
+    } else {
+      this._token.validateToken().subscribe(() => {
+        let user: any = this._token.currentUserData;
+        this.userRole = user.role;
+        this.setSidebarLinks(user.role);
+      });
+    }
   }
 
   private setSidebarLinks(role: number) {

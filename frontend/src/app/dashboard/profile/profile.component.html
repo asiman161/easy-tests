@@ -35,9 +35,7 @@
         <label><input type="radio" value="3" formControlName="user_role" (click)="setProfileForm(3)"><span>Преподаватель</span></label>
       </div>
       <div>
-        <!--{{profileForm.controls.user_role}} | {{profileForm.value.user_role}}-->
         <div *ngIf="profileForm.value.user_role === '1'">
-        <!--<div *ngIf="profileForm.controls.user_role === '1'">-->
           <label>Ключ группы*</label>
           <input type="text" class="form-control" formControlName="group_key">
           <small *ngIf="!profileForm.controls.group_key.valid">
