@@ -47,8 +47,6 @@ class Test < ApplicationRecord
     completed_test.user = user
     completed_test.test = test
 
-
-    #return {rate: test_rate}
     if completed_test.save
       return {status: 0, rate: test_rate, test: test[:test_data]['test']['variants'][0]['questions']}
     else

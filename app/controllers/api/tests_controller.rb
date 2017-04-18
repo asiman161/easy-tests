@@ -91,8 +91,9 @@ class Api::TestsController < ApplicationController
         current_tests[i] = {subject_name: s[:subject_name], tests: []}
         completed_tests[i] = {subject_name: s[:subject_name], tests: []}
         user_tests.each do |t|
-          if user_completed_tests.include? t.id
-            completed_tests[i][:tests].push({title: t[:test_name], id: t[:id]}) if s[:id] == t[:subject_id]
+          if user_completed_tests.include? t.id #TODO: fix n+1
+            rate = CompletedTest.find_by(test_id: t.id, user_id: current_user[:id])[:test_rate]
+            completed_tests[i][:tests].push({title: t[:test_name], rate: rate, id: t[:id]}) if s[:id] == t[:subject_id]
           else
             current_tests[i][:tests].push({title: t[:test_name], id: t[:id]}) if s[:id] == t[:subject_id]
           end
@@ -108,7 +109,6 @@ class Api::TestsController < ApplicationController
 
   def user_test
     if !current_user.completed_tests.find_by(test_id: params[:id]) && params[:variant_number].class == Fixnum
-      puts 1111111
       test = current_user.group.tests.find params[:id]
 
       test_data = test[:test_data]['test']['variants'][params[:variant_number]]
