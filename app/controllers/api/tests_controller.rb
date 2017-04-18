@@ -108,9 +108,12 @@ class Api::TestsController < ApplicationController
 
   def user_test
     if !current_user.completed_tests.find_by(test_id: params[:id]) && params[:variant_number].class == Fixnum
+      puts 1111111
       test = current_user.group.tests.find params[:id]
-      test_data = test[:test_data]['variants'][params[:variant_number]]
+
+      test_data = test[:test_data]['test']['variants'][params[:variant_number]]
       if test && test_data
+
         render json: {status: 0, test_data: test_data, test_title: test[:test_data]['title']}
       else
         render json: {status: 1, error: 'test not found'}

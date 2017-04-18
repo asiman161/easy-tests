@@ -38,7 +38,7 @@ class Test < ApplicationRecord
 
   def self.complete_test(user, test_id, answers)
     test = Test.find(test_id)
-    test_questions = test[:test_data]['variants'][0]['questions']
+    test_questions = test[:test_data]['test']['variants'][0]['questions']
     test_rate = 0
     test_questions.each_with_index do |q, i|
       test_rate += 1 if q['question_right_answers'].sort == answers[i].sort
@@ -50,7 +50,7 @@ class Test < ApplicationRecord
 
     #return {rate: test_rate}
     if completed_test.save
-      return {status: 0, rate: test_rate, test: test[:test_data]['variants'][0]['questions']}
+      return {status: 0, rate: test_rate, test: test[:test_data]['test']['variants'][0]['questions']}
     else
       return {status: 3, error: 'can\'t save'}
     end

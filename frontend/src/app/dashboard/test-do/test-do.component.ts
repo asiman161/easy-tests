@@ -28,7 +28,7 @@ export class TestDoComponent implements OnInit, OnDestroy {
     this._routeParamsSub = this._routeActivated.params.subscribe((res:any) => {
       this._testId = res.id;
 
-      this._userTestSub = this._token.post(`/user-test/${this._testId}`, {variant_number: 0}).subscribe((res: any) => {
+      this._userTestSub = this._token.post(`user-test/${this._testId}`, {variant_number: 0}).subscribe((res: any) => {
         let parsedData = JSON.parse(res._body);
         this.testTitle = parsedData.test_title;
         this.testData = parsedData.test_data;
