@@ -19,7 +19,8 @@ export class TestsListComponent implements OnInit{
     this._token.get('user-tests')
       .subscribe(res => {
         let tests:any = res;
-        this.testsList = JSON.parse(tests._body).user_tests;
+        this.testsList = JSON.parse(tests._body).data.tests;
+        console.log(JSON.parse(tests._body));
       });
   }
 }

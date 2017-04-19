@@ -1,11 +1,22 @@
 <h1>{{testTitle}}</h1>
-<div *ngFor="let question of testData.questions; let i=index">
+<div *ngFor="let question of testData.questions;index as i">
   <div>Вопрос {{i + 1}}: {{question.question_text}}</div>
-  <div *ngFor="let questionAnswer of question.question_answers; let j=index">
-    <label>
-      <input type="checkbox" (change)="setAnswer(i, j)">
-      {{questionAnswer.answer}}
-    </label>
+  <div *ngIf="testType === 0">
+    <form [formGroup]="workForm">
+      <div formArrayName="answers">
+        <div [formGroupName]="i">
+          <textarea formControlName="answer"></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="testType === 1">
+    <div *ngFor="let questionAnswer of question.question_answers; let j=index">
+      <label>
+        <input type="checkbox" (change)="setAnswer(i, j)">
+        {{questionAnswer.answer}}
+      </label>
+    </div>
   </div>
 </div>
 <button (click)="completeTest()">Закончить тест</button>

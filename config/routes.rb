@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     post 'uploads', to: 'uploads#file_upload'
     post 'create-test', to: 'tests#new'
     get 'user-tests', to: 'tests#user_tests'
-    post 'user-test/complete', to: 'tests#test_complete'
+    post 'user-test/complete/:id', to: 'tests#test_complete'
     post 'user-test/:id', to: 'tests#user_test'
     post 'new-group', to: 'groups#create'
     post 'update-group', to: 'groups#update' #TODO: should be patch

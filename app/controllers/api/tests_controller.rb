@@ -6,6 +6,7 @@ class Api::TestsController < ApplicationController
       test = Test.new
       test[:test_name] = params[:test_data][:title]
       test[:test_data] = params[:test_data]
+      test[:test_type] = params[:test_type]
       subject = Subject.find_by id: params[:subject_id]
       if subject && subject.user == current_user
         test.subject = subject
@@ -124,6 +125,6 @@ class Api::TestsController < ApplicationController
   end
 
   def test_complete
-    render json: Test.complete_test(current_user, params[:test_id], params[:answers])
+    render json: Test.complete_test(current_user, params[:id], params[:answers])
   end
 end

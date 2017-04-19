@@ -9,13 +9,13 @@
   <ul>
     <li>
       <label>
-        <input type="radio" name="test_type" (change)="changeTestType(1)" checked>
+        <input type="radio" name="test_type" (change)="changeTestType(0)" checked>
         тест
       </label>
     </li>
     <li>
       <label>
-        <input type="radio" name="test_type" (change)="changeTestType(0)">
+        <input type="radio" name="test_type" (change)="changeTestType(1)">
         контрольная
       </label>
     </li>
@@ -37,7 +37,7 @@
         <i class="fa fa-times" *ngIf="createWork.controls.variants.controls.length > 1" (click)="removeVariant(i)"
            aria-hidden="true"></i>
         <div [formGroupName]="i">
-          <et-variant [group]="createWork.controls.variants.controls[i]" [testType]="testType"></et-variant>
+          <et-variant [group]="variant" [testType]="testType"></et-variant>
         </div>
         <button (click)="addVariant()">Добавить вариант</button>
       </div>
