@@ -120,9 +120,12 @@ export class CreateTestComponent implements OnInit {
           variants: this.createWork.value.variants
         }
       };
-      this._token.post('create-test', {test_data: test_data})
-        .subscribe(res => {
-        });
+      this._token.post('create-test', {
+        test_data: test_data.test,
+        subject_id: test_data.subject_id
+      }).subscribe(res => {
+
+      });
     } else {
       console.error('form doesn\'t valid');
     }

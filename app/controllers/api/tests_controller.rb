@@ -1,12 +1,12 @@
 class Api::TestsController < ApplicationController
   before_action :authenticate_user!
 
-  def create_test
+  def new
     if current_user.teacher?
       test = Test.new
-      test[:test_name] = params[:test_data][:test][:title]
+      test[:test_name] = params[:test_data][:title]
       test[:test_data] = params[:test_data]
-      subject = Subject.find_by id: params[:test_data]['subject_id']
+      subject = Subject.find_by id: params[:subject_id]
       if subject && subject.user == current_user
         test.subject = subject
         current_user.tests << test
@@ -111,10 +111,10 @@ class Api::TestsController < ApplicationController
     if !current_user.completed_tests.find_by(test_id: params[:id]) && params[:variant_number].class == Fixnum
       test = current_user.group.tests.find params[:id]
 
-      test_data = test[:test_data]['test']['variants'][params[:variant_number]]
+      test_data = test[:test_data]['variants'][params[:variant_number]]
       if test && test_data
 
-        render json: {status: 0, test_data: test_data, test_title: test[:test_data]['title']}
+        render json: {status: 0, test_data: test_data, test_type: test[:test_type]}
       else
         render json: {status: 1, error: 'test not found'}
       end

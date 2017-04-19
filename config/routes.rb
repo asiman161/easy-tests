@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     post 'uploads', to: 'uploads#file_upload'
-    post 'create-test', to: 'tests#create_test'
+    post 'create-test', to: 'tests#new'
     get 'user-tests', to: 'tests#user_tests'
     post 'user-test/complete', to: 'tests#test_complete'
     post 'user-test/:id', to: 'tests#user_test'
