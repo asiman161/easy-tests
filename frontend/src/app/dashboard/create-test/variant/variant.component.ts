@@ -21,11 +21,11 @@ export class VariantComponent {
   }
 
   initQuestions() {
-    if (this.testType == 0) {
+    if (this.testType === 0) {
       return this._fb.group({
         question_text: ['', Validators.required]
       });
-    } else if (this.testType == 1) {
+    } else if (this.testType === 1) {
       return this._fb.group({
         question_text: ['', Validators.required],
         question_right_answers: [],

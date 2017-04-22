@@ -37,7 +37,7 @@
         <i class="fa fa-times" *ngIf="createWork.controls.variants.controls.length > 1" (click)="removeVariant(i)"
            aria-hidden="true"></i>
         <div [formGroupName]="i">
-          <et-variant [group]="createWork.controls.variants.controls[i]" [testType]="testType"></et-variant>
+          <et-variant [group]="variant" [testType]="testType"></et-variant>
         </div>
         <button (click)="addVariant()">Добавить вариант</button>
       </div>

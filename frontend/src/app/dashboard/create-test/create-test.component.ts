@@ -46,8 +46,8 @@ export class CreateTestComponent implements OnInit {
     });
 
     this.createWork = this._fb.group({
+      subject_id: ['', Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
-      subject_id: '',
       variants: this._fb.array([
         this.initVariants()
       ])
@@ -70,11 +70,11 @@ export class CreateTestComponent implements OnInit {
   }
 
   initQuestions() {
-    if (this.testType == 0) {
+    if (this.testType === 0) {
       return this._fb.group({
         question_text: ['', Validators.required]
       });
-    } else if (this.testType == 1) {
+    } else if (this.testType === 1) {
       return this._fb.group({
         question_text: ['', Validators.required],
         question_right_answers: [],
@@ -104,6 +104,7 @@ export class CreateTestComponent implements OnInit {
   changeTestType(testType) {
     this.testType = testType;
     this.createWork = this._fb.group({
+      subject_id: ['', Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
       variants: this._fb.array([
         this.initVariants()
@@ -114,15 +115,18 @@ export class CreateTestComponent implements OnInit {
   save() {
     if (this.createWork.valid) {
       let test_data = {
-        subject_id: this.createWork.value.subject_id,
         test: {
           title: this.createWork.value.title,
           variants: this.createWork.value.variants
         }
       };
-      this._token.post('create-test', {test_data: test_data})
-        .subscribe(res => {
-        });
+      this._token.post('create-test', {
+        test_data: test_data.test,
+        subject_id: this.createWork.value.subject_id,
+        test_type: this.testType,
+      }).subscribe(res => {
+
+      });
     } else {
       console.error('form doesn\'t valid');
     }

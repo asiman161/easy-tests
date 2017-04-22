@@ -10,19 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413090748) do
+ActiveRecord::Schema.define(version: 20170422232600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "completed_tests", force: :cascade do |t|
-    t.integer  "test_rate",                      null: false
+    t.string   "test_rate",      default: "-1",  null: false
     t.boolean  "first_complete", default: false
     t.integer  "group_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "user_id",                        null: false
     t.integer  "test_id",                        null: false
+    t.string   "answers",        default: [],    null: false, array: true
+    t.integer  "test_type",      default: 0,     null: false
+    t.integer  "variant",        default: 0,     null: false
   end
 
   create_table "groups", force: :cascade do |t|
@@ -76,7 +79,7 @@ ActiveRecord::Schema.define(version: 20170413090748) do
     t.integer  "user_id",                    null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.integer  "subject_id"
+    t.integer  "subject_id",                 null: false
     t.string   "test_name",  default: "",    null: false
     t.integer  "answers",                                 array: true
     t.integer  "test_type",  default: 0,     null: false

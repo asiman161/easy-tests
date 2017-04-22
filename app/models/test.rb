@@ -12,11 +12,9 @@ class Test < ApplicationRecord
       require 'yomu'
       test = Yomu.new File.open path
       test = test.text.split("\n")
-      test.reject! { |item| item.blank? }
-      if test_type == WORK
+      test.reject! {|item| item.blank?}
+      if test_type == WORK || test_type == TEST
         @user_test = self.parse_work test, variants_count
-      elsif test_type == TEST
-        @user_test = self.parse_test test, variants_count
       else
         return {status: 1, error: "wrong type of test"}
       end
@@ -38,27 +36,35 @@ class Test < ApplicationRecord
 
   def self.complete_test(user, test_id, answers)
     test = Test.find(test_id)
+    if test[:test_type] == TEST
+      @test_rate = self.check_test(test, answers)
+    else
+      @test_rate = -1
+    end
+    completed_test = CompletedTest.new(test_rate: @test_rate)
+    completed_test.user = user
+    completed_test.test = test
+    completed_test[:test_type] = test[:test_type]
+    completed_test[:answers] = answers
+    completed_test[:variant] = 0
+
+    if completed_test.save
+      return {status: 0, rate: @test_rate}
+    else
+      return {status: 3, error: "can't save"}
+    end
+  end
+
+  private
+
+  def self.check_test(test, answers)
     test_questions = test[:test_data]['variants'][0]['questions']
     test_rate = 0
     test_questions.each_with_index do |q, i|
       test_rate += 1 if q['question_right_answers'].sort == answers[i].sort
     end
-    completed_test = CompletedTest.new(test_rate: test_rate)
-    completed_test.user = user
-    completed_test.test = test
-
-
-    #return {rate: test_rate}
-    if completed_test.save
-      return {status: 0, rate: test_rate, test: test[:test_data]['variants'][0]['questions']}
-    else
-      return {status: 3, error: 'can\'t save'}
-    end
-
-
+    test_rate
   end
-
-  private
 
   #work_data = {
   #  title: '',

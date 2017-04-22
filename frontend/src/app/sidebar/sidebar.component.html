@@ -14,10 +14,10 @@
             <div (click)="subject.expanded = !subject.expanded">{{subject.subject_name}}</div>
             <ul *ngIf="subject.expanded" class="list">
               <li class="list__item" *ngFor="let test of subject.tests">
-                <div (click)="test.expanded = !test.expanded">{{test.test_name}}</div>
+                <div (click)="test.expanded = !test.expanded">{{test.test_name}}<span *ngIf="test.users.length">({{test.users.length}})</span></div>
                 <ul *ngIf="test.expanded" class="list">
-                  <li class="list__item" *ngFor="let user of test.users">
-                    <div>{{user.first_name}} {{user.last_name}}<span *ngIf="user.test_rate">({{user.test_rate}})</span> </div>
+                  <li routerLink="/check-test/{{test.id}}/{{user.id}}" class="list__item" *ngFor="let user of test.users">
+                    <div>{{user.first_name}} {{user.last_name}}<span *ngIf="user.test_rate !== -1">({{user.test_rate}})</span></div>
                   </li>
                 </ul>
               </li>
@@ -53,7 +53,7 @@
             <div *ngIf="testList.tests.length > 0" (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
             <ul class="list" *ngIf="testList.expanded && testList.tests.length > 0">
               <li class="list__item" routerLink="/test/{{test.id}}/show" *ngFor="let test of testList.tests">
-                <div>{{test.title}}</div>
+                <div>{{test.title}} <span *ngIf="test.rate > 0">({{test.rate}})</span></div>
               </li>
             </ul>
           </li>
