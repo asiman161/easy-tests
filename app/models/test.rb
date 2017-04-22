@@ -39,7 +39,7 @@ class Test < ApplicationRecord
     if test[:test_type] == TEST
       @test_rate = self.check_test(test, answers)
     else
-      @test_rate = 0
+      @test_rate = -1
     end
     completed_test = CompletedTest.new(test_rate: @test_rate)
     completed_test.user = user

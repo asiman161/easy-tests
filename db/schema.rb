@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422170421) do
+ActiveRecord::Schema.define(version: 20170422232600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "completed_tests", force: :cascade do |t|
-    t.string   "test_rate",      default: "0",   null: false
+    t.string   "test_rate",      default: "-1",  null: false
     t.boolean  "first_complete", default: false
     t.integer  "group_id"
     t.datetime "created_at",                     null: false
