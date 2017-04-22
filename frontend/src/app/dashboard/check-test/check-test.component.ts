@@ -36,7 +36,7 @@ export class CheckTestComponent implements OnInit {
   saveRate(){
     let rate = this.rateForm.value.rate;
     this._token.patch(`test-rate/${this._testId}/${this._userId}`, {rate: rate}).subscribe((res: any) => {
-      console.log(res);
+
     });
   }
 }
