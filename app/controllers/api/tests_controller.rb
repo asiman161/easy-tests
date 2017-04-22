@@ -22,7 +22,6 @@ class Api::TestsController < ApplicationController
   end
 
   def user_tests
-
     groups = current_user.groups.select(:id, :group_name, :group_age, :user_id).map do |gr|
       u = gr.user
       {
@@ -127,4 +126,41 @@ class Api::TestsController < ApplicationController
   def test_complete
     render json: Test.complete_test(current_user, params[:id], params[:answers])
   end
+
+  def test_get_completed
+    if current_user.teacher?
+      test = Test.find params[:test_id]
+      student = User.find params[:user_id] if test
+      if current_user.groups.ids.include? student.group[:id]
+        ct = CompletedTest.find_by test_id: params[:test_id], user_id: params[:user_id]
+        render json: {status:0, data: {
+          test_name: test[:test_name],
+          test_rate: ct[:test_rate],
+          first_complete: ct[:first_complete],
+          answers: ct[:answers],
+          test_type: ct[:test_type],
+          variant: ct[:variant],
+          questions: test[:test_data]["variants"][ct[:variant]]["questions"]
+        }}
+      end
+    end
+  end
+
+  def test_set_rate
+    if current_user.teacher?
+      test = Test.find params[:test_id]
+      student = User.find params[:user_id] if test
+      if current_user.groups.ids.include? student.group[:id]
+        ct = CompletedTest.find_by test_id: params[:test_id], user_id: params[:user_id]
+        ct[:test_rate] = params[:rate]
+        if ct.save
+          render json: {status: 0}
+        else
+          render json: {status: 3, error: "can't save"}, status: 400
+        end
+      end
+    end
+  end
+
+
 end

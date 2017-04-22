@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { NgUploaderModule } from 'ngx-uploader';
-import {SelectModule} from 'ng2-select';
+import { SelectModule } from 'ng2-select';
 
 import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
 import { EventsService } from './shared/events.service';
@@ -24,6 +24,7 @@ import { TestShowComponent } from './dashboard/test-show/test-show.component';
 import { GroupListComponent } from './dashboard/group-list/group-list.component';
 import { GroupsListComponent } from './dashboard/groups-list/groups-list.component';
 import { SubjectsListComponent } from './dashboard/subjects-list/subjects-list.component';
+import { CheckTestComponent } from './dashboard/check-test/check-test.component';
 import { AuthComponent } from './auth/auth.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
@@ -61,6 +62,7 @@ import { routing } from './app.routing';
     GroupListComponent,
     GroupsListComponent,
     SubjectsListComponent,
+    CheckTestComponent,
     AuthComponent,
     SignInComponent,
     SignUpComponent,

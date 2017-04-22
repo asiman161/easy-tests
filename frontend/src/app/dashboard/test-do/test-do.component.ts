@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
@@ -51,9 +51,8 @@ export class TestDoComponent implements OnInit, OnDestroy {
   }
 
   initWorkForm(work): FormGroup[] {
-    return work.questions.map((item, i) => {
+    return work.questions.map(() => {
       return this._fb.group({
-        question_index: i,
         answer: ''
       });
     });
@@ -68,7 +67,9 @@ export class TestDoComponent implements OnInit, OnDestroy {
   }
 
   completeTest() {
-    let requestData: any = {answers: this.testType === 0 ? this.workForm.value : this._user_answers};
+    let requestData: any = {
+      answers: this.testType === 0 ? this.workForm.value.answers.map(item => item.answer) : this._user_answers
+    };
     this._userTestSub = this._token.post(`user-test/complete/${this._testId}`, requestData).subscribe((res: any) => {
       this._router.navigateByUrl('');
     });

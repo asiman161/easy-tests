@@ -19,4 +19,5 @@
     </div>
   </div>
 </div>
-<button (click)="completeTest()">Закончить тест</button>
+<button *ngIf="testType === 0" (click)="completeTest()">Закончить контрольную</button>
+<button *ngIf="testType === 1" (click)="completeTest()">Закончить тест</button>

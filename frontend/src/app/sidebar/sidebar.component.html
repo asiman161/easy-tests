@@ -16,7 +16,7 @@
               <li class="list__item" *ngFor="let test of subject.tests">
                 <div (click)="test.expanded = !test.expanded">{{test.test_name}}</div>
                 <ul *ngIf="test.expanded" class="list">
-                  <li class="list__item" *ngFor="let user of test.users">
+                  <li routerLink="/check-test/{{test.id}}/{{user.id}}" class="list__item" *ngFor="let user of test.users">
                     <div>{{user.first_name}} {{user.last_name}}<span *ngIf="user.test_rate">({{user.test_rate}})</span> </div>
                   </li>
                 </ul>

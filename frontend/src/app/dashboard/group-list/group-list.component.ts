@@ -56,7 +56,7 @@ export class GroupListComponent implements OnInit {
 
   updateGroup(form){
     if (form.valid) {
-      this._token.post('update-group', form.value).subscribe(res => {
+      this._token.patch('update-group', form.value).subscribe(res => {
 
       });
     }

@@ -1,0 +1,21 @@
+<div *ngIf="testData">
+  <div>
+    <h1>{{testData.test_name}}</h1>
+  </div>
+  <div *ngFor="let question of testData.questions; index as i">
+    <span>вопрос {{i + 1}}: {{question.question_text}}</span>
+    <p>{{testData.answers[i]}}</p>
+  </div>
+  <div>
+    <form [formGroup]="rateForm" (submit)="saveRate()">
+      <label>Оценка</label>
+      <input type="text" formControlName="rate">
+      <small *ngIf="!rateForm.controls.rate.valid">
+        Можно использовать только буквы A-Z или число от 1 до 99
+      </small>
+      <div>
+        <button type="submit">Поставить оценку</button>
+      </div>
+    </form>
+  </div>
+</div>
