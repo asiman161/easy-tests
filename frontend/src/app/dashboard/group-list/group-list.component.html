@@ -50,25 +50,6 @@
 </div>
 
 <div *ngIf="!user.group_id">
-  <div *ngIf="user.role === 2">
-    <div>
-      <div>Вы можете создать группу</div>
-      <form [formGroup]="createGroup" novalidate (submit)="save(createGroup)">
-        <div>
-          <label for="group-name">Имя группы</label>
-          <input type="text" id="group-name" formControlName="group_name">
-          <small *ngIf="!createGroup.controls.group_name.valid">
-            Название обязательно, 2+ символов
-          </small>
-        </div>
-        <div>
-          <label for="group-age">Курс</label>
-          <input type="text" id="group-age" formControlName="group_age">
-        </div>
-        <button type="submit">Создать</button>
-      </form>
-    </div>
-  </div>
   <div *ngIf="user.role === 1">
     <div>Вы можете ввести ключ к вашей группе. Вы можете его узнать у вашего старосты</div>
     <form [formGroup]="insertGroup" novalidate (submit)="save(insertGroup)">

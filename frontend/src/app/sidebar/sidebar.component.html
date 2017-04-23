@@ -32,8 +32,9 @@
         <div class="multi-levels__main-item"
              (click)="expandedLists.currentTasks = !expandedLists.currentTasks">Текущие</div>
         <ul class="list" *ngIf="expandedLists.currentTasks">
+          <!--{{studentLists.currentTasks}}-->
           <li class="list__item" *ngFor="let testList of studentLists.currentTasks">
-            <div *ngIf="testList.tests.length > 0" (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
+            <div (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
             <ul class="list" *ngIf="testList.expanded && testList.tests.length > 0">
               <li class="list__item" routerLink="/test/{{test.id}}/do" *ngFor="let test of testList.tests">
                 <div>{{test.title}}</div>

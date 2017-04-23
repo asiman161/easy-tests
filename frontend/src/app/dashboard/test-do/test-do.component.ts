@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
 import { ActivatedRoute, Router } from '@angular/router';
-import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 
+import { ToastsManager } from 'ng2-toastr';
 import * as _ from 'lodash';
+
+import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
+import { EventsService } from '../../shared/events.service';
 
 
 @Component({
@@ -25,6 +27,8 @@ export class TestDoComponent implements OnInit, OnDestroy {
   constructor(private _router: Router,
               private _routeActivated: ActivatedRoute,
               private _token: Angular2TokenService,
+              private _toastr: ToastsManager,
+              private _eventsService: EventsService,
               private _fb: FormBuilder) {
   }
 
@@ -71,7 +75,11 @@ export class TestDoComponent implements OnInit, OnDestroy {
       answers: this.testType === 0 ? this.workForm.value.answers.map(item => item.answer) : this._user_answers
     };
     this._userTestSub = this._token.post(`user-test/complete/${this._testId}`, requestData).subscribe((res: any) => {
+      this._toastr.success('Работа успешно выполнена', 'Успешно!');
+      this._eventsService.sidebarUpdate.emit('update');
       this._router.navigateByUrl('');
+    }, error => {
+      this._toastr.error('Что-то пошло не так', 'Ошибка!');
     });
   }
 

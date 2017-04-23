@@ -16,22 +16,28 @@ export class SidebarComponent implements OnInit {
   public expandedLists: Object = {currentTasks: true, completedTasks: true};
   public studentLists: any = {currentTasks: [], completedTasks: []};
   public sidebarTestsList: SidebarTestsList;
-  private userRole: number = 0;
+  public userRole: number = 0;
 
   constructor(private _token: Angular2TokenService,
               private _eventsService: EventsService) {
   }
 
   ngOnInit(): void {
-    this._eventsService.sidebarUpdate.subscribe((data) => {
-      this.getUserRole(data);
+    this._eventsService.sidebarUpdate.subscribe((data: any = 'update') => {
+      switch (data) {
+        case 'update':
+          this._getSidebar(this.userRole);
+          break;
+        default:
+          this.getUserRole(data);
+      }
     });
     this.getUserRole();
   }
 
 
   private getUserRole(data?) {
-    if(data && data.type === 'role'){
+    if (data && data.type === 'role') {
       this.userRole = data.role;
       this.setSidebarLinks(data.role);
     } else {
@@ -44,7 +50,7 @@ export class SidebarComponent implements OnInit {
   }
 
   private setSidebarLinks(role: number) {
-    this.buildStudentLists(role);
+    this._getSidebar(role);
     switch (role) {
       case 1 :
       case 2 :
@@ -73,7 +79,7 @@ export class SidebarComponent implements OnInit {
   }
 
   // TODO: rename this method
-  private buildStudentLists(role: number) {
+  private _getSidebar(role: number) {
     if (role > 0) {
       this._token.get('user-tests').subscribe((res: any) => {
         let tests: any = JSON.parse(res._body).data;
