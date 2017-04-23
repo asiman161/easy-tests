@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, Inject } from '@angular/core';
+import { Component, OnInit, NgZone, Inject, ViewChild } from '@angular/core';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -13,10 +13,10 @@ import { EventsService } from '../../shared/events.service';
   templateUrl: './create-test.component.html',
 })
 export class CreateTestComponent implements OnInit {
+  @ViewChild('select') select: any;
   options: NgUploaderOptions;
   response: any;
   hasBaseDropZoneOver: boolean;
-  userId: number;
   userIdLoaded: boolean = false;
   public testType: number = 1;
   public subjects: Object[] = [];
@@ -110,7 +110,7 @@ export class CreateTestComponent implements OnInit {
   changeTestType(testType) {
     this.testType = testType;
     this.createWork = this._fb.group({
-      subject_id: ['', Validators.required],
+      subject_id: [this.select.active[0].id, Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
       variants: this._fb.array([
         this.initVariants()
