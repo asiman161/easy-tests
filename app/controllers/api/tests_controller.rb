@@ -11,7 +11,6 @@ class Api::TestsController < ApplicationController
       if subject && subject.user == current_user
         test.subject = subject
         current_user.tests << test
-        Group.first.tests << test #TODO: WARNING! IMPORTANT! REMOVE THIS!
         render json: {status: 0}
       else
         render json: {status: 11, error: "you don't have this subject"}
@@ -77,8 +76,11 @@ class Api::TestsController < ApplicationController
         data: {tests: tests}
       }
     elsif current_user.student? || current_user.elder?
-      user_tests = current_user.group.tests
       group_subjects = current_user.group.subjects
+      user_tests = group_subjects.flat_map do |s|
+        Test.where subject_id: s.id
+      end
+
 
       user_completed_tests = []
       current_user.completed_tests.each do |ct|
@@ -109,17 +111,15 @@ class Api::TestsController < ApplicationController
 
   def user_test
     if !current_user.completed_tests.find_by(test_id: params[:id]) && params[:variant_number].class == Fixnum
-      test = current_user.group.tests.find params[:id]
-
+      test = Test.find params[:id]
       test_data = test[:test_data]['variants'][params[:variant_number]]
-      if test && test_data
-
-        render json: {status: 0, test_data: test_data, test_type: test[:test_type]}
+      if test_data && test[:show_test] && current_user.group.subjects.ids.include?(test[:subject_id])
+        render json: {status: 0, test_data: test_data, test_type: test[:test_type]}, status: 200
       else
-        render json: {status: 1, error: 'test not found'}
+        render json: {status: 1, error: 'test not found'}, status: 404
       end
     else
-      render json: {status: 2, error: 'test completed'}
+      render json: {status: 2, error: 'test completed'}, status: 400
     end
   end
 

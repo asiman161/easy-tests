@@ -17,7 +17,7 @@
                 <div (click)="test.expanded = !test.expanded">{{test.test_name}}<span *ngIf="test.users.length">({{test.users.length}})</span></div>
                 <ul *ngIf="test.expanded" class="list">
                   <li routerLink="/check-test/{{test.id}}/{{user.id}}" class="list__item" *ngFor="let user of test.users">
-                    <div>{{user.first_name}} {{user.last_name}}<span *ngIf="user.test_rate !== -1">({{user.test_rate}})</span></div>
+                    <div>{{user.first_name}} {{user.last_name}}<span *ngIf="user.test_rate !== '-1'">({{user.test_rate}})</span></div>
                   </li>
                 </ul>
               </li>
@@ -32,7 +32,6 @@
         <div class="multi-levels__main-item"
              (click)="expandedLists.currentTasks = !expandedLists.currentTasks">Текущие</div>
         <ul class="list" *ngIf="expandedLists.currentTasks">
-          <!--{{studentLists.currentTasks}}-->
           <li class="list__item" *ngFor="let testList of studentLists.currentTasks">
             <div (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
             <ul class="list" *ngIf="testList.expanded && testList.tests.length > 0">
