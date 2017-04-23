@@ -66,14 +66,16 @@ export class GroupsListComponent implements OnInit {
     });
   }
 
-  addSubjectToGroup(subject, groupId) {
+  addSubjectToGroup(subject, groupId, groupName) {
     this._token.patch(`/groups/${groupId}`, {subject_id: subject.id}).subscribe(res => {
+      this._toastr.success(`Предмет успешно добавлен в группу ${groupName}`, 'Успешно!');
       this._eventsService.sidebarUpdate.emit('update');
     });
   }
 
-  removeSubjectFromGroup(subject, groupId){
+  removeSubjectFromGroup(subject, groupId, groupName){
     this._token.post(`group_subjects/${groupId}`, {subject_id: subject.id}).subscribe(res => {
+      this._toastr.success(`Предмет успешно удален из группы ${groupName}`, 'Успешно!');
       this._eventsService.sidebarUpdate.emit('update');
     });
   }

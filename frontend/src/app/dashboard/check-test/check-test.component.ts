@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'et-check-test',
@@ -16,7 +17,8 @@ export class CheckTestComponent implements OnInit {
 
   constructor(private _token: Angular2TokenService,
               private _routeActivated: ActivatedRoute,
-              private _fb: FormBuilder) {
+              private _fb: FormBuilder,
+              private _toastr: ToastsManager) {
   }
 
   ngOnInit() {
@@ -36,7 +38,9 @@ export class CheckTestComponent implements OnInit {
   saveRate(){
     let rate = this.rateForm.value.rate;
     this._token.patch(`test-rate/${this._testId}/${this._userId}`, {rate: rate}).subscribe((res: any) => {
-
+      this._toastr.success('Вы выставили оценку', 'Успешно!');
+    }, error => {
+      this._toastr.success('Что-то пошло не так', 'Ошибка!');
     });
   }
 }
