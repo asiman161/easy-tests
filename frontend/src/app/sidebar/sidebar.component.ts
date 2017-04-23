@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { SidebarTestsList } from './sidebar-tests-list.model';
 import { Angular2TokenService } from '../shared/api-factory/angular2-token.service';
@@ -10,7 +10,7 @@ import { EventsService } from '../shared/events.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
 
   public sidebarLinks: Object = [{name: '', routeLink: ''}];
   public expandedLists: Object = {currentTasks: true, completedTasks: true};
@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._eventsService.createEmitter();
     this._eventsService.sidebarUpdate.subscribe((data: any = 'update') => {
       switch (data) {
         case 'update':
@@ -35,6 +36,10 @@ export class SidebarComponent implements OnInit {
     this.getUserRole();
   }
 
+  ngOnDestroy():void {
+    this._eventsService.sidebarUpdate.unsubscribe();
+    this._eventsService.resetEmitter();
+  }
 
   private getUserRole(data?) {
     if (data && data.type === 'role') {
