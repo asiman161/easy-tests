@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { NgUploaderModule } from 'ngx-uploader';
 import { SelectModule } from 'ng2-select';
+import { ToastModule } from 'ng2-toastr';
 
 import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
 import { EventsService } from './shared/events.service';
@@ -39,12 +41,14 @@ import { routing } from './app.routing';
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     routing,
     ReactiveFormsModule,
     FormsModule,
     NgUploaderModule,
-    SelectModule
+    SelectModule,
+    ToastModule.forRoot()
   ],
   declarations: [
     AppComponent,

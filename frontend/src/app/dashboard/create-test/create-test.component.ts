@@ -1,9 +1,12 @@
 import { Component, OnInit, NgZone, Inject } from '@angular/core';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { NgUploaderOptions } from 'ngx-uploader';
+import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
+import { EventsService } from '../../shared/events.service';
 
 @Component({
   selector: 'et-create-work',
@@ -20,8 +23,11 @@ export class CreateTestComponent implements OnInit {
   public createWork: FormGroup;
 
   constructor(@Inject(NgZone) private zone: NgZone,
+              private _router: Router,
               private _token: Angular2TokenService,
-              private _fb: FormBuilder) {
+              private _fb: FormBuilder,
+              private _toastr: ToastsManager,
+              private _eventService: EventsService) {
   }
 
   setSubject(subject) {
@@ -125,9 +131,12 @@ export class CreateTestComponent implements OnInit {
         subject_id: this.createWork.value.subject_id,
         test_type: this.testType,
       }).subscribe(res => {
-
+        this._toastr.success('Работа успешно создана', 'Успешно!');
+        this._eventService.sidebarUpdate.emit('update');
+        this._router.navigateByUrl('/tests-list');
       });
     } else {
+      this._toastr.error('В форме присутствуют ошибки\nУбедитесь, что все поля заполненны верно', 'Ошибка!');
       console.error('form doesn\'t valid');
     }
   }

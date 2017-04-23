@@ -129,12 +129,12 @@ class Api::GroupsController < ApplicationController
       if teacher
         if teacher.groups.exclude? current_user.group
           if teacher.groups << current_user.group
-            render json: {status: 0}
+            render json: {status: 0}, status: 200
           else
-            render json: {status: 3, error: "can't save"}
+            render json: {status: 3, error: "can't save"}, status: 400
           end
         else
-          render json: {status: 7, error: "you already have this teacher"}
+          render json: {status: 7, error: "you already have this teacher"}, status: 400
         end
       end
     end
