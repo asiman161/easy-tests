@@ -33,8 +33,8 @@
              (click)="expandedLists.currentTasks = !expandedLists.currentTasks">Текущие</div>
         <ul class="list" *ngIf="expandedLists.currentTasks">
           <li class="list__item" *ngFor="let testList of studentLists.currentTasks">
-            <div (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
-            <ul class="list" *ngIf="testList.expanded && testList.tests.length > 0">
+            <div *ngIf="testList.tests.length > 0" (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
+            <ul class="list" *ngIf="testList.expanded">
               <li class="list__item" routerLink="/test/{{test.id}}/do" *ngFor="let test of testList.tests">
                 <div>{{test.title}}</div>
               </li>
@@ -51,7 +51,7 @@
         <ul class="list" *ngIf="expandedLists.completedTasks">
           <li class="list__item" *ngFor="let testList of studentLists.completedTasks">
             <div *ngIf="testList.tests.length > 0" (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
-            <ul class="list" *ngIf="testList.expanded && testList.tests.length > 0">
+            <ul class="list" *ngIf="testList.expanded">
               <li class="list__item" routerLink="/test/{{test.id}}/show" *ngFor="let test of testList.tests">
                 <div>{{test.title}} <span *ngIf="test.rate > 0">({{test.rate}})</span></div>
               </li>

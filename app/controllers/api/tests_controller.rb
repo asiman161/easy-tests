@@ -97,7 +97,7 @@ class Api::TestsController < ApplicationController
             rate = CompletedTest.find_by(test_id: t.id, user_id: current_user[:id])[:test_rate]
             completed_tests[i][:tests].push({title: t[:test_name], rate: rate, id: t[:id]}) if s[:id] == t[:subject_id]
           else
-            current_tests[i][:tests].push({title: t[:test_name], id: t[:id]}) if s[:id] == t[:subject_id]
+            current_tests[i][:tests].push({title: t[:test_name], id: t[:id]}) if t[:show_test] && s[:id] == t[:subject_id]
           end
         end
       end
@@ -133,7 +133,7 @@ class Api::TestsController < ApplicationController
       student = User.find params[:user_id] if test
       if current_user.groups.ids.include? student.group[:id]
         ct = CompletedTest.find_by test_id: params[:test_id], user_id: params[:user_id]
-        render json: {status:0, data: {
+        render json: {status: 0, data: {
           test_name: test[:test_name],
           test_rate: ct[:test_rate],
           first_complete: ct[:first_complete],
@@ -162,5 +162,35 @@ class Api::TestsController < ApplicationController
     end
   end
 
+  def teacher_tests
+    if current_user.teacher?
+      tests = current_user.subjects.select(:id, :subject_name).map do |s|
+        {
+          id: s[:id],
+          subject_name: s[:subject_name],
+          tests: Test.where(subject_id: s[:id]).select(:id, :test_name, :show_test, :test_type)
+        }
+      end
+      render json: {status: 0, data: tests}
+    end
+  end
 
+  def test_visibility
+    test = Test.find params[:id]
+    if test[:user_id] == current_user[:id]
+      test[:show_test] = !params[:show_test]
+      if test.save
+        render json: {status: 0}
+
+      end
+    end
+  end
+
+  def destroy
+    if Test.find(params[:id])[:user_id] == current_user[:id]
+      if Test.delete(params[:id]) && CompletedTest.delete(CompletedTest.find_by test_id: params[:id])
+        render json: {status: 0}
+      end
+    end
+  end
 end
