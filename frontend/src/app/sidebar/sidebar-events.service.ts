@@ -1,8 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
+import { SidebarEvent } from './sidebar-event.model';
+
 @Injectable()
-export class EventsService  {
-  public sidebarUpdate: EventEmitter<any>;
+export class SidebarEventsService  {
+  public sidebarUpdate: EventEmitter<SidebarEvent>;
   constructor() {
 
   }

@@ -6,7 +6,7 @@ import { ToastsManager } from 'ng2-toastr';
 import * as _ from 'lodash';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
-import { EventsService } from '../../shared/events.service';
+import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class TestDoComponent implements OnInit, OnDestroy {
               private _routeActivated: ActivatedRoute,
               private _token: Angular2TokenService,
               private _toastr: ToastsManager,
-              private _eventsService: EventsService,
+              private _sidebarEventsService: SidebarEventsService,
               private _fb: FormBuilder) {
   }
 
@@ -76,7 +76,7 @@ export class TestDoComponent implements OnInit, OnDestroy {
     };
     this._userTestSub = this._token.post(`user-test/complete/${this._testId}`, requestData).subscribe((res: any) => {
       this._toastr.success('Работа успешно выполнена', 'Успешно!');
-      this._eventsService.sidebarUpdate.emit('update');
+      this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
       this._router.navigateByUrl('');
     }, error => {
       this._toastr.error('Что-то пошло не так', 'Ошибка!');

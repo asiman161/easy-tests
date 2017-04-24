@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { ToastsManager } from 'ng2-toastr';
+
+import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
+import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
   selector: 'et-check-test',
@@ -12,16 +14,21 @@ import { ToastsManager } from 'ng2-toastr';
 export class CheckTestComponent implements OnInit {
   public testData: any;
   public rateForm: FormGroup;
+  private _updateRateData: any;
   private _testId;
   private _userId;
 
   constructor(private _token: Angular2TokenService,
               private _routeActivated: ActivatedRoute,
               private _fb: FormBuilder,
-              private _toastr: ToastsManager) {
+              private _toastr: ToastsManager,
+              private _sidebarEventsService: SidebarEventsService) {
   }
 
   ngOnInit() {
+    this._routeActivated.queryParams.subscribe((res: any) => {
+      this._updateRateData = res;
+    });
     this._routeActivated.params.subscribe((res: any) => {
       this._testId = res.test_id;
       this._userId = res.user_id;
@@ -35,9 +42,13 @@ export class CheckTestComponent implements OnInit {
     });
   }
 
-  saveRate(){
+  saveRate() {
     let rate = this.rateForm.value.rate;
     this._token.patch(`test-rate/${this._testId}/${this._userId}`, {rate: rate}).subscribe((res: any) => {
+      this._sidebarEventsService.sidebarUpdate.emit({target: 'updateRate', data: {
+        indexes: this._updateRateData,
+        rate: rate
+      }});
       this._toastr.success('Вы выставили оценку', 'Успешно!');
     }, error => {
       this._toastr.success('Что-то пошло не так', 'Ошибка!');

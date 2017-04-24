@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
+import { ToastsManager } from 'ng2-toastr';
+
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { UserData } from '../../shared/api-factory/angular2-token.model';
 import { ProfileRegexp, ProfileRegexps } from './profile-regexps.model';
-import { EventsService } from '../../shared/events.service';
-import { ToastsManager } from 'ng2-toastr';
+import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
   selector: 'et-profile',
@@ -22,7 +23,7 @@ export class ProfileComponent implements OnInit {
   constructor(private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
-              private eventService: EventsService) {
+              private _sidebarEventsService: SidebarEventsService) {
   }
 
   ngOnInit() {
@@ -64,7 +65,7 @@ export class ProfileComponent implements OnInit {
     if (this.profileForm.valid) {
       this._token.patch('profiles', this.profileForm.value).subscribe((res: any) => {
         this._toastr.success('Ваш профиль успешно обновлен', 'Успешно!');
-        this.eventService.sidebarUpdate.emit({role: JSON.parse(res._body).data.role});
+        this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
       }, error => {
         this._toastr.error('Что-то пошло не так', 'Ошибка!');
       });

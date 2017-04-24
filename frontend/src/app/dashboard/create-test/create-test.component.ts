@@ -6,7 +6,7 @@ import { NgUploaderOptions } from 'ngx-uploader';
 import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
-import { EventsService } from '../../shared/events.service';
+import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
   selector: 'et-create-work',
@@ -27,7 +27,7 @@ export class CreateTestComponent implements OnInit {
               private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
-              private _eventService: EventsService) {
+              private _sidebarEventsService: SidebarEventsService) {
   }
 
   setSubject(subject) {
@@ -132,7 +132,7 @@ export class CreateTestComponent implements OnInit {
         test_type: this.testType,
       }).subscribe(res => {
         this._toastr.success('Работа успешно создана', 'Успешно!');
-        this._eventService.sidebarUpdate.emit('update');
+        this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
         this._router.navigateByUrl('/tests-list');
       });
     } else {

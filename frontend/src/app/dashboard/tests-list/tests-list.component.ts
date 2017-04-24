@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { ToastsManager } from 'ng2-toastr';
-import { EventsService } from '../../shared/events.service';
+import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
   selector: 'et-dashboard',
@@ -13,7 +13,7 @@ export class TestsListComponent implements OnInit {
 
   constructor(private _token: Angular2TokenService,
               private _toastr: ToastsManager,
-              private _eventsService: EventsService) {
+              private _sidebarEventsService: SidebarEventsService) {
   }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class TestsListComponent implements OnInit {
       .subscribe((res: any) => {
         this._toastr.success('Работа успешно удалена', 'Успешно!');
         this.subjectsList[subject_index].tests.splice(test_index, 1);
-        this._eventsService.sidebarUpdate.emit('update');
+        this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
       }, error => {
         this._toastr.error('Что-то пошло не так', 'Ошибка!');
       });

@@ -7,16 +7,19 @@
     </ul>
     <div class="li-separator"></div>
     <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList && userRole === 3">
-      <li class="list__item active"  *ngFor="let testList of sidebarTestsList.tests">
+      <li class="list__item active"  *ngFor="let testList of sidebarTestsList.tests; index as i">
         <div class="multi-levels__main-item" (click)="testList.expanded = !testList.expanded">{{testList.group_name}}</div>
         <ul class="list" *ngIf="testList.expanded">
-          <li class="list__item" *ngFor="let subject of testList.subjects">
+          <li class="list__item" *ngFor="let subject of testList.subjects; index as j">
             <div (click)="subject.expanded = !subject.expanded">{{subject.subject_name}}</div>
             <ul *ngIf="subject.expanded" class="list">
-              <li class="list__item" *ngFor="let test of subject.tests">
+              <li class="list__item" *ngFor="let test of subject.tests; index as k">
                 <div (click)="test.expanded = !test.expanded">{{test.test_name}}<span *ngIf="test.users.length">({{test.users.length}})</span></div>
                 <ul *ngIf="test.expanded" class="list">
-                  <li routerLink="/check-test/{{test.id}}/{{user.id}}" class="list__item" *ngFor="let user of test.users">
+                  <li class="list__item"
+                      routerLink="/check-test/{{test.id}}/{{user.id}}"
+                      [queryParams]="{groupIndex: i, subjectIndex: j, testIndex: k, userIndex: m}"
+                      *ngFor="let user of test.users; index as m">
                     <div>{{user.first_name}} {{user.last_name}}<span *ngIf="user.test_rate !== '-1'">({{user.test_rate}})</span></div>
                   </li>
                 </ul>

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
+import { ToastsManager } from 'ng2-toastr';
+
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { UserData } from '../../shared/api-factory/angular2-token.model';
-import { ToastsManager } from 'ng2-toastr';
-import { EventsService } from '../../shared/events.service';
+import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
   selector: 'et-group-list',
@@ -22,7 +23,7 @@ export class GroupListComponent implements OnInit {
   constructor(private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
-              private _eventsService: EventsService) {}
+              private _sidebarEventsService: SidebarEventsService) {}
 
 
   ngOnInit() {
@@ -66,7 +67,7 @@ export class GroupListComponent implements OnInit {
     if (form.valid) {
       this._token.post('add-teacher', form.value).subscribe(res => {
         this._toastr.success('Новый преподаватель добавлен', 'Успешно!');
-        this._eventsService.sidebarUpdate.emit('update');
+        this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
       }, error => {
         this._toastr.error('Что-то пошло не так', 'Ошибка!');
       });
@@ -82,7 +83,7 @@ export class GroupListComponent implements OnInit {
   deleteGroup(id){
     this._token.delete(`teachers/${id}`).subscribe((res:any) => {
       this._toastr.success('Преподаватель успешно удален', 'Успешно!');
-      this._eventsService.sidebarUpdate.emit('update');
+      this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
     }, error => {
       this._toastr.error('Что-то пошло не так', 'Ошибка!');
     });
