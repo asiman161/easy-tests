@@ -7,17 +7,20 @@
     </ul>
     <div class="li-separator"></div>
     <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList && userRole === 3">
-      <li class="list__item active"  *ngFor="let testList of sidebarTestsList.tests">
+      <li class="list__item active"  *ngFor="let testList of sidebarTestsList.tests; index as i">
         <div class="multi-levels__main-item" (click)="testList.expanded = !testList.expanded">{{testList.group_name}}</div>
         <ul class="list" *ngIf="testList.expanded">
-          <li class="list__item" *ngFor="let subject of testList.subjects">
+          <li class="list__item" *ngFor="let subject of testList.subjects; index as j">
             <div (click)="subject.expanded = !subject.expanded">{{subject.subject_name}}</div>
             <ul *ngIf="subject.expanded" class="list">
-              <li class="list__item" *ngFor="let test of subject.tests">
+              <li class="list__item" *ngFor="let test of subject.tests; index as k">
                 <div (click)="test.expanded = !test.expanded">{{test.test_name}}<span *ngIf="test.users.length">({{test.users.length}})</span></div>
                 <ul *ngIf="test.expanded" class="list">
-                  <li routerLink="/check-test/{{test.id}}/{{user.id}}" class="list__item" *ngFor="let user of test.users">
-                    <div>{{user.first_name}} {{user.last_name}}<span *ngIf="user.test_rate !== -1">({{user.test_rate}})</span></div>
+                  <li class="list__item"
+                      routerLink="/check-test/{{test.id}}/{{user.id}}"
+                      [queryParams]="{groupIndex: i, subjectIndex: j, testIndex: k, userIndex: m}"
+                      *ngFor="let user of test.users; index as m">
+                    <div>{{user.first_name}} {{user.last_name}}<span *ngIf="user.test_rate !== '-1'">({{user.test_rate}})</span></div>
                   </li>
                 </ul>
               </li>
@@ -32,10 +35,9 @@
         <div class="multi-levels__main-item"
              (click)="expandedLists.currentTasks = !expandedLists.currentTasks">Текущие</div>
         <ul class="list" *ngIf="expandedLists.currentTasks">
-          <!--{{studentLists.currentTasks}}-->
           <li class="list__item" *ngFor="let testList of studentLists.currentTasks">
-            <div (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
-            <ul class="list" *ngIf="testList.expanded && testList.tests.length > 0">
+            <div *ngIf="testList.tests.length > 0" (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
+            <ul class="list" *ngIf="testList.expanded">
               <li class="list__item" routerLink="/test/{{test.id}}/do" *ngFor="let test of testList.tests">
                 <div>{{test.title}}</div>
               </li>
@@ -52,7 +54,7 @@
         <ul class="list" *ngIf="expandedLists.completedTasks">
           <li class="list__item" *ngFor="let testList of studentLists.completedTasks">
             <div *ngIf="testList.tests.length > 0" (click)="testList.expanded = !testList.expanded">{{testList.subject_name}}</div>
-            <ul class="list" *ngIf="testList.expanded && testList.tests.length > 0">
+            <ul class="list" *ngIf="testList.expanded">
               <li class="list__item" routerLink="/test/{{test.id}}/show" *ngFor="let test of testList.tests">
                 <div>{{test.title}} <span *ngIf="test.rate > 0">({{test.rate}})</span></div>
               </li>

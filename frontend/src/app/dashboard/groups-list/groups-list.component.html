@@ -6,7 +6,7 @@
   <ng-select  [multiple]="true"
               [items]="subjects"
               [active]="group.subjects"
-              (selected)="addSubjectToGroup($event, group.id)"
-              (removed)="removeSubjectFromGroup($event, group.id)"
+              (selected)="addSubjectToGroup($event, group.id, group.group_name)"
+              (removed)="removeSubjectFromGroup($event, group.id, group.group_name)"
               placeholder="Не выбраны предметы для данной группы"></ng-select>
 </div>

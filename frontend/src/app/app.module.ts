@@ -10,7 +10,7 @@ import { SelectModule } from 'ng2-select';
 import { ToastModule } from 'ng2-toastr';
 
 import { Angular2TokenService } from './shared/api-factory/angular2-token.service';
-import { EventsService } from './shared/events.service';
+import { SidebarEventsService } from './sidebar/sidebar-events.service';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -34,7 +34,6 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { InputTextComponent } from './shared/elements/input-text/input-text.component';
 import { TextAreaComponent } from './shared/elements/text-area/text-area.component';
 import { AuthService } from './auth/auth.service';
-import { SidebarListPipe } from './sidebar/sidebar-list.pipe';
 import { routing } from './app.routing';
 
 
@@ -71,13 +70,12 @@ import { routing } from './app.routing';
     SignInComponent,
     SignUpComponent,
     InputTextComponent,
-    TextAreaComponent,
-    SidebarListPipe
+    TextAreaComponent
   ],
   providers: [
     AuthService,
     Angular2TokenService,
-    EventsService,
+    SidebarEventsService,
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]

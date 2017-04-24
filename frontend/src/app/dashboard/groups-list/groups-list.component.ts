@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import {SelectModule} from 'ng2-select';
 import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { UserData } from '../../shared/api-factory/angular2-token.model';
-import { EventsService } from '../../shared/events.service';
+import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
   selector: 'et-groups-list',
@@ -20,7 +19,7 @@ export class GroupsListComponent implements OnInit {
 
   constructor(private _token: Angular2TokenService,
               private _toastr: ToastsManager,
-              private _eventsService: EventsService) {}
+              private _sidebarEventsService: SidebarEventsService) {}
 
 
   ngOnInit() {
@@ -54,7 +53,7 @@ export class GroupsListComponent implements OnInit {
   deleteGroup(id){
     this._token.delete(`/groups/${id}`).subscribe((res: any) => {
       this._toastr.success('Группа успешно удалена', 'Успешно!');
-      this._eventsService.sidebarUpdate.emit('update');
+      this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
       this.groups = JSON.parse(res._body).data.map(item => {
         item.subjects = item.subjects.map(subject => {
           return {text: subject.subject_name, id: subject.id};
@@ -66,15 +65,17 @@ export class GroupsListComponent implements OnInit {
     });
   }
 
-  addSubjectToGroup(subject, groupId) {
+  addSubjectToGroup(subject, groupId, groupName) {
     this._token.patch(`/groups/${groupId}`, {subject_id: subject.id}).subscribe(res => {
-      this._eventsService.sidebarUpdate.emit('update');
+      this._toastr.success(`Предмет успешно добавлен в группу ${groupName}`, 'Успешно!');
+      this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
     });
   }
 
-  removeSubjectFromGroup(subject, groupId){
+  removeSubjectFromGroup(subject, groupId, groupName){
     this._token.post(`group_subjects/${groupId}`, {subject_id: subject.id}).subscribe(res => {
-      this._eventsService.sidebarUpdate.emit('update');
+      this._toastr.success(`Предмет успешно удален из группы ${groupName}`, 'Успешно!');
+      this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
     });
   }
 

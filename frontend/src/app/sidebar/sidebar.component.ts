@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { SidebarTestsList } from './sidebar-tests-list.model';
 import { Angular2TokenService } from '../shared/api-factory/angular2-token.service';
-import { EventsService } from '../shared/events.service';
+import { SidebarEventsService } from './sidebar-events.service';
+import { SidebarEvent } from './sidebar-event.model';
 
 @Component({
   selector: 'et-sidebar',
@@ -10,23 +10,32 @@ import { EventsService } from '../shared/events.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
 
   public sidebarLinks: Object = [{name: '', routeLink: ''}];
   public expandedLists: Object = {currentTasks: true, completedTasks: true};
   public studentLists: any = {currentTasks: [], completedTasks: []};
-  public sidebarTestsList: SidebarTestsList;
+  public sidebarTestsList: any;
   public userRole: number = 0;
 
   constructor(private _token: Angular2TokenService,
-              private _eventsService: EventsService) {
+              private _sidebarEventsService: SidebarEventsService) {
   }
 
   ngOnInit(): void {
-    this._eventsService.sidebarUpdate.subscribe((data: any = 'update') => {
-      switch (data) {
+    this._sidebarEventsService.createEmitter();
+    this._sidebarEventsService.sidebarUpdate.subscribe((data: SidebarEvent) => {
+      switch (data.target) {
         case 'update':
           this._getSidebar(this.userRole);
+          break;
+        case 'updateRate':
+          let indexes = data.data.indexes;
+          this.sidebarTestsList.tests[indexes.groupIndex]
+            .subjects[indexes.subjectIndex]
+            .tests[indexes.testIndex]
+            .users[indexes.userIndex]
+            .test_rate = data.data.rate;
           break;
         default:
           this.getUserRole(data);
@@ -35,6 +44,10 @@ export class SidebarComponent implements OnInit {
     this.getUserRole();
   }
 
+  ngOnDestroy(): void {
+    this._sidebarEventsService.sidebarUpdate.unsubscribe();
+    this._sidebarEventsService.resetEmitter();
+  }
 
   private getUserRole(data?) {
     if (data && data.type === 'role') {

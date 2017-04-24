@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, Inject } from '@angular/core';
+import { Component, OnInit, NgZone, Inject, ViewChild } from '@angular/core';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -6,17 +6,17 @@ import { NgUploaderOptions } from 'ngx-uploader';
 import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
-import { EventsService } from '../../shared/events.service';
+import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
   selector: 'et-create-work',
   templateUrl: './create-test.component.html',
 })
 export class CreateTestComponent implements OnInit {
+  @ViewChild('select') select: any;
   options: NgUploaderOptions;
   response: any;
   hasBaseDropZoneOver: boolean;
-  userId: number;
   userIdLoaded: boolean = false;
   public testType: number = 1;
   public subjects: Object[] = [];
@@ -27,7 +27,7 @@ export class CreateTestComponent implements OnInit {
               private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
-              private _eventService: EventsService) {
+              private _sidebarEventsService: SidebarEventsService) {
   }
 
   setSubject(subject) {
@@ -110,7 +110,7 @@ export class CreateTestComponent implements OnInit {
   changeTestType(testType) {
     this.testType = testType;
     this.createWork = this._fb.group({
-      subject_id: ['', Validators.required],
+      subject_id: [this.select.active[0].id, Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
       variants: this._fb.array([
         this.initVariants()
@@ -132,7 +132,7 @@ export class CreateTestComponent implements OnInit {
         test_type: this.testType,
       }).subscribe(res => {
         this._toastr.success('Работа успешно создана', 'Успешно!');
-        this._eventService.sidebarUpdate.emit('update');
+        this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
         this._router.navigateByUrl('/tests-list');
       });
     } else {

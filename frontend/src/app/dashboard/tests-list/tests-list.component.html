@@ -1,5 +1,11 @@
 <h1>test list</h1>
 {{testsList | json}}
-<div *ngFor="let test of testsList">
-  {{test.title}}
+<div *ngFor="let subject of subjectsList; index as i">
+  <div>{{subject.subject_name}}</div>
+  <div *ngFor="let test of subject.tests; index as j">
+    <div><span>{{test.test_name}}</span>
+      <button (click)="changeTestVisibility(test.id, test.show_test, i, j)">{{test.show_test? 'скрыть': 'отобразить'}}</button>
+      <button (click)="deleteTest(test.id, i ,j)">удалить</button>
+    </div>
+  </div>
 </div>

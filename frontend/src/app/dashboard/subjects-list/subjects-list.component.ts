@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr';
-import { EventsService } from '../../shared/events.service';
+import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
   selector: 'et-subjects-list',
@@ -18,7 +19,7 @@ export class SubjectsListComponent implements OnInit {
   constructor(private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
-              private _eventsService: EventsService) {
+              private _sidebarEventsService: SidebarEventsService) {
   }
 
   ngOnInit() {
@@ -31,7 +32,7 @@ export class SubjectsListComponent implements OnInit {
     this._token.delete(`subjects/${id}`)
       .subscribe((res: any) => {
         this.subjects = JSON.parse(res._body).data;
-        this._eventsService.sidebarUpdate.emit('update');
+        this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
         this._toastr.success('Предмет успешно Удален', 'Успешно!');
       }, error => {
         this._toastr.error('Что-то пошло не так', 'Ошибка!');
