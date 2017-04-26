@@ -4,16 +4,6 @@ import { SidebarEvent } from './sidebar-event.model';
 
 @Injectable()
 export class SidebarEventsService  {
-  public sidebarUpdate: EventEmitter<SidebarEvent>;
-  constructor() {
-
-  }
-
-  createEmitter(){
-    this.sidebarUpdate = new EventEmitter();
-  }
-
-  resetEmitter(){
-    this.sidebarUpdate = undefined;
-  }
+  public sidebarUpdate: EventEmitter<SidebarEvent> = new EventEmitter();
+  constructor() { }
 }

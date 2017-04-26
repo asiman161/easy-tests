@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 
 import { Angular2TokenService } from '../shared/api-factory/angular2-token.service';
 import { SidebarEventsService } from './sidebar-events.service';
@@ -11,20 +11,19 @@ import { SidebarEvent } from './sidebar-event.model';
 })
 
 export class SidebarComponent implements OnInit, OnDestroy {
-
   public sidebarLinks: Object = [{name: '', routeLink: ''}];
   public expandedLists: Object = {currentTasks: true, completedTasks: true};
   public studentLists: any = {currentTasks: [], completedTasks: []};
   public sidebarTestsList: any;
   public userRole: number = 0;
+  private _sidebarEventsListener: EventEmitter<SidebarEvent>;
 
   constructor(private _token: Angular2TokenService,
               private _sidebarEventsService: SidebarEventsService) {
   }
 
   ngOnInit(): void {
-    this._sidebarEventsService.createEmitter();
-    this._sidebarEventsService.sidebarUpdate.subscribe((data: SidebarEvent) => {
+    this._sidebarEventsListener = this._sidebarEventsService.sidebarUpdate.subscribe((data: SidebarEvent) => {
       switch (data.target) {
         case 'update':
           this._getSidebar(this.userRole);
@@ -45,8 +44,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._sidebarEventsService.sidebarUpdate.unsubscribe();
-    this._sidebarEventsService.resetEmitter();
+    this._sidebarEventsListener.unsubscribe();
   }
 
   private getUserRole(data?) {
