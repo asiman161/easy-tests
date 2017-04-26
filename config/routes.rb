@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     post 'create-test', to: 'tests#new'
     get 'user-tests', to: 'tests#user_tests'
     get 'teacher-tests', to: 'tests#teacher_tests'
+    get 'check_test_variants_mode/:id', to: 'tests#test_variants_mode'
     get 'check-test/:test_id/:user_id', to: 'tests#test_get_completed'
     post 'user-test/complete/:id', to: 'tests#test_complete'
     delete 'tests/:id', to: 'tests#destroy'
@@ -17,7 +18,7 @@ Rails.application.routes.draw do
     get 'get-key', to: 'groups#get_key'
     get 'reset-key', to: 'groups#reset_key'
     post 'add-teacher', to: 'groups#add_teacher'
-    post 'group_subjects/:id', to: 'groups#remove_subject' #TODO: should be delete(I should add params to delete in AngularToken)
+    delete 'group_subjects/:group_id/:subject_id', to: 'groups#remove_subject'
     get 'groups', to: 'groups#index'
     delete 'groups/:id', to: 'groups#destroy'
     patch 'groups/:id', to: 'groups#add_subject'

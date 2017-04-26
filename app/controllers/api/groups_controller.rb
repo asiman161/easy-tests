@@ -156,7 +156,7 @@ class Api::GroupsController < ApplicationController
 
   def remove_subject
     if current_user.teacher?
-      group = current_user.groups.find params[:id]
+      group = current_user.groups.find params[:group_id]
       subject = current_user.subjects.find params[:subject_id]
       if group && subject && group.subjects.delete(subject)
         render json: {status: 0}

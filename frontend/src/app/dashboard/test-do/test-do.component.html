@@ -1,23 +1,47 @@
-<h1>{{testTitle}}</h1>
-<div *ngFor="let question of testData.questions;index as i">
-  <div>Вопрос {{i + 1}}: {{question.question_text}}</div>
-  <div *ngIf="testType === 0">
-    <form [formGroup]="workForm">
-      <div formArrayName="answers">
-        <div [formGroupName]="i">
-          <textarea formControlName="answer"></textarea>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div *ngIf="testType === 1">
-    <div *ngFor="let questionAnswer of question.question_answers; let j=index">
-      <label>
-        <input type="checkbox" (change)="setAnswer(i, j)">
-        {{questionAnswer.answer}}
-      </label>
+<h1>Работа: {{testName}}</h1>
+<div *ngIf="testPreparing && !started">
+  <div *ngIf="variants === 'random' && testTime.min > 0">На данную работу отведено {{testTime.min}} мин. Вы получите случайный вариант.</div>
+  <div *ngIf="variants === 'random' && testTime.min === 0">На данную работу нет лимита по времени. Вы получите случайный вариант.</div>
+  <div *ngIf="variants > 0">
+    <div *ngIf="testTime.min > 0">На данную работу отведено {{testTime.min}} мин. Ваш вариант:</div>
+    <div *ngIf="testTime.min === 0">На данную работу нет лимита по времени. Ваш вариант:</div>
+    <div>
+      <ng-select [items]="variantsSelect"
+                 (selected)="setVariant($event.id)"
+                 placeholder="Не выбран вариант"
+                 class="clearfix"></ng-select>
     </div>
   </div>
+  <div>Вы готовы начать?</div>
+  <button [disabled]="variants !== 'random' && !variantSelected" (click)="getTest()">Начать</button>
 </div>
-<button *ngIf="testType === 0" (click)="completeTest()">Закончить контрольную</button>
-<button *ngIf="testType === 1" (click)="completeTest()">Закончить тест</button>
+
+<div *ngIf="started">
+  <div>Вы готовы продолжить?</div>
+  <button (click)="getTest()">Продолжить</button>
+</div>
+
+<div *ngIf="!testPreparing">
+  <div>Осталось времени: {{testTime.min}} мин. {{testTime.sec % 60}} сек.</div>
+  <div *ngFor="let question of testData.questions;index as i">
+    <div>Вопрос {{i + 1}}: {{question.question_text}}</div>
+    <div *ngIf="testType === 0">
+      <form [formGroup]="workForm">
+        <div formArrayName="answers">
+          <div [formGroupName]="i">
+            <textarea formControlName="answer"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="testType === 1">
+      <div *ngFor="let questionAnswer of question.question_answers; let j=index">
+        <label>
+          <input type="checkbox" (change)="setAnswer(i, j)">
+          {{questionAnswer.answer}}
+        </label>
+      </div>
+    </div>
+  </div>
+  <button (click)="completeTest(true)">Закончить</button>
+</div>

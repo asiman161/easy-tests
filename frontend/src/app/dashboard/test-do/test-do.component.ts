@@ -14,15 +14,21 @@ import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
   templateUrl: './test-do.component.html'
 })
 export class TestDoComponent implements OnInit, OnDestroy {
+  public testPreparing: boolean = true;
+  public started: boolean = false;
   public testType: number;
-  public testTitle: string = '';
+  public testName: string = '';
   public testData: any = {};
+  public timer: any;
+  public testTime: any = {min: 0, sec: 0};
+  public variants: any;
+  public variantsSelect: any;
+  public variantSelected: string;
   public workForm: FormGroup;
   private _testId: number;
   private _routeParamsSub: any;
   private _userTestSub: any;
-  private _user_answers: number[][] = [];
-
+  private _userAnswers: number[][] = [];
 
   constructor(private _router: Router,
               private _routeActivated: ActivatedRoute,
@@ -35,26 +41,71 @@ export class TestDoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._routeParamsSub = this._routeActivated.params.subscribe((res: any) => {
       this._testId = res.id;
+      this._token.get(`check_test_variants_mode/${this._testId}`)
+        .subscribe((res: any) => {
+          clearInterval(this.timer);
+          this.testPreparing = true;
+          let parsedData = JSON.parse(res._body).data;
+          this.testName = parsedData.name;
+          if(!parsedData.started){
+            this.variants = parsedData.variants;
+            this.testTime.min = parsedData.time;
+            this.started = false;
+            this.variantsSelect = [];
+            for (let i = 0; i < this.variants; i++) {
+              this.variantsSelect.push({text: `${i + 1}`, id: `${i}`});
+            }
+          } else {
+            this.started = true;
+          }
+        });
+    });
+  }
 
-      this._userTestSub = this._token.post(`user-test/${this._testId}`, {variant_number: 0}).subscribe((res: any) => {
+  setVariant(id) {
+    this.variantSelected = id;
+  }
+
+  getTest() {
+    this._userTestSub = this._token.post(`user-test/${this._testId}`, {variant_number: parseInt(this.variantSelected)})
+      .subscribe((res: any) => {
+        this.started = false;
         let parsedData = JSON.parse(res._body);
         this.testType = parsedData.test_type;
-        this.testTitle = parsedData.test_title;
         this.testData = parsedData.test_data;
+        this.testTime.min = parsedData.time;
         if (this.testType === 0) {
           this.workForm = this._fb.group({
             answers: this._fb.array(this.initWorkForm(this.testData))
           });
         } else if (this.testType === 1) {
           this.testData.questions.forEach((item, i) => {
-            this._user_answers[i] = [];
+            this._userAnswers[i] = [];
           });
         }
+        this.testPreparing = false;
+        if (this.testTime.min > 0) {
+          this.testTime.sec = this.testTime.min * 60; // 1 minute has 60 seconds
+          this.startTimer();
+        }
       });
-    });
   }
 
-  initWorkForm(work): FormGroup[] {
+  private startTimer() {
+    this.timer = setInterval(() => {
+      if (this.testTime.sec > 0) {
+        if (this.testTime.sec % 60 === 0) {
+          this.testTime.min--;
+        }
+        this.testTime.sec--;
+      } else {
+        clearInterval(this.timer);
+        this.completeTest(false);
+      }
+    }, 1000);
+  }
+
+  private initWorkForm(work): FormGroup[] {
     return work.questions.map(() => {
       return this._fb.group({
         answer: ''
@@ -63,16 +114,17 @@ export class TestDoComponent implements OnInit, OnDestroy {
   }
 
   setAnswer(questionId, answerId) {
-    if (_.includes(this._user_answers[questionId], answerId)) {
-      this._user_answers[questionId].splice(this._user_answers[questionId].indexOf(answerId), 1);
+    if (_.includes(this._userAnswers[questionId], answerId)) {
+      this._userAnswers[questionId].splice(this._userAnswers[questionId].indexOf(answerId), 1);
     } else {
-      this._user_answers[questionId].push(answerId);
+      this._userAnswers[questionId].push(answerId);
     }
   }
 
-  completeTest() {
+  completeTest(sendMode: boolean) {
     let requestData: any = {
-      answers: this.testType === 0 ? this.workForm.value.answers.map(item => item.answer) : this._user_answers
+      answers: this.testType === 0 ? this.workForm.value.answers.map(item => item.answer) : this._userAnswers,
+      send_mode: sendMode
     };
     this._userTestSub = this._token.post(`user-test/complete/${this._testId}`, requestData).subscribe((res: any) => {
       this._toastr.success('Работа успешно выполнена', 'Успешно!');
@@ -84,8 +136,9 @@ export class TestDoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._routeParamsSub.unsubscribe();
-    this._userTestSub.unsubscribe();
+    clearInterval(this.timer);
+    this._routeParamsSub && this._routeParamsSub.unsubscribe();
+    this._userTestSub && this._userTestSub.unsubscribe();
   }
 }
 

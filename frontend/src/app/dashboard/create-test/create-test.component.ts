@@ -54,6 +54,8 @@ export class CreateTestComponent implements OnInit {
     this.createWork = this._fb.group({
       subject_id: ['', Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
+      time: ['0', [Validators.required, Validators.pattern(/\d/)]],
+      random_variant: false,
       variants: this._fb.array([
         this.initVariants()
       ])
@@ -110,8 +112,10 @@ export class CreateTestComponent implements OnInit {
   changeTestType(testType) {
     this.testType = testType;
     this.createWork = this._fb.group({
-      subject_id: [this.select.active[0].id, Validators.required],
+      subject_id: [this.select.active[0] ? this.select.active[0].id : '', Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
+      time: [0, [Validators.required, Validators.pattern(/\d/)]],
+      random_variant: false,
       variants: this._fb.array([
         this.initVariants()
       ])
@@ -123,12 +127,14 @@ export class CreateTestComponent implements OnInit {
       let test_data = {
         test: {
           title: this.createWork.value.title,
+          time: this.createWork.value.time,
+          random_variant: this.createWork.value.random_variant,
           variants: this.createWork.value.variants
         }
       };
       this._token.post('create-test', {
-        test_data: test_data.test,
         subject_id: this.createWork.value.subject_id,
+        test_data: test_data.test,
         test_type: this.testType,
       }).subscribe(res => {
         this._toastr.success('Работа успешно создана', 'Успешно!');

@@ -14,6 +14,8 @@ import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 export class CheckTestComponent implements OnInit {
   public testData: any;
   public rateForm: FormGroup;
+  public minutes: any;
+  public seconds: any;
   private _updateRateData: any;
   private _testId;
   private _userId;
@@ -35,6 +37,8 @@ export class CheckTestComponent implements OnInit {
 
       this._token.get(`check-test/${res.test_id}/${res.user_id}`).subscribe((res: any) => {
         this.testData = JSON.parse(res._body).data;
+        this.minutes = Math.round(this.testData.time/60);
+        this.seconds = this.testData.time % 60;
         this.rateForm = this._fb.group({
           rate: ['', Validators.pattern(/^([A-Z]?|\d{0,2})$/)]
         });
