@@ -5,8 +5,12 @@ class Api::TestsController < ApplicationController
     if current_user.teacher?
       test = Test.new
       test[:test_name] = params[:test_data][:title]
+      test[:time] = params[:test_data][:time]
+      test[:random_variant] = params[:test_data][:random_variant]
       test[:test_data] = params[:test_data]
       test[:test_type] = params[:test_type]
+      test[:variants_count] = params[:test_data][:variants].length
+
       subject = Subject.find_by id: params[:subject_id]
       if subject && subject.user == current_user
         test.subject = subject
@@ -17,6 +21,58 @@ class Api::TestsController < ApplicationController
       end
     else
       render json: {status: 6, error: "you don't have permissions"}
+    end
+  end
+
+  def test_variants_mode
+    if current_user.student? || current_user.elder?
+      test = Test.find params[:id]
+      if TestWatcher.find_by user_id: current_user[:id], test_id: params[:id]
+        render json: {status: 0, data: {started: true, name: test[:test_name]}}
+      else
+        test_variants(test)
+      end
+
+    end
+  end
+
+  def test_variants(test)
+    if test[:random_variant] || test[:variants_count] > 0
+      render json: {status: 0, data: {
+        variants: test[:random_variant] ? "random" : test[:variants_count],
+        name: test[:test_name],
+        time: test[:time]
+      }}
+    else
+      render json: {status: 16, error: "error"}, status: 400
+    end
+  end
+
+  def user_test
+    # TODO: test_id should be index in db
+    if !current_user.completed_tests.find_by(test_id: params[:id])
+      test_watcher = TestWatcher.find_by user_id: current_user[:id], test_id: params[:id]
+      test = Test.find params[:id]
+      variant = if test_watcher.nil?
+                  test_watcher = TestWatcher.new user_id: current_user[:id], test_id: params[:id]
+                  if test[:random_variant]
+                    test_watcher[:variant] = Random.rand 0..test[:variants_count] - 1
+                  else
+                    test_watcher[:variant] = params[:variant_number]
+                  end
+                else
+                  test_watcher[:variant].to_i
+                end
+      test_data = test[:test_data]['variants'][variant]
+
+      if test_data && test[:show_test] && current_user.group.subjects.ids.include?(test[:subject_id])
+        test_watcher.save! if test_watcher[:created_at].nil?
+        render json: {status: 0, test_data: test_data, test_type: test[:test_type], time: test[:time]}
+      else
+        render json: {status: 1, error: 'test not found'}, status: 404
+      end
+    else
+      render json: {status: 2, error: 'test completed'}, status: 400
     end
   end
 
@@ -108,23 +164,8 @@ class Api::TestsController < ApplicationController
     end
   end
 
-
-  def user_test
-    if !current_user.completed_tests.find_by(test_id: params[:id]) && params[:variant_number].class == Fixnum
-      test = Test.find params[:id]
-      test_data = test[:test_data]['variants'][params[:variant_number]]
-      if test_data && test[:show_test] && current_user.group.subjects.ids.include?(test[:subject_id])
-        render json: {status: 0, test_data: test_data, test_type: test[:test_type]}, status: 200
-      else
-        render json: {status: 1, error: 'test not found'}, status: 404
-      end
-    else
-      render json: {status: 2, error: 'test completed'}, status: 400
-    end
-  end
-
   def test_complete
-    render json: Test.complete_test(current_user, params[:id], params[:answers])
+    render json: Test.complete_test(current_user, params[:id], params[:answers], params[:send_mode])
   end
 
   def test_get_completed
@@ -132,10 +173,12 @@ class Api::TestsController < ApplicationController
       test = Test.find params[:test_id]
       student = User.find params[:user_id] if test
       if current_user.groups.ids.include? student.group[:id]
-        ct = CompletedTest.find_by test_id: params[:test_id], user_id: params[:user_id]
+        tw = TestWatcher.find_by user_id: params[:user_id], test_id: params[:test_id]
+        ct = CompletedTest.find_by user_id: params[:user_id], test_id: params[:test_id]
         render json: {status: 0, data: {
           test_name: test[:test_name],
           test_rate: ct[:test_rate],
+          time: (tw[:updated_at] - tw[:created_at]).round,
           first_complete: ct[:first_complete],
           answers: ct[:answers],
           test_type: ct[:test_type],

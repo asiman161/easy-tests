@@ -73,7 +73,7 @@ export class GroupsListComponent implements OnInit {
   }
 
   removeSubjectFromGroup(subject, groupId, groupName){
-    this._token.post(`group_subjects/${groupId}`, {subject_id: subject.id}).subscribe(res => {
+    this._token.delete(`group_subjects/${groupId}/${subject.id}`).subscribe(res => {
       this._toastr.success(`Предмет успешно удален из группы ${groupName}`, 'Успешно!');
       this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
     });

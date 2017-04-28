@@ -12,7 +12,7 @@ class Test < ApplicationRecord
       require 'yomu'
       test = Yomu.new File.open path
       test = test.text.split("\n")
-      test.reject! {|item| item.blank?}
+      test.reject! { |item| item.blank? }
       if test_type == WORK || test_type == TEST
         @user_test = self.parse_work test, variants_count
       else
@@ -34,7 +34,7 @@ class Test < ApplicationRecord
     end
   end
 
-  def self.complete_test(user, test_id, answers)
+  def self.complete_test(user, test_id, answers, send_mode)
     test = Test.find(test_id)
     if test[:test_type] == TEST
       @test_rate = self.check_test(test, answers)
@@ -45,10 +45,14 @@ class Test < ApplicationRecord
     completed_test.user = user
     completed_test.test = test
     completed_test[:test_type] = test[:test_type]
-    completed_test[:answers] = answers
-    completed_test[:variant] = 0
+    completed_test[:answers] = answers.map { |item| item.empty? ? '' : item.to_s}
 
-    if completed_test.save
+    completed_test[:variant] = 0
+    completed_test[:receive_manual] = send_mode
+
+    test_watcher = TestWatcher.find_by user_id: user[:id], test_id: test_id
+    test_watcher[:updated_at] = Time.now
+    if completed_test.save && test_watcher.save
       return {status: 0, rate: @test_rate}
     else
       return {status: 3, error: "can't save"}
@@ -61,9 +65,10 @@ class Test < ApplicationRecord
     test_questions = test[:test_data]['variants'][0]['questions']
     test_rate = 0
     test_questions.each_with_index do |q, i|
-      test_rate += 1 if q['question_right_answers'].sort == answers[i].sort
+      test_rate += 1 if !answers[i].empty? && q['question_right_answers'].sort == answers[i].sort
     end
     test_rate
+
   end
 
   #work_data = {
