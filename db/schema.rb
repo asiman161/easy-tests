@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428090630) do
+ActiveRecord::Schema.define(version: 20170428123035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,11 +23,12 @@ ActiveRecord::Schema.define(version: 20170428090630) do
     t.datetime "updated_at",                     null: false
     t.integer  "user_id",                        null: false
     t.integer  "test_id",                        null: false
+    t.text     "answers",                                     array: true
     t.integer  "test_type",      default: 0,     null: false
     t.integer  "variant",        default: 0,     null: false
     t.integer  "time",           default: 0,     null: false
     t.boolean  "receive_manual", default: true
-    t.text     "answers",                                     array: true
+    t.index ["user_id", "test_id"], name: "index_completed_tests_on_user_id_and_test_id", unique: true, using: :btree
   end
 
   create_table "groups", force: :cascade do |t|
@@ -35,8 +36,8 @@ ActiveRecord::Schema.define(version: 20170428090630) do
     t.integer  "group_age",  default: 0
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-    t.string   "key",        default: "0", null: false
     t.integer  "user_id",    default: 0,   null: false
+    t.string   "key",        default: "0", null: false
     t.index ["key"], name: "index_groups_on_key", unique: true, using: :btree
   end
 
@@ -76,10 +77,10 @@ ActiveRecord::Schema.define(version: 20170428090630) do
 
   create_table "test_watchers", force: :cascade do |t|
     t.string   "variant",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer  "user_id",    null: false
     t.integer  "test_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id", "test_id"], name: "index_test_watchers_on_user_id_and_test_id", unique: true, using: :btree
   end
 
@@ -90,13 +91,13 @@ ActiveRecord::Schema.define(version: 20170428090630) do
     t.integer  "user_id",                        null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "subject_id",                     null: false
-    t.string   "test_name",      default: "",    null: false
-    t.text     "answers"
-    t.integer  "test_type",      default: 0,     null: false
     t.integer  "time",           default: 0,     null: false
     t.boolean  "random_variant", default: false
     t.integer  "variants_count", default: 0,     null: false
+    t.string   "test_name",      default: "",    null: false
+    t.integer  "answers",                                     array: true
+    t.integer  "test_type",      default: 0,     null: false
+    t.integer  "subject_id",                     null: false
   end
 
   create_table "users", force: :cascade do |t|
