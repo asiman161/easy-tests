@@ -62,7 +62,6 @@ class Api::GroupsController < ApplicationController
     render json: {status: 0, data: groups}
   end
 
-
   def update
     if current_user.elder?
       #TODO: нужно ли записывать в группу id старосты? подумать
@@ -75,6 +74,19 @@ class Api::GroupsController < ApplicationController
       else
         render json: {status: 3, error: "can't save"}
       end
+    end
+  end
+
+  def get_group
+    if current_user.student? || current_user.elder?
+      gr = Group.find current_user[:group_id]
+      render json: {status: 0, data: {
+        students: User.where(group_id: current_user[:group_id])
+                    .select(:id, :first_name, :last_name, :patronymic, :role),
+        group_name: gr[:group_name],
+        group_age: gr[:group_age],
+        key: current_user.elder? ? gr[:key] : nil
+      }}
     end
   end
 
@@ -136,6 +148,8 @@ class Api::GroupsController < ApplicationController
         else
           render json: {status: 7, error: "you already have this teacher"}, status: 400
         end
+      else
+        render json: {status: 404}, status: 404
       end
     end
   end
