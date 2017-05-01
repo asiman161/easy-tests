@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getUserRole();
     this._sidebarEventsListener = this._sidebarEventsService.sidebarUpdate.subscribe((data: SidebarEvent) => {
       switch (data.target) {
         case 'update':
@@ -38,8 +39,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           break;
         case 'updateRole':
           this.userRole = data.data.role;
-          this._getSidebar(this.userRole);
-          this.setSidebarLinks(this.userRole);
+          this._setSidebarLinks(this.userRole);
           break;
         default:
           this.getUserRole(data.data.role);
@@ -51,20 +51,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this._sidebarEventsListener.unsubscribe();
   }
 
-  private getUserRole(data?) {
-    if (data && data.type === 'role') {
-      this.userRole = data.role;
-      this.setSidebarLinks(data.role);
+  private getUserRole(role?) {
+    if (role) {
+      this.userRole = role;
+      this._setSidebarLinks(role);
     } else {
-      this._token.validateToken().subscribe(() => {
-        let user: any = this._token.currentUserData;
-        this.userRole = user.role;
-        this.setSidebarLinks(user.role);
-      });
+      if (this._token.currentUserData) {
+        this.userRole = this._token.currentUserData.role;
+        this._setSidebarLinks(this.userRole);
+      } else {
+        this._token.validateToken().subscribe(() => {
+          this.userRole = this._token.currentUserData.role;
+          this._setSidebarLinks(this.userRole);
+        });
+      }
     }
   }
 
-  private setSidebarLinks(role: number) {
+  private _setSidebarLinks(role: number) {
     this._getSidebar(role);
     switch (role) {
       case 1 :

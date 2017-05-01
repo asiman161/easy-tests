@@ -64,7 +64,6 @@ export class ProfileComponent implements OnInit {
   saveProfile() {
     if (this.profileForm.valid) {
       this._token.patch('profiles', this.profileForm.value).subscribe((res: any) => {
-        console.log(this.profileForm.value);
         let role = parseInt(this.profileForm.value.user_role);
         this._toastr.success('Ваш профиль успешно обновлен', 'Успешно!');
         this._sidebarEventsService.sidebarUpdate.emit({target: 'updateRole', data: {role: role}});
