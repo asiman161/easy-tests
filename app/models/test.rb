@@ -35,9 +35,10 @@ class Test < ApplicationRecord
   end
 
   def self.complete_test(user, test_id, answers, send_mode)
-    test = Test.find(test_id)
+    test = Test.find test_id
+    test_watcher = TestWatcher.find_by user_id: user[:id] ,test_id: test_id
     if test[:test_type] == TEST
-      @test_rate = self.check_test(test, answers)
+      @test_rate = self.check_test(test, test_watcher, answers)
     else
       @test_rate = -1
     end
@@ -61,14 +62,13 @@ class Test < ApplicationRecord
 
   private
 
-  def self.check_test(test, answers)
-    test_questions = test[:test_data]['variants'][0]['questions']
+  def self.check_test(test, test_watcher, answers)
     test_rate = 0
-    test_questions.each_with_index do |q, i|
-      test_rate += 1 if !answers[i].empty? && q['question_right_answers'].sort == answers[i].sort
+    test_answers = test[:answers]['answers'][test_watcher[:variant]]
+    test_answers.each_with_index do |ta, i|
+      test_rate += 1 if (!answers[i].empty? && ta.sort == answers[i].sort) || (ta.empty? && answers[i].empty?)
     end
     test_rate
-
   end
 
   #work_data = {

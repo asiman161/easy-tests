@@ -10,6 +10,17 @@ class Api::TestsController < ApplicationController
       test[:test_data] = params[:test_data]
       test[:test_type] = params[:test_type]
       test[:variants_count] = params[:test_data][:variants].length
+      if test[:test_type] != 0
+        test[:answers] = {answers: params[:test_data][:variants].map do |v|
+          v[:questions].map {|q| q[:question_right_answers]}
+        end}
+        test[:test_data]['variants'] = params[:test_data][:variants].map do |v|
+          {questions: v[:questions].map do |q|
+            q.delete :question_right_answers
+            q
+          end}
+        end
+      end
 
       subject = Subject.find_by id: params[:subject_id]
       if subject && subject.user == current_user
@@ -49,7 +60,6 @@ class Api::TestsController < ApplicationController
   end
 
   def user_test
-    # TODO: test_id should be index in db
     if !current_user.completed_tests.find_by(test_id: params[:id])
       test_watcher = TestWatcher.find_by user_id: current_user[:id], test_id: params[:id]
       test = Test.find params[:id]
