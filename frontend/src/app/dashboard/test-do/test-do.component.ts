@@ -87,6 +87,8 @@ export class TestDoComponent implements OnInit, OnDestroy {
         if (this.testTime.min > 0) {
           this.testTime.sec = this.testTime.min * 60; // 1 minute has 60 seconds
           this.startTimer();
+        } else {
+          this.testTime.min = -1;
         }
       });
   }
