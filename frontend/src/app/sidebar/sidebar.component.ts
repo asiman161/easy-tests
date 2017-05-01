@@ -36,11 +36,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
             .users[indexes.userIndex]
             .test_rate = data.data.rate;
           break;
+        case 'updateRole':
+          this.userRole = data.data.role;
+          this._getSidebar(this.userRole);
+          this.setSidebarLinks(this.userRole);
+          break;
         default:
-          this.getUserRole(data);
+          this.getUserRole(data.data.role);
       }
     });
-    this.getUserRole();
   }
 
   ngOnDestroy(): void {

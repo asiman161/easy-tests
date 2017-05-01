@@ -1,4 +1,8 @@
 export interface SidebarEvent {
   target: string,
-  data?: any
+  data?: {
+    indexes?: any,
+    rate?: any,
+    role?: number
+  }
 }
