@@ -1,12 +1,20 @@
 <div *ngIf="!!user.group_id">
+  <div>Ваша группа: {{groupInfo.group_name}}</div>
+  <div>Ваш курс: {{groupInfo.group_age}}</div>
+  <div>
+    <span *ngIf="user.role === 1">Староста: {{elderName}}</span>
+    <span *ngIf="user.role === 2">Вы являетесь старостой данной группы</span>
+  </div>
+
   <div *ngIf="user.role === 2">
     <div>Вы можете обновить данные о вашей группе</div>
-    <div>
-      <form [formGroup]="groupNewInfo" novalidate (submit)="updateGroup(groupNewInfo)">
+    <div *ngIf="!editingGroup"><button (click)="groupNewInfo()">Обновить</button></div>
+    <div *ngIf="editingGroup">
+      <form [formGroup]="groupForm" novalidate (submit)="updateGroup(groupNewInfo)">
         <div>
           <label for="group-new-name">Новое имя</label>
           <input type="text" id="group-new-name" formControlName="group_name">
-          <small *ngIf="!groupNewInfo.controls.group_name.valid">
+          <small *ngIf="!groupForm.controls.group_name.valid">
             Название обязательно, 2+ символов
           </small>
         </div>
@@ -16,14 +24,18 @@
         </div>
         <div>
           <label>
-            <input type="checkbox" value="false" formControlName="reset_key">
+            <input type="checkbox" formControlName="reset_key">
             <span>Обновить ключ</span>
           </label>
         </div>
-        <button type="submit">Обновить</button>
+        <button type="submit">Сохранить</button>
+        <button type="button" (click)="editingGroup = false">Отмена</button>
       </form>
     </div>
-    <div>
+  </div>
+  <div>
+    <div>Список преподавателей<button *ngIf="user.role === 2 && !addingTeacher" (click)="addingTeacher = true">Добавить</button>:</div>
+    <div *ngIf="addingTeacher && user.role === 2">
       <form [formGroup]="newTeacher" (submit)="addTeacher(newTeacher)">
         <label for="teacher-key">Ключ преподавателя</label>
         <input type="text" id="teacher-key" formControlName="key">
@@ -31,21 +43,24 @@
           Ключ не может быть меньше 8 символов
         </small>
         <br>
-        <button type="submit">Добавить</button>
+        <button type="submit">Сохранить</button>
+        <button type="button" (click)="addingTeacher = false">Отмена</button>
       </form>
     </div>
-    <div>
-      <div>Список преподавателей</div>
-      <div *ngFor="let teacher of teachers">
-        <span>{{teacher.first_name}}</span>
-        <button (click)="deleteGroup(teacher.id)">Удалить</button>
-      </div>
+    <div *ngFor="let teacher of teachers; index as i">
+      <span>{{teacher.last_name}} {{teacher.first_name}} {{teacher.patronymic}}</span>
+      <button *ngIf="user.role === 2" (click)="deleteTeacher(teacher.id, i)">Удалить</button>
+    </div>
+  </div>
+  <div>
+
+    <div>Список студентов :</div>
+
+    <div *ngFor="let student of groupInfo.students; index as i">
+      <span>{{student.last_name}} {{student.first_name}} {{student.patronymic}}</span>
+      <button *ngIf="user.role === 2 && student.role !== 2" (click)="deleteStudent(student.id, i)">Удалить</button>
     </div>
 
-  </div>
-
-  <div *ngIf="user.role === 1">
-    ваша группа
   </div>
 </div>
 
