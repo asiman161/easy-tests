@@ -188,6 +188,7 @@ class Api::TestsController < ApplicationController
         render json: {status: 0, data: {
           test_name: test[:test_name],
           test_rate: ct[:test_rate],
+          test_time: test[:time],
           time: (tw[:updated_at] - tw[:created_at]).round,
           first_complete: ct[:first_complete],
           answers: ct[:answers],
