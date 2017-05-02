@@ -1,7 +1,11 @@
 <div *ngIf="testData">
   <div>
     <h1>{{testData.test_name}}</h1>
-    <div>Работа выполнена за:
+    <div>
+      <span>Выделено времени: {{testData.test_time}} мин.</span>
+    </div>
+    <div>
+      <span>Работа выполнена за:</span>
       <span *ngIf="minutes > 0">{{minutes}} мин.</span>
       <span *ngIf="seconds > 0">{{seconds}} сек.</span>
     </div>

@@ -76,6 +76,7 @@ export class GroupListComponent implements OnInit {
     if (form.valid) {
       this._token.post('add-teacher', form.value).subscribe(res => {
         this._toastr.success('Новый преподаватель добавлен', 'Успешно!');
+        this.addingTeacher = false;
         this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
       }, error => {
         if (error.status === 404) {

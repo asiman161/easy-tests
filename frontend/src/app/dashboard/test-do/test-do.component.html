@@ -22,7 +22,7 @@
 </div>
 
 <div *ngIf="!testPreparing">
-  <div>Осталось времени: {{testTime.min}} мин. {{testTime.sec % 60}} сек.</div>
+  <div *ngIf="testTime.min !== -1">Осталось времени: {{testTime.min}} мин. {{testTime.sec % 60}} сек.</div>
   <div *ngFor="let question of testData.questions;index as i">
     <div>Вопрос {{i + 1}}: {{question.question_text}}</div>
     <div *ngIf="testType === 0">

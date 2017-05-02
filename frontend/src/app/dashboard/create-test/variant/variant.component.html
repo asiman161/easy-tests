@@ -1,7 +1,7 @@
 <div [formGroup]="variantForm">
   <div class="form-group col-xs-6">
     <div formArrayName="questions">
-      <div *ngFor="let question of variantForm.controls.questions.controls; let i=index">
+      <div *ngFor="let question of variantForm.controls.questions.controls; index as i">
         <label>Вопрос № {{i + 1}}</label>
         <i class="fa fa-times" *ngIf="variantForm.controls.questions.controls.length > 1" (click)="removeQuestion(i)"
            aria-hidden="true"></i>
