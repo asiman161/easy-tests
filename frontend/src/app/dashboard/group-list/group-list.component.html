@@ -10,7 +10,7 @@
     <div>Вы можете обновить данные о вашей группе</div>
     <div *ngIf="!editingGroup"><button (click)="groupNewInfo()">Обновить</button></div>
     <div *ngIf="editingGroup">
-      <form [formGroup]="groupForm" novalidate (submit)="updateGroup(groupNewInfo)">
+      <form [formGroup]="groupForm" novalidate (submit)="updateGroup(groupForm)">
         <div>
           <label for="group-new-name">Новое имя</label>
           <input type="text" id="group-new-name" formControlName="group_name">

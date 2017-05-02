@@ -64,10 +64,9 @@ class Api::GroupsController < ApplicationController
 
   def update
     if current_user.elder?
-      #TODO: нужно ли записывать в группу id старосты? подумать
       group = current_user.group
       group[:group_name] = params[:group_name] if params[:group_name].length > 2
-      group[:group_age] = params[:group_age] if params[:group_age].length > 0
+      group[:group_age] = params[:group_age] unless params[:group_age].nil?
       group[:key] = generate_key if params[:reset_key]
       if group.save
         render json: {status: 0}

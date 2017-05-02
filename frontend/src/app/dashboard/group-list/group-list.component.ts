@@ -69,6 +69,8 @@ export class GroupListComponent implements OnInit {
       }, error => {
         this._toastr.error('Что-то пошло не так', 'Ошибка!');
       });
+    } else {
+      this._toastr.error('В форме присутствуют ошибки', 'Ошибка!');
     }
   }
 
