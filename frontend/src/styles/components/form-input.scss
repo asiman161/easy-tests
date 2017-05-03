@@ -1,0 +1,46 @@
+.form-group {
+  .form-control {
+    border-radius: 2px;
+    border: 1px solid $gray;
+    padding: .38em .75em;
+    &:focus {
+      outline: none;
+      border-color: $aquamarine;
+    }
+  }
+  &.has-error {
+    .form-control {
+      border-color: $light-red;
+      &:focus {
+        border-color: $aquamarine;
+      }
+    }
+    .error-message {
+      position: relative;
+      display: flex;
+      flex: 0 auto;
+      margin-left: 8px;
+      padding-top: .5em;
+      padding-bottom: .5em;
+      font-size: .75em;
+      color: $white;
+      border-radius: .33em;
+      background-color: $light-red;
+      &:after {
+        content: '';
+        display: block;
+        height: 0;
+        width: 0;
+        border-color: transparent #CE5454 transparent transparent;
+        border-style: solid;
+        border-width: .83em .75em;
+        position: absolute;
+        left: -1.25em;
+        top: 0.16em;
+      }
+    }
+  }
+  .error-message {
+    display: none;
+  }
+}

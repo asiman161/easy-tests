@@ -1,67 +1,97 @@
+<div class="page-title">
+  <h3>Профиль</h3>
+</div>
+<div>{{user.last_name}} {{user.first_name}} {{user.patronymic}}</div>
+<div *ngIf="user.role === 2 || user.role === 3">
+  <div>Ключ доступа: {{key}}</div>
+  <button (click)="resetKey()">Обновить ключ</button>
+</div>
 <div>
-  <h1>Профиль</h1>
-  <div>{{user.last_name}} {{user.first_name}} {{user.patronymic}}</div>
-  <div *ngIf="user.role === 2 || user.role === 3">
-    <div>Ключ доступа: {{key}}</div>
-    <button (click)="resetKey()">Обновить ключ</button>
-  </div>
-  <div><button (click)="editProfile()" *ngIf="user.role === 0 && !editingProfile">Заполнить профиль</button></div>
-  <div *ngIf="editingProfile">
-    <form [formGroup]="profileForm">
-      <div class="form-group">
-        <label>Фамилия*</label>
+  <button (click)="editProfile()" *ngIf="user.role === 0 && !editingProfile">Заполнить профиль</button>
+</div>
+<div *ngIf="editingProfile">
+  <form [formGroup]="profileForm">
+    <div class="form-group"
+         [class.has-error]="!profileForm.controls.last_name.valid && profileForm.controls.last_name.touched">
+      <label class="col-xs-12 col-sm-2">Фамилия*</label>
+      <div class="col-xs-12 col-sm-6">
         <input type="text" class="form-control" formControlName="last_name">
-        <small *ngIf="!profileForm.controls.last_name.valid">
-          Фамилия обязательна
-        </small>
       </div>
-      <div class="form-group">
-        <label>Имя*</label>
+      <div class="col-xs-12 col-sm-3 error-message">
+        Фамилия обязательна
+      </div>
+    </div>
+    <div class="form-group"
+         [class.has-error]="!profileForm.controls.first_name.valid && profileForm.controls.first_name.touched">
+      <label class="col-xs-12 col-sm-2">Имя*</label>
+      <div class="col-xs-12 col-sm-6">
         <input type="text" class="form-control" formControlName="first_name">
-        <small *ngIf="!profileForm.controls.first_name.valid">
-          Имя обязательно
-        </small>
       </div>
-      <div class="form-group">
-        <label>Отчество</label>
+      <div class="col-xs-12 col-sm-3 error-message">
+        Имя обязательно
+      </div>
+    </div>
+    <div class="form-group" [class.has-error]="!profileForm.controls.patronymic.valid
+    && profileForm.controls.patronymic.touched">
+      <label class="col-xs-12 col-sm-2">Отчество</label>
+      <div class="col-xs-12 col-sm-6">
         <input type="text" class="form-control" formControlName="patronymic">
-        <small *ngIf="!profileForm.controls.patronymic.valid">
-          Присутствуют недопустимые символы
-        </small>
       </div>
-      <div class="form-group">
-        <label><input type="radio" value="1" formControlName="user_role" (click)="setProfileForm(1)"><span>Студент</span></label><br>
-        <label><input type="radio" value="2" formControlName="user_role" (click)="setProfileForm(2)"><span>Староста</span></label><br>
-        <label><input type="radio" value="3" formControlName="user_role" (click)="setProfileForm(3)"><span>Преподаватель</span></label>
+      <div class="col-xs-12 col-sm-3 error-message">
+        Присутствуют недопустимые символы
       </div>
-      <div>
-        <div *ngIf="profileForm.value.user_role === '1'">
-          <label>Ключ группы*</label>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2">Кто вы?</label>
+      <div class="col-sm-6 radio_container pd-reset">
+        <label class="col-sm-3"><input type="radio" value="1" formControlName="user_role" (click)="setProfileForm(1)">
+          <span>Студент</span>
+        </label><br>
+        <label class="col-sm-3"><input type="radio" value="2" formControlName="user_role" (click)="setProfileForm(2)">
+          <span>Староста</span>
+        </label><br>
+        <label class="col-sm-3"><input type="radio" value="3" formControlName="user_role" (click)="setProfileForm(3)">
+          <span>Преподаватель</span>
+        </label>
+      </div>
+    </div>
+    <div>
+      <div class="form-group"
+           [class.has-error]="!profileForm.controls.group_key.valid && profileForm.controls.group_key.touched"
+           *ngIf="profileForm.value.user_role === '1'">
+        <label class="col-xs-12 col-sm-2">Ключ группы*</label>
+        <div class="col-xs-12 col-sm-3">
           <input type="text" class="form-control" formControlName="group_key">
-          <small *ngIf="!profileForm.controls.group_key.valid">
-            Необходимо указать ключ вашей группы
-          </small>
         </div>
-        <div *ngIf="profileForm.value.user_role === '2'">
-          <div>
-            <label>Имя группы*</label>
+        <div class="col-xs-12 col-sm-4 error-message">
+          Необходимо указать ключ вашей группы
+        </div>
+      </div>
+      <div *ngIf="profileForm.value.user_role === '2'">
+        <div class="form-group"
+             [class.has-error]="!profileForm.controls.group_name.valid && profileForm.controls.group_name.touched">
+          <label class="col-xs-12 col-sm-2">Имя группы*</label>
+          <div class="col-xs-12 col-sm-3">
             <input type="text" class="form-control" formControlName="group_name">
-            <small *ngIf="!profileForm.controls.group_name.valid">
-              Необходимо создать имя вашей группы
-            </small>
           </div>
-          <div>
-            <label>Курс</label>
+          <div class="col-xs-12 col-sm-3 error-message">
+            Необходимо создать имя вашей группы
+          </div>
+        </div>
+        <div class="form-group"
+             [class.has-error]="!profileForm.controls.group_age.valid && profileForm.controls.group_age.touched">
+          <label class="col-xs-2">Курс</label>
+          <div class="col-xs-12 col-sm-3">
             <input type="text" class="form-control" formControlName="group_age">
-            <small *ngIf="!profileForm.controls.group_age.valid">
-              не может быть больше 2 символов
-            </small>
+          </div>
+          <div class="col-xs-12 col-sm-4 error-message">
+            не может быть больше 2 символов
           </div>
         </div>
       </div>
-      <div>
-        <button (click)="saveProfile()">Сохранить</button>
-      </div>
-    </form>
-  </div>
+    </div>
+    <div>
+      <button (click)="saveProfile()">Сохранить</button>
+    </div>
+  </form>
 </div>

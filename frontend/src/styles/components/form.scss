@@ -1,0 +1,28 @@
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin: 0 -.5em .63em;
+  &_vertical {
+    flex-direction: column;
+  }
+  label {
+    text-align: right;
+  }
+}
+
+.form-control {
+  width: 100%;
+}
+
+@media #{$xs-screen} {
+  .form-group {
+
+    label {
+      text-align: left;
+    }
+  }
+}
+
+
+
