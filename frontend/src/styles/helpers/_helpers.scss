@@ -1,9 +1,17 @@
-.margin-reset {
+.mr-minus-05 {
   margin-right: -.5rem;
   margin-left: -.5rem;
 }
 
-.pd-reset {
+.mr-left-1 {
+  margin-left: 1em;
+}
+
+.mr-reset {
+  margin: 0!important;
+}
+
+.pd-reset-sides {
   padding-right: 0;
   padding-left: 0;
 }

@@ -13,79 +13,93 @@
   <form [formGroup]="profileForm">
     <div class="form-group"
          [class.has-error]="!profileForm.controls.last_name.valid && profileForm.controls.last_name.touched">
-      <label class="col-xs-12 col-sm-2">Фамилия*</label>
-      <div class="col-xs-12 col-sm-6">
-        <input type="text" class="form-control" formControlName="last_name">
-      </div>
-      <div class="col-xs-12 col-sm-3 error-message">
-        Фамилия обязательна
+      <div class="row">
+        <label class="col-xs-12 col-sm-2">Фамилия*</label>
+        <div class="col-xs-12 col-sm-6">
+          <input type="text" class="form-control" formControlName="last_name">
+        </div>
+        <div class="col-xs-12 col-sm-3 error-message">
+          Фамилия обязательна
+        </div>
       </div>
     </div>
     <div class="form-group"
          [class.has-error]="!profileForm.controls.first_name.valid && profileForm.controls.first_name.touched">
-      <label class="col-xs-12 col-sm-2">Имя*</label>
-      <div class="col-xs-12 col-sm-6">
-        <input type="text" class="form-control" formControlName="first_name">
-      </div>
-      <div class="col-xs-12 col-sm-3 error-message">
-        Имя обязательно
+      <div class="row">
+        <label class="col-xs-12 col-sm-2">Имя*</label>
+        <div class="col-xs-12 col-sm-6">
+          <input type="text" class="form-control" formControlName="first_name">
+        </div>
+        <div class="col-xs-12 col-sm-3 error-message">
+          Имя обязательно
+        </div>
       </div>
     </div>
     <div class="form-group" [class.has-error]="!profileForm.controls.patronymic.valid
     && profileForm.controls.patronymic.touched">
-      <label class="col-xs-12 col-sm-2">Отчество</label>
-      <div class="col-xs-12 col-sm-6">
-        <input type="text" class="form-control" formControlName="patronymic">
-      </div>
-      <div class="col-xs-12 col-sm-3 error-message">
-        Присутствуют недопустимые символы
+      <div class="row">
+        <label class="col-xs-12 col-sm-2">Отчество</label>
+        <div class="col-xs-12 col-sm-6">
+          <input type="text" class="form-control" formControlName="patronymic">
+        </div>
+        <div class="col-xs-12 col-sm-3 error-message">
+          Присутствуют недопустимые символы
+        </div>
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-2">Кто вы?</label>
-      <div class="col-sm-6 radio_container pd-reset">
-        <label class="col-sm-3"><input type="radio" value="1" formControlName="user_role" (click)="setProfileForm(1)">
-          <span>Студент</span>
-        </label><br>
-        <label class="col-sm-3"><input type="radio" value="2" formControlName="user_role" (click)="setProfileForm(2)">
-          <span>Староста</span>
-        </label><br>
-        <label class="col-sm-3"><input type="radio" value="3" formControlName="user_role" (click)="setProfileForm(3)">
-          <span>Преподаватель</span>
-        </label>
+      <div class="row">
+        <label class="col-sm-2">Кто вы?</label>
+        <div class="col-sm-6 radio_container pd-reset-sides">
+          <label class="col-sm-3"><input type="radio" value="1" formControlName="user_role" (click)="setProfileForm(1)">
+            <span>Студент</span>
+          </label><br>
+          <label class="col-sm-3"><input type="radio" value="2" formControlName="user_role" (click)="setProfileForm(2)">
+            <span>Староста</span>
+          </label><br>
+          <label class="col-sm-3"><input type="radio" value="3" formControlName="user_role" (click)="setProfileForm(3)">
+            <span>Преподаватель</span>
+          </label>
+        </div>
       </div>
     </div>
     <div>
       <div class="form-group"
            [class.has-error]="!profileForm.controls.group_key.valid && profileForm.controls.group_key.touched"
            *ngIf="profileForm.value.user_role === '1'">
-        <label class="col-xs-12 col-sm-2">Ключ группы*</label>
-        <div class="col-xs-12 col-sm-3">
-          <input type="text" class="form-control" formControlName="group_key">
-        </div>
-        <div class="col-xs-12 col-sm-4 error-message">
-          Необходимо указать ключ вашей группы
+        <div class="row">
+          <label class="col-xs-12 col-sm-2">Ключ группы*</label>
+          <div class="col-xs-12 col-sm-3">
+            <input type="text" class="form-control" formControlName="group_key">
+          </div>
+          <div class="col-xs-12 col-sm-4 error-message">
+            Необходимо указать ключ вашей группы
+          </div>
         </div>
       </div>
       <div *ngIf="profileForm.value.user_role === '2'">
         <div class="form-group"
              [class.has-error]="!profileForm.controls.group_name.valid && profileForm.controls.group_name.touched">
-          <label class="col-xs-12 col-sm-2">Имя группы*</label>
-          <div class="col-xs-12 col-sm-3">
-            <input type="text" class="form-control" formControlName="group_name">
-          </div>
-          <div class="col-xs-12 col-sm-3 error-message">
-            Необходимо создать имя вашей группы
+          <div class="row">
+            <label class="col-xs-12 col-sm-2">Имя группы*</label>
+            <div class="col-xs-12 col-sm-3">
+              <input type="text" class="form-control" formControlName="group_name">
+            </div>
+            <div class="col-xs-12 col-sm-3 error-message">
+              Необходимо создать имя вашей группы
+            </div>
           </div>
         </div>
         <div class="form-group"
              [class.has-error]="!profileForm.controls.group_age.valid && profileForm.controls.group_age.touched">
-          <label class="col-xs-2">Курс</label>
-          <div class="col-xs-12 col-sm-3">
-            <input type="text" class="form-control" formControlName="group_age">
-          </div>
-          <div class="col-xs-12 col-sm-4 error-message">
-            не может быть больше 2 символов
+          <div class="row">
+            <label class="col-xs-2">Курс</label>
+            <div class="col-xs-12 col-sm-3">
+              <input type="text" class="form-control" formControlName="group_age">
+            </div>
+            <div class="col-xs-12 col-sm-4 error-message">
+              не может быть больше 2 символов
+            </div>
           </div>
         </div>
       </div>

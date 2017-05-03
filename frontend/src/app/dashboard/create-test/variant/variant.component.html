@@ -1,12 +1,13 @@
 <div [formGroup]="variantForm">
-  <div class="form-group col-xs-6">
+  <div class="form-group col-xs-12">
     <div formArrayName="questions">
       <div *ngFor="let question of variantForm.controls.questions.controls; index as i">
-        <label>Вопрос № {{i + 1}}</label>
-        <i class="fa fa-times" *ngIf="variantForm.controls.questions.controls.length > 1" (click)="removeQuestion(i)"
-           aria-hidden="true"></i>
         <div [formGroupName]="i">
-          <et-question [group]="question" [testType]="testType"></et-question>
+          <et-question [group]="question"
+                       [testType]="testType"
+                       [questionIndex]="i"
+                       [questionsCount]="variantForm.controls.questions.controls.length"
+                       (removeQuestion)="removeQuestion($event)"></et-question>
         </div>
       </div>
       <button (click)="addQuestion()">добавить вопрос</button>
