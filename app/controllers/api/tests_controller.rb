@@ -77,7 +77,7 @@ class Api::TestsController < ApplicationController
 
       if test_data && test[:show_test] && current_user.group.subjects.ids.include?(test[:subject_id])
         test_watcher.save! if test_watcher[:created_at].nil?
-        render json: {status: 0, test_data: test_data, test_type: test[:test_type], time: test[:time]}
+        render json: {status: 0, test_data: test_data, test_type: test[:test_type], time: test[:time], variant: variant}
       else
         render json: {status: 1, error: 'test not found'}, status: 404
       end

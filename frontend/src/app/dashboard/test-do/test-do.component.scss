@@ -1,0 +1,23 @@
+.timer {
+  font-size: 1.25rem;
+  color: $light-gray;
+}
+
+.option {
+  margin-bottom: .5em;
+}
+
+.question-wrapper {
+  margin-bottom: .625em;
+}
+
+.question {
+  margin-bottom: .5em;
+}
+
+.answer {
+  margin-left: .5em;
+  & > div {
+    margin-bottom: .1em;
+  }
+}
