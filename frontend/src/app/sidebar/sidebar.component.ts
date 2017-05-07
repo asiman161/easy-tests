@@ -75,15 +75,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
       case 2 :
         this.sidebarLinks = [
           {name: 'Профиль', routeLink: '/profile'},
-          {name: 'Список группы', routeLink: '/group-list'},
-          {name: 'Работы', routeLink: '/'}
+          {name: 'Группа', routeLink: '/group-list'}
+          // {name: 'Работы', routeLink: '/'}
         ];
         break;
       case 3 :
         this.sidebarLinks = [
           {name: 'Профиль', routeLink: '/profile'},
           {name: 'Список групп', routeLink: '/groups-list'},
-          {name: 'Список студентов', routeLink: '/'},
+          // {name: 'Список студентов', routeLink: '/'},
           {name: 'Создание работы', routeLink: '/create-test'},
           {name: 'Список работ', routeLink: '/tests-list'},
           {name: 'Список предметов', routeLink: '/subjects-list'}

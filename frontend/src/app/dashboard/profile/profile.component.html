@@ -4,10 +4,10 @@
 <div>{{user.last_name}} {{user.first_name}} {{user.patronymic}}</div>
 <div *ngIf="user.role === 2 || user.role === 3">
   <div>Ключ доступа: {{key}}</div>
-  <button (click)="resetKey()">Обновить ключ</button>
+  <button class="btn btn-default" (click)="resetKey()">Обновить ключ</button>
 </div>
 <div>
-  <button (click)="editProfile()" *ngIf="user.role === 0 && !editingProfile">Заполнить профиль</button>
+  <button class="btn btn-default" (click)="editProfile()" *ngIf="user.role === 0 && !editingProfile">Заполнить профиль</button>
 </div>
 <div *ngIf="editingProfile">
   <form [formGroup]="profileForm">

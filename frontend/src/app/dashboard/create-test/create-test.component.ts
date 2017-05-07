@@ -54,7 +54,7 @@ export class CreateTestComponent implements OnInit {
     this.createWork = this._fb.group({
       subject_id: ['', Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
-      time: ['0', [Validators.required, Validators.pattern(/\d/)]],
+      time: ['0', [Validators.required, Validators.pattern(/^\d*$/)]],
       random_variant: false,
       variants: this._fb.array([
         this.initVariants()

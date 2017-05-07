@@ -1,7 +1,7 @@
 <div>Список групп:</div>
 <div *ngFor="let group of groups">
   <span>{{group.group_name}}</span>
-  <button (click)="deleteGroup(group.id)">Удалить</button>
+  <button class="btn btn-danger btn-xs" (click)="deleteGroup(group.id)">Удалить</button>
 
   <ng-select  [multiple]="true"
               [items]="subjects"

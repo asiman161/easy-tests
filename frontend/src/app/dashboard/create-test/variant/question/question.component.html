@@ -2,11 +2,11 @@
   <div class="form-group form-group_vertical"
        [class.has-error]="!questionForm.controls.question_text.valid && questionForm.controls.question_text.touched">
     <div class="row column">
-        <label>
-          <span>Вопрос № {{questionIndex + 1}}</span>
-          <i class="fa fa-times" *ngIf="questionsCount > 1" (click)="removeQuestionIndex(questionIndex)"
-             aria-hidden="true"></i>
-        </label>
+      <label>
+        <span>Вопрос № {{questionIndex + 1}}</span>
+        <i class="fa fa-times" *ngIf="questionsCount > 1" (click)="removeQuestionIndex(questionIndex)"
+           aria-hidden="true"></i>
+      </label>
       <textarea class="form-control" rows="3" formControlName="question_text"></textarea>
       <div class="error-message" [hidden]="questionForm.controls.question_text.valid">
         Вопрос обязателен
@@ -14,12 +14,13 @@
     </div>
   </div>
   <div class="mr-left-1" formArrayName="question_answers" *ngIf="testType === 1">
-    <div *ngFor="let answer of questionForm.controls.question_answers.controls; index as i">
-        <et-answer [group]="questionForm.controls.question_answers.controls[i]"
-                   [answerIndex]="i"
-                   [answersCount]="questionForm.controls.question_answers.controls.length"
-                   (removeAnswer)="removeAnswer($event)"></et-answer>
+    <div class="mr-bottom-05" *ngFor="let answer of questionForm.controls.question_answers.controls; index as i">
+      <et-answer [group]="questionForm.controls.question_answers.controls[i]"
+                 [answerIndex]="i"
+                 [answersCount]="questionForm.controls.question_answers.controls.length"
+                 (removeAnswer)="removeAnswer($event)"></et-answer>
+      <button class="btn btn-default btn-sm mr-minus-05" (click)="addAnswer()">добавить ответ</button>
     </div>
-    <button (click)="addAnswer()">добавить ответ</button>
+
   </div>
 </div>
