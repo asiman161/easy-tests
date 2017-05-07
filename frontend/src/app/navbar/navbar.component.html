@@ -5,7 +5,9 @@
         <div class="navbar-open md-hide lg-hide" (click)="showSidebar()">
           <i class="fa fa-bars"></i>
         </div>
-        <div class="navbar-logo"><h2>navbar</h2></div>
+        <div class="navbar-logo">
+          <a routerLink="/feedback">обратная связь</a>
+        </div>
         <div class="navbar-profile">
           <button (click)="signOut()">sign out</button>
           <a routerLink="/auth">to auth</a>

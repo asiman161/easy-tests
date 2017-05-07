@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
 
   namespace :api do
+    post 'feedback', to: 'feedbacks#new'
     post 'uploads', to: 'uploads#file_upload'
     post 'create-test', to: 'tests#new'
     get 'user-tests', to: 'tests#user_tests'
