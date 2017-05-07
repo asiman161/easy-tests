@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_many :test_watchers
   has_many :rates
   has_many :completed_tests
+  has_many :feedbacks
 
   def student?
     role == STUDENT

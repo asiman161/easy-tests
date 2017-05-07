@@ -1,66 +1,91 @@
-<div style="background-color: white;">
-  <h1>create test</h1>
-  <input type="file"
-         *ngIf="userIdLoaded"
-         ngFileSelect
-         [options]="options"
-         (onUpload)="handleUpload($event)"
-  >
-  <ul>
-    <li>
-      <label>
-        <input type="radio" name="test_type" (change)="changeTestType(1)" checked>
-        тест
+<div class="page-title">
+  <h3>Создание работы</h3>
+</div>
+<!--<input type="file"
+       *ngIf="userIdLoaded"
+       ngFileSelect
+       [options]="options"
+       (onUpload)="handleUpload($event)"
+>-->
+
+<div class="form-group">
+  <div class="row">
+    <label class="col-sm-2">Тип работы:</label>
+    <div class="col-sm-6 radio_container pd-reset-sides">
+      <label class="col-sm-3"><input type="radio" name="test_type" (change)="changeTestType(1)" checked>
+        <span>Тест</span>
+      </label><br>
+      <label class="col-sm-3"><input type="radio" name="test_type" (change)="changeTestType(0)">
+        <span>Контрольная</span>
       </label>
-    </li>
-    <li>
-      <label>
-        <input type="radio" name="test_type" (change)="changeTestType(0)">
-        контрольная
-      </label>
-    </li>
-  </ul>
-  <ng-select [items]="subjects"
-             (selected)="setSubject($event)"
-             #select
-             placeholder="Не выбран предмет"></ng-select>
-  <form [formGroup]="createWork" novalidate style="margin-top: 100px;">
-    <div class="form-group">
-      <label>Название</label>
-      <input type="text" class="form-control" formControlName="title">
-      <small *ngIf="!createWork.controls.title.valid">
-        Название обязательно, 5+ символов
-      </small>
     </div>
-    <div>
-      <div class="form-group">
-        <label>Время(минуты)</label>
-        <input type="text" class="form-control" formControlName="time">
-        <small *ngIf="!createWork.controls.time.valid">
-          Поле обязательно и содержит только цифры
-        </small>
+  </div>
+</div>
+
+<div style="display: flex;">
+  <!--TODO: remove inline styles-->
+  <label class="col-sm-2"
+         style="padding-right: 0.85em;
+         margin-right:0.125em;
+         text-align: right;">Предмет:</label>
+  <div class="col-sm-6 pd-reset-sides mr-bottom-05">
+    <ng-select
+      [items]="subjects"
+      (selected)="setSubject($event)"
+      #select
+      placeholder="Не выбран предмет"></ng-select>
+  </div>
+</div>
+
+
+<form class="mr-bottom-05" [formGroup]="createWork" novalidate>
+  <div class="form-group"
+       [class.has-error]="!createWork.controls.title.valid && createWork.controls.title.touched">
+    <div class="row">
+      <label class="col-xs-12 col-sm-2">Название</label>
+      <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" formControlName="title">
+      </div>
+      <div class="col-xs-12 col-sm-3 error-message" >
+        Название обязательно, 5+ символов
       </div>
     </div>
-    <div>
-      <div class="form-group">
-        <label>
-          <input type="checkbox" class="form-control" formControlName="random_variant">
-          <span>Случайный вариант</span>
+  </div>
+  <div>
+    <div class="form-group"
+         [class.has-error]="!createWork.controls.time.valid && createWork.controls.time.touched">
+      <div class="row">
+        <label class="col-xs-12 col-sm-2">Время(минуты)</label>
+        <div class="col-xs-12 col-sm-6">
+          <input type="text" class="form-control" formControlName="time">
+        </div>
+        <div class="col-xs-12 col-sm-3 error-message">
+          Поле обязательно и содержит только цифры
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="form-group">
+      <div class="row">
+        <label class="col-xs-12 form-label_left">
+          <span class="col-xs-8 col-sm-2 pd-reset-sides">Случайный вариант:</span>
+          <input type="checkbox" class="col-xs-1" formControlName="random_variant">
         </label>
       </div>
     </div>
-    <div formArrayName="variants">
-      <div *ngFor="let variant of createWork.controls.variants.controls; index as i;last as last">
-        <span>Вариант № {{i + 1}}</span>
-        <i class="fa fa-times" *ngIf="createWork.controls.variants.controls.length > 1" (click)="removeVariant(i)"
-           aria-hidden="true"></i>
-        <div [formGroupName]="i">
-          <et-variant [group]="variant" [testType]="testType"></et-variant>
-        </div>
-        <button *ngIf="last" (click)="addVariant()">Добавить вариант</button>
+  </div>
+  <div formArrayName="variants">
+    <div *ngFor="let variant of createWork.controls.variants.controls; index as i;last as last">
+      <span>Вариант № {{i + 1}}</span>
+      <i class="fa fa-times" *ngIf="createWork.controls.variants.controls.length > 1" (click)="removeVariant(i)"
+         aria-hidden="true"></i>
+      <div class="left-border" [formGroupName]="i">
+        <et-variant [group]="variant" [testType]="testType"></et-variant>
       </div>
+      <button class="btn btn-default btn-sm" *ngIf="last" (click)="addVariant()">Добавить вариант</button>
     </div>
-  </form>
+  </div>
+</form>
 
-  <button (click)="save()">Сохранить</button>
-</div>
+<button class="btn btn-success btn-sm" (click)="save()">Сохранить</button>

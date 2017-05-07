@@ -1,9 +1,22 @@
 <div [formGroup]="answerForm">
-  <label>
-    <input type="checkbox" (change)="setAnswerIndex()">
-  </label>
-  <input type="text" formControlName="answer">
-  <small [hidden]="answerForm.controls.answer.valid" class="text-danger">
-    Ответ обязателен
-  </small>
+  <div class="form-group form-group_vertical"
+       [class.has-error]="answerForm.controls.answer.touched && !answerForm.controls.answer.valid">
+    <div class="row column">
+      <div>
+        <label>ответ № {{answerIndex + 1}}</label>
+        <i class="fa fa-times" *ngIf="answersCount > 1" (click)="removeAnswerIndex(i)"
+           aria-hidden="true"></i>
+      </div>
+      <div class="row middle-sm mr-reset">
+        <input type="text" class="col-xs-12 col-sm-8 form-control" formControlName="answer">
+        <label class="col-xs-12 col-sm-2 mr-reset">
+          <input type="checkbox" (change)="setAnswerIndex()"> верно
+        </label>
+      </div>
+      <div class="error-message">
+        Ответ обязателен
+      </div>
+
+    </div>
+  </div>
 </div>

@@ -1,3 +1,6 @@
+<div class="page-title">
+  <h3>Группа</h3>
+</div>
 <div *ngIf="!!user.group_id">
   <div>Ваша группа: {{groupInfo.group_name}}</div>
   <div>Ваш курс: {{groupInfo.group_age}}</div>
@@ -8,19 +11,30 @@
 
   <div *ngIf="user.role === 2">
     <div>Вы можете обновить данные о вашей группе</div>
-    <div *ngIf="!editingGroup"><button (click)="groupNewInfo()">Обновить</button></div>
+    <div *ngIf="!editingGroup">
+      <button class="btn btn-default btn-xs" (click)="groupNewInfo()">Обновить</button>
+    </div>
     <div *ngIf="editingGroup">
       <form [formGroup]="groupForm" novalidate (submit)="updateGroup(groupForm)">
-        <div>
-          <label for="group-new-name">Новое имя</label>
-          <input type="text" id="group-new-name" formControlName="group_name">
-          <small *ngIf="!groupForm.controls.group_name.valid">
-            Название обязательно, 2+ символов
-          </small>
+        <div class="form-group"
+             [class.has-error]="!groupForm.controls.group_name.valid && groupForm.controls.group_name.touched">
+          <div class="row">
+            <label class="col-xs-12 col-sm-2">Имя*</label>
+            <div class="col-xs-12 col-sm-6">
+              <input type="text" class="form-control" formControlName="group_name">
+            </div>
+            <div class=" col-xs-12 col-sm-3 error-message">
+              Название обязательно, 2+ символов
+            </div>
+          </div>
         </div>
-        <div>
-          <label for="group-new-age">Курс</label>
-          <input type="text" id="group-new-age" formControlName="group_age">
+        <div class="form-group">
+          <div class="row">
+            <label class="col-xs-12 col-sm-2">Курс</label>
+            <div class="col-xs-12 col-sm-6">
+              <input type="text" class="form-control" formControlName="group_age">
+            </div>
+          </div>
         </div>
         <div>
           <label>
@@ -28,28 +42,44 @@
             <span>Обновить ключ</span>
           </label>
         </div>
-        <button type="submit">Сохранить</button>
-        <button type="button" (click)="editingGroup = false">Отмена</button>
+        <div class="mr-top-05 mr-bottom-05">
+          <button class="btn btn-success btn-sm" type="submit">Сохранить</button>
+          <button class="btn btn-danger btn-sm" type="button" (click)="editingGroup = false">Отмена</button>
+        </div>
       </form>
     </div>
   </div>
   <div>
-    <div>Список преподавателей<button *ngIf="user.role === 2 && !addingTeacher" (click)="addingTeacher = true">Добавить</button>:</div>
+    <div>Список преподавателей
+      <button class="btn btn-default btn-xs" *ngIf="user.role === 2 && !addingTeacher" (click)="addingTeacher = true">
+        Добавить
+      </button>
+      :
+    </div>
     <div *ngIf="addingTeacher && user.role === 2">
       <form [formGroup]="newTeacher" (submit)="addTeacher(newTeacher)">
-        <label for="teacher-key">Ключ преподавателя</label>
-        <input type="text" id="teacher-key" formControlName="key">
-        <small *ngIf="!newTeacher.controls.key.valid">
-          Ключ не может быть меньше 8 символов
-        </small>
-        <br>
-        <button type="submit">Сохранить</button>
-        <button type="button" (click)="addingTeacher = false">Отмена</button>
+        <div class="form-group"
+             [class.has-error]="!newTeacher.controls.key.valid && newTeacher.controls.key.touched">
+          <div class="row">
+            <label class="col-xs-12 col-sm-2">Ключ преподавателя</label>
+            <div class="col-xs-12 col-sm-6">
+              <input type="text" class="form-control" formControlName="key">
+            </div>
+            <div class="col-xs-12 col-sm-3 error-message">
+              Ключ не может быть меньше 8 или больше 9 символов
+            </div>
+          </div>
+        </div>
+        <div class="mr-top-05 mr-bottom-05">
+          <button class="btn btn-success btn-sm" type="submit">Сохранить</button>
+          <button class="btn btn-danger btn-sm" type="button" (click)="addingTeacher = false">Отмена</button>
+        </div>
       </form>
     </div>
     <div *ngFor="let teacher of teachers; index as i">
       <span>{{teacher.last_name}} {{teacher.first_name}} {{teacher.patronymic}}</span>
-      <button *ngIf="user.role === 2" (click)="deleteTeacher(teacher.id, i)">Удалить</button>
+      <button class="btn btn-danger btn-xs" *ngIf="user.role === 2" (click)="deleteTeacher(teacher.id, i)">Удалить
+      </button>
     </div>
   </div>
   <div>
@@ -58,7 +88,9 @@
 
     <div *ngFor="let student of groupInfo.students; index as i">
       <span>{{student.last_name}} {{student.first_name}} {{student.patronymic}}</span>
-      <button *ngIf="user.role === 2 && student.role !== 2" (click)="deleteStudent(student.id, i)">Удалить</button>
+      <button class="btn btn-danger btn-xs" *ngIf="user.role === 2 && student.role !== 2"
+              (click)="deleteStudent(student.id, i)">Удалить
+      </button>
     </div>
 
   </div>
@@ -75,7 +107,7 @@
           Ключ обязателен, 8+ символов
         </small>
       </div>
-      <button type="submit">Создать</button>
+      <button class="btn btn-success" type="submit">Создать</button>
     </form>
   </div>
 </div>

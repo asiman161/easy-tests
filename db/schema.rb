@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501233423) do
+ActiveRecord::Schema.define(version: 20170507161436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,9 +31,17 @@ ActiveRecord::Schema.define(version: 20170501233423) do
     t.index ["user_id", "test_id"], name: "index_completed_tests_on_user_id_and_test_id", unique: true, using: :btree
   end
 
+  create_table "feedbacks", force: :cascade do |t|
+    t.text     "description", null: false
+    t.text     "message",     null: false
+    t.integer  "user_id",     null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "groups", force: :cascade do |t|
     t.string   "group_name",               null: false
-    t.integer  "group_age",  default: 0
+    t.integer  "group_age",  default: 1
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.integer  "user_id",    default: 0,   null: false

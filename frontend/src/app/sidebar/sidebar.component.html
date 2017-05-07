@@ -1,12 +1,12 @@
 <section class="sidebar row">
   <div class="col-xs-12">
-    <ul class="list list_clickable margin-reset">
+    <ul class="list list_clickable mr-minus-05">
       <li routerLink="{{link.routeLink}}" class="list__item" *ngFor="let link of sidebarLinks">
         {{link.name}}
       </li>
     </ul>
     <div class="li-separator"></div>
-    <ul class="list list_clickable multi-levels margin-reset" *ngIf="sidebarTestsList && userRole === 3">
+    <ul class="list list_clickable multi-levels mr-minus-05" *ngIf="sidebarTestsList && userRole === 3">
       <li class="list__item active"  *ngFor="let testList of sidebarTestsList.tests; index as i">
         <div class="multi-levels__main-item" (click)="testList.expanded = !testList.expanded">{{testList.group_name}}</div>
         <ul class="list" *ngIf="testList.expanded">
@@ -30,7 +30,7 @@
       </li>
     </ul>
 
-    <ul class="list list_clickable multi-levels margin-reset" *ngIf="userRole === 1 || userRole === 2">
+    <ul class="list list_clickable multi-levels mr-minus-05" *ngIf="userRole === 1 || userRole === 2">
       <li class="list__item active">
         <div class="multi-levels__main-item"
              (click)="expandedLists.currentTasks = !expandedLists.currentTasks">Текущие</div>
@@ -47,7 +47,7 @@
       </li>
     </ul>
 
-    <ul class="list list_clickable multi-levels margin-reset" *ngIf="userRole === 1 || userRole === 2">
+    <ul class="list list_clickable multi-levels mr-minus-05" *ngIf="userRole === 1 || userRole === 2">
       <li class="list__item active">
         <div class="multi-levels__main-item"
              (click)="expandedLists.completedTasks = !expandedLists.completedTasks">Выполненные</div>

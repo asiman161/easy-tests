@@ -1,21 +1,30 @@
-<div>Список предметов:</div>
+<div class="page-title">
+  <h3>Список предметов</h3>
+</div>
 <ul>
   <li *ngFor="let subject of subjects">
     <span>{{subject.subject_name}}</span>
-    <button (click)="deleteSubject(subject.id)">удалить</button>
+    <button class="btn btn-danger btn-xs" (click)="deleteSubject(subject.id)">удалить</button>
   </li>
 </ul>
-<div>
-  <button (click)="createSubject()" *ngIf="!creatingSubject">Создать предмет</button>
+<div class="mr-top-05">
+  <button class="btn btn-default btn-sm" (click)="createSubject()" *ngIf="!creatingSubject">Создать предмет</button>
 </div>
-<div *ngIf="creatingSubject">
+<div class="mr-top-05" *ngIf="creatingSubject">
   <form [formGroup]="createSubjectForm" novalidate (submit)="saveSubject(createSubjectForm)">
-    <label>Название</label>
-    <input type="text" class="form-control" formControlName="subject_name">
-    <small *ngIf="!createSubjectForm.controls.subject_name.valid">
-      Название обязательно, 2 или более символов
-    </small>
-    <button type="button" (click)="creatingSubject = !creatingSubject">Отмена</button>
-    <button type="submit">Добавить</button>
+    <div class="form-group"
+         [class.has-error]="!createSubjectForm.controls.subject_name.valid && createSubjectForm.controls.subject_name.touched">
+      <div class="row">
+        <label class="col-xs-12 col-sm-2">Название</label>
+        <div class="col-xs-12 col-sm-6">
+          <input type="text" class="form-control" formControlName="subject_name">
+        </div>
+        <div class="col-xs-12 col-sm-3 error-message">
+          Название обязательно, 2 или более символов
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-success btn-sm mr-right-05" type="submit">Добавить</button>
+    <button class="btn btn-danger btn-sm" type="button" (click)="creatingSubject = !creatingSubject">Отмена</button>
   </form>
 </div>

@@ -1,0 +1,11 @@
+.form-group {
+  .form-control {
+    border-radius: 2px;
+    border: 1px solid $gray;
+    padding: .38em .75em;
+    &:focus {
+      outline: none;
+      border-color: $aquamarine;
+    }
+  }
+}

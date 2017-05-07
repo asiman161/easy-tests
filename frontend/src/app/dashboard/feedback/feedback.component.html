@@ -1,0 +1,30 @@
+<div class="page-title">
+  <h3>Обратная связь</h3>
+</div>
+<form [formGroup]="feedbackForm" (submit)="leftFeedback()">
+  <div class="form-group"
+       [class.has-error]="!feedbackForm.controls.description.valid && feedbackForm.controls.description.touched">
+    <div class="row">
+      <label class="col-xs-12 col-sm-2">Тема*</label>
+      <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" formControlName="description">
+      </div>
+      <div class="col-xs-12 col-sm-3 error-message">
+        Это обязательное поле
+      </div>
+    </div>
+  </div>
+  <div class="form-group"
+       [class.has-error]="!feedbackForm.controls.message.valid && feedbackForm.controls.message.touched">
+    <div class="row">
+      <label class="col-xs-12 col-sm-2">Название</label>
+      <div class="col-xs-12 col-sm-6">
+        <textarea rows="3" class="form-control" formControlName="message"></textarea>
+      </div>
+      <div class="col-xs-12 col-sm-3 error-message">
+        Это обязательное поле
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success btn-sm">Отправить</button>
+</form>

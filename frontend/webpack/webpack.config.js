@@ -14,8 +14,7 @@ const rootPath = path.resolve(__dirname, '../..'),
   outputPath = path.resolve(rootPath, 'public'),
   sassPath = path.resolve(frontendPath, 'styles'),
   sassResourcesPath = [
-     path.resolve(sassPath, 'helpers/_variables.scss'),
-     path.resolve(sassPath, 'helpers/_helpers.scss'),
+     path.resolve(sassPath, 'helpers/_variables.scss')
   ];
 
 

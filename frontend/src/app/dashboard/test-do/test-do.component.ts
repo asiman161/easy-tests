@@ -11,7 +11,8 @@ import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
   selector: 'et-test-do',
-  templateUrl: './test-do.component.html'
+  templateUrl: './test-do.component.html',
+  styleUrls: ['./test-do.component.scss']
 })
 export class TestDoComponent implements OnInit, OnDestroy {
   public testPreparing: boolean = true;
@@ -20,7 +21,8 @@ export class TestDoComponent implements OnInit, OnDestroy {
   public testName: string = '';
   public testData: any = {};
   public timer: any;
-  public testTime: any = {min: 0, sec: 0};
+  public testTime: any = {min: undefined, sec: undefined};
+  public variant: number;
   public variants: any;
   public variantsSelect: any;
   public variantSelected: string;
@@ -73,6 +75,7 @@ export class TestDoComponent implements OnInit, OnDestroy {
         let parsedData = JSON.parse(res._body);
         this.testType = parsedData.test_type;
         this.testData = parsedData.test_data;
+        this.variant = parsedData.variant;
         this.testTime.min = parsedData.time;
         if (this.testType === 0) {
           this.workForm = this._fb.group({

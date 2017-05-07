@@ -1,7 +1,18 @@
-<h1>Работа: {{testName}}</h1>
+<div class="page-title">
+  <h3>
+    <span>{{testName}}</span>
+    <span class="timer" *ngIf="testTime.min !== -1 && !!testTime.min">
+      Осталось: {{testTime.min}} мин. {{testTime.sec % 60}} сек.
+    </span>
+  </h3>
+</div>
 <div *ngIf="testPreparing && !started">
-  <div *ngIf="variants === 'random' && testTime.min > 0">На данную работу отведено {{testTime.min}} мин. Вы получите случайный вариант.</div>
-  <div *ngIf="variants === 'random' && testTime.min === 0">На данную работу нет лимита по времени. Вы получите случайный вариант.</div>
+  <div *ngIf="variants === 'random' && testTime.min > 0">На данную работу отведено {{testTime.min}} мин. Вы получите
+    случайный вариант.
+  </div>
+  <div *ngIf="variants === 'random' && testTime.min === 0">На данную работу нет лимита по времени. Вы получите случайный
+    вариант.
+  </div>
   <div *ngIf="variants > 0">
     <div *ngIf="testTime.min > 0">На данную работу отведено {{testTime.min}} мин. Ваш вариант:</div>
     <div *ngIf="testTime.min === 0">На данную работу нет лимита по времени. Ваш вариант:</div>
@@ -18,28 +29,30 @@
 
 <div *ngIf="started">
   <div>Вы готовы продолжить?</div>
-  <button (click)="getTest()">Продолжить</button>
+  <button class="btn btn-success mr-top-05" (click)="getTest()">Продолжить</button>
 </div>
 
 <div *ngIf="!testPreparing">
-  <div *ngIf="testTime.min !== -1">Осталось времени: {{testTime.min}} мин. {{testTime.sec % 60}} сек.</div>
-  <div *ngFor="let question of testData.questions;index as i">
-    <div>Вопрос {{i + 1}}: {{question.question_text}}</div>
-    <div *ngIf="testType === 0">
-      <form [formGroup]="workForm">
-        <div formArrayName="answers">
-          <div [formGroupName]="i">
-            <textarea formControlName="answer"></textarea>
+  <div class="option">Вариант: {{variant + 1}}</div>
+  <div class="left-border">
+    <div class="question-wrapper" *ngFor="let question of testData.questions; index as i">
+      <div class="question">Вопрос {{i + 1}}: {{question.question_text}}</div>
+      <div class="answer" *ngIf="testType === 0">
+        <form class="form-group" [formGroup]="workForm">
+          <div formArrayName="answers">
+            <div [formGroupName]="i">
+              <textarea class="form-control" rows="3" formControlName="answer"></textarea>
+            </div>
           </div>
+        </form>
+      </div>
+      <div class="answer" *ngIf="testType === 1">
+        <div *ngFor="let questionAnswer of question.question_answers; index as j">
+          <label>
+            <input type="checkbox" (change)="setAnswer(i, j)">
+            {{questionAnswer.answer}}
+          </label>
         </div>
-      </form>
-    </div>
-    <div *ngIf="testType === 1">
-      <div *ngFor="let questionAnswer of question.question_answers; let j=index">
-        <label>
-          <input type="checkbox" (change)="setAnswer(i, j)">
-          {{questionAnswer.answer}}
-        </label>
       </div>
     </div>
   </div>
