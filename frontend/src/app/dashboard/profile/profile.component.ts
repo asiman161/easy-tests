@@ -64,9 +64,11 @@ export class ProfileComponent implements OnInit {
   saveProfile() {
     if (this.profileForm.valid) {
       this._token.patch('profiles', this.profileForm.value).subscribe((res: any) => {
-        let role = parseInt(this.profileForm.value.user_role);
-        this._toastr.success('Ваш профиль успешно обновлен', 'Успешно!');
-        this._sidebarEventsService.sidebarUpdate.emit({target: 'updateRole', data: {role: role}});
+        this._token.validateToken().subscribe(() => {
+          let role = this._token.currentUserData.role;
+          this._toastr.success('Ваш профиль успешно обновлен', 'Успешно!');
+          this._sidebarEventsService.sidebarUpdate.emit({target: 'updateRole', data: {role: role}});
+        });
       }, error => {
         this._toastr.error('Что-то пошло не так', 'Ошибка!');
       });

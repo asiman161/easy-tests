@@ -1,7 +1,7 @@
 <div class="page-title">
   <h3>
     <span>{{testName}}</span>
-    <span class="timer" *ngIf="testTime.min !== -1 && !!testTime.min">
+    <span class="timer" *ngIf="!testPreparing && testTime.min !== -1">
       Осталось: {{testTime.min}} мин. {{testTime.sec % 60}} сек.
     </span>
   </h3>

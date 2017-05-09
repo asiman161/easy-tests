@@ -1,29 +1,44 @@
 <div *ngIf="testData">
   <div>
-    <h1>{{testData.test_name}}</h1>
-    <div>
-      <span>Выделено времени: {{testData.test_time}} мин.</span>
+    <div class="page-title">
+      <h3>{{testData.test_name}}</h3>
     </div>
     <div>
+      <span>Выделено времени: {{testData.test_time === 0 ? 'нет лимита времени': testData.test_time + 'мин.'}}</span>
+      <span *ngIf="">{{testData.test_time}} мин.</span>
+    </div>
+    <div *ngIf="testData.test_time !== 0">
       <span>Работа выполнена за:</span>
       <span *ngIf="minutes > 0">{{minutes}} мин.</span>
       <span *ngIf="seconds > 0">{{seconds}} сек.</span>
     </div>
+    <div>
+      <span>Вариант: {{testData.variant}}</span>
+    </div>
   </div>
-  <div *ngFor="let question of testData.questions; index as i">
-    <span>вопрос {{i + 1}}: {{question.question_text}}</span>
-    <p>{{testData.answers[i]}}</p>
+  <div *ngIf="testData.type === 0">
+    <div class="left-border" *ngFor="let question of testData.questions; index as i">
+      <span>вопрос {{i + 1}}: {{question.question_text}}</span>
+      <br>
+      <span>Ответ: {{testData.answers[i]}}</span>
+    </div>
+    <div>
+      <form [formGroup]="rateForm" (submit)="saveRate()">
+        <div class="form-group form-group_vertical col-xs-12 col-sm-6"
+        [class.has-error]="rateForm.controls.rate.touched && !rateForm.controls.rate.valid">
+          <label>Оценка</label>
+          <input type="text" class="form-control" formControlName="rate">
+          <div class="error-message">
+            Можно использовать только буквы A-Z или число от 1 до 99
+          </div>
+        </div>
+        <div>
+          <button class="btn btn-success btn-sm" type="submit">Поставить оценку</button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div>
-    <form [formGroup]="rateForm" (submit)="saveRate()">
-      <label>Оценка</label>
-      <input type="text" formControlName="rate">
-      <small *ngIf="!rateForm.controls.rate.valid">
-        Можно использовать только буквы A-Z или число от 1 до 99
-      </small>
-      <div>
-        <button type="submit">Поставить оценку</button>
-      </div>
-    </form>
+  <div *ngIf="testData.type === 1">
+    Балл: {{testData.rate}}
   </div>
 </div>

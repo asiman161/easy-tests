@@ -66,6 +66,8 @@ export class GroupListComponent implements OnInit {
       this._token.patch('update-group', form.value).subscribe(res => {
         this.editingGroup = false;
         this._toastr.success('Группа успешно обновлена', 'Успешно!');
+        this.groupInfo.group_name = form.value.group_name;
+        this.groupInfo.group_age = form.value.group_age;
       }, error => {
         this._toastr.error('Что-то пошло не так', 'Ошибка!');
       });

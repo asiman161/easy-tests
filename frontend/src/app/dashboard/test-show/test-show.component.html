@@ -1,1 +1,12 @@
-<h1>great test</h1>
+<div class="page-title">
+  <h3>{{testData.name}}</h3>
+</div>
+<div>
+  Тип работы: {{testData.type === 0 ? 'Контрольная' : 'Тест'}}
+</div>
+<div>
+  Вариант: {{testData.variant + 1}}
+</div>
+<div>
+  Баллы: {{testData.rate !== '-1' ? testData.rate : 'Не проверено'}}
+</div>
