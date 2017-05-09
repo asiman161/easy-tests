@@ -187,12 +187,12 @@ class Api::TestsController < ApplicationController
         ct = CompletedTest.find_by user_id: params[:user_id], test_id: params[:test_id]
         render json: {status: 0, data: {
           test_name: test[:test_name],
-          test_rate: ct[:test_rate],
+          rate: ct[:test_rate],
           test_time: test[:time],
           time: (tw[:updated_at] - tw[:created_at]).round,
           first_complete: ct[:first_complete],
           answers: ct[:answers],
-          test_type: ct[:test_type],
+          type: ct[:test_type],
           variant: ct[:variant],
           questions: test[:test_data]["variants"][ct[:variant]]["questions"]
         }}
@@ -238,6 +238,19 @@ class Api::TestsController < ApplicationController
 
       end
     end
+  end
+
+  def get_result
+      ct = CompletedTest.find_by(user_id: current_user[:id], test_id: params[:id])
+      name = !ct.nil? ? Test.find(params[:id])[:test_name] : false
+      if name
+        render json: {status: 0, data: {
+          rate: ct[:test_rate],
+          variant: ct[:variant],
+          type: ct[:test_type],
+          name: name
+        }}
+      end
   end
 
   def destroy

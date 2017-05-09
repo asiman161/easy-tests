@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     patch 'test-rate/:test_id/:user_id', to: 'tests#test_set_rate'
     patch 'test-visibility/:id', to: 'tests#test_visibility'
     post 'user-test/:id', to: 'tests#user_test'
+    get 'tests/result/:id', to: 'tests#get_result'
     post 'new-group', to: 'groups#create'
     patch 'update-group', to: 'groups#update'
     get 'get-key', to: 'groups#get_key'
