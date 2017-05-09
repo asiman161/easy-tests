@@ -1,0 +1,58 @@
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 25%;
+  overflow: visible;
+}
+
+.panel {
+  width: 24em;
+  background-color: $white;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  &__head {
+    padding: .5em 1em;
+    text-align: center;
+    .row {
+      align-items: baseline;
+    }
+  }
+  &__body {
+    padding: .5em 1em;
+  }
+}
+
+.gradient-line {
+  margin-top: 10px;
+  margin-bottom: 0;
+  width:100%;
+  border: 0;
+  height: 2px;
+  background: linear-gradient(to left,rgba(0,0,0,0),rgba(0,0,0,.15),rgba(0,0,0,0));
+}
+
+.auth-link {
+  color: $dark-gray;
+  &:hover {
+    @include color-hover($dark-gray);
+  }
+  &:active {
+    @include color-active($dark-gray);
+  }
+  &.active {
+    font-size:1.3em;
+    color: $aquamarine;
+    &:hover {
+      @include color-hover($aquamarine);
+    }
+    &:active {
+      @include color-active($aquamarine);
+    }
+  }
+}
+
+@media #{$xs-screen} {
+  .panel {
+    width: 18em;
+  }
+}
