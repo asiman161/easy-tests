@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507161436) do
+ActiveRecord::Schema.define(version: 20170509201728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,16 +18,16 @@ ActiveRecord::Schema.define(version: 20170507161436) do
   create_table "completed_tests", force: :cascade do |t|
     t.string   "test_rate",      default: "-1",  null: false
     t.boolean  "first_complete", default: false
-    t.integer  "group_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
     t.integer  "user_id",                        null: false
     t.integer  "test_id",                        null: false
-    t.text     "answers",                                     array: true
+    t.text     "answers",        default: [],                 array: true
     t.integer  "test_type",      default: 0,     null: false
     t.integer  "variant",        default: 0,     null: false
     t.integer  "time",           default: 0,     null: false
     t.boolean  "receive_manual", default: true
+    t.integer  "group_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.index ["user_id", "test_id"], name: "index_completed_tests_on_user_id_and_test_id", unique: true, using: :btree
   end
 
@@ -42,10 +42,10 @@ ActiveRecord::Schema.define(version: 20170507161436) do
   create_table "groups", force: :cascade do |t|
     t.string   "group_name",               null: false
     t.integer  "group_age",  default: 1
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
     t.integer  "user_id",    default: 0,   null: false
     t.string   "key",        default: "0", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.index ["key"], name: "index_groups_on_key", unique: true, using: :btree
   end
 
@@ -54,25 +54,8 @@ ActiveRecord::Schema.define(version: 20170507161436) do
     t.integer "subject_id"
   end
 
-  create_table "groups_tests", id: false, force: :cascade do |t|
-    t.integer "group_id"
-    t.integer "test_id"
-  end
-
   create_table "groups_users", force: :cascade do |t|
     t.integer "group_id"
-    t.integer "user_id"
-  end
-
-  create_table "rates", force: :cascade do |t|
-    t.integer  "rate",       default: 0
-    t.integer  "subject_id",             null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
-
-  create_table "rates_users", force: :cascade do |t|
-    t.integer "rate_id"
     t.integer "user_id"
   end
 
@@ -84,11 +67,11 @@ ActiveRecord::Schema.define(version: 20170507161436) do
   end
 
   create_table "test_watchers", force: :cascade do |t|
+    t.integer  "variant",    null: false
     t.integer  "user_id",    null: false
     t.integer  "test_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "variant"
     t.index ["user_id", "test_id"], name: "index_test_watchers_on_user_id_and_test_id", unique: true, using: :btree
   end
 
@@ -97,15 +80,15 @@ ActiveRecord::Schema.define(version: 20170507161436) do
     t.bigint   "time_end",       default: 0
     t.boolean  "show_test",      default: false
     t.integer  "user_id",                        null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
     t.integer  "time",           default: 0,     null: false
     t.boolean  "random_variant", default: false
     t.integer  "variants_count", default: 0,     null: false
     t.string   "test_name",      default: "",    null: false
+    t.json     "answers"
     t.integer  "test_type",      default: 0,     null: false
     t.integer  "subject_id",                     null: false
-    t.json     "answers"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -121,11 +104,11 @@ ActiveRecord::Schema.define(version: 20170507161436) do
     t.string   "last_name",              default: ""
     t.string   "patronymic",             default: ""
     t.string   "image"
+    t.string   "key"
+    t.integer  "group_id"
     t.json     "tokens"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
-    t.integer  "group_id"
-    t.string   "key"
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["group_id"], name: "index_users_on_group_id", using: :btree
     t.index ["key"], name: "index_users_on_key", unique: true, using: :btree

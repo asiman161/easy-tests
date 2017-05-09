@@ -18,7 +18,8 @@
       <et-answer [group]="questionForm.controls.question_answers.controls[i]"
                  [answerIndex]="i"
                  [answersCount]="questionForm.controls.question_answers.controls.length"
-                 (removeAnswer)="removeAnswer($event)"></et-answer>
+                 (removeAnswer)="removeAnswer($event)"
+                 (setAnswer)="setAnswer($event)"></et-answer>
       <button class="btn btn-default btn-sm mr-minus-05" (click)="addAnswer()">добавить ответ</button>
     </div>
 

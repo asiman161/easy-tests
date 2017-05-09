@@ -255,7 +255,7 @@ class Api::TestsController < ApplicationController
 
   def destroy
     if Test.find(params[:id])[:user_id] == current_user[:id]
-      if Test.delete(params[:id]) && CompletedTest.delete(CompletedTest.find_by test_id: params[:id])
+      if Test.delete(params[:id]) && CompletedTest.delete(CompletedTest.where test_id: params[:id])
         render json: {status: 0}
       end
     end
