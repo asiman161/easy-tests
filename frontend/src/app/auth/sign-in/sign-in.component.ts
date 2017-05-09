@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import {Angular2TokenService} from '../../shared/api-factory/angular2-token.service';
+import { ToastsManager } from 'ng2-toastr';
+
+import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 
 @Component({
   selector: 'et-sign-in',
@@ -10,29 +12,37 @@ import {Angular2TokenService} from '../../shared/api-factory/angular2-token.serv
 })
 
 export class SignInComponent implements OnInit {
-  private signInForm:FormGroup;
+  private signInForm: FormGroup;
 
-  constructor(private router:Router,
-              private formBuilder:FormBuilder,
-              private _tokenService:Angular2TokenService) {
+  constructor(private router: Router,
+              private formBuilder: FormBuilder,
+              private _toastr: ToastsManager,
+              private _tokenService: Angular2TokenService) {
   }
 
   ngOnInit() {
     this.signInForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
 
-  signIn(event) {
-    event.preventDefault();
-    this._tokenService.signIn(
-      this.signInForm.value.email,
-      this.signInForm.value.password
-    ).subscribe(res => {
+  signIn() {
+    if(this.signInForm.valid){
+      this._tokenService.signIn(
+        this.signInForm.value.email,
+        this.signInForm.value.password
+      ).subscribe(res => {
         this.router.navigateByUrl('');
-      },
-      error => console.error(error)
-    );
+      }, error => {
+        if (error.status === 401) {
+          this._toastr.error('Невозможно войти с предоставленными данными', 'Ошибка!');
+        } else {
+          this._toastr.error('Что-то пошло не так', 'Ошибка!');
+        }
+      });
+    } else {
+      this._toastr.error('Убедитесь, что все поля заполнены верно', 'Ошибка!');
+    }
   }
 }
