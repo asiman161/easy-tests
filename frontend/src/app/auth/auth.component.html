@@ -1,10 +1,27 @@
-<h1>Authentication!!!</h1>
-<a routerLink="">dashboard</a>
-<br>
-<button (click)="signIn(0)">signIn Guest</button>
-<button (click)="signIn(1)">signIn Student</button>
-<button (click)="signIn(2)">signIn Elder</button>
-<button (click)="signIn(3)">signIn Teacher</button>
-<a routerLink="sign-in">sign-in</a>
-<a routerLink="sign-up">sign-up</a>
-<router-outlet></router-outlet>
+<div class="auth-wrapper">
+  <div class="row">
+    <div class="panel">
+      <!--<h1>Authentication!!!</h1>
+      <a routerLink="">dashboard</a>
+      <br>-->
+      <div class="panel__head">
+        <div class="row">
+          <div class="col-xs-6">
+            <a class="auth-link" [class.active]="isSigning" (click)="changeStatus(true)" routerLink="sign-in">Авторизация</a>
+          </div>
+          <div class="col-xs-6">
+            <a class="auth-link" [class.active]="!isSigning" (click)="changeStatus(false)" routerLink="sign-up">Регистрация</a>
+          </div>
+          <hr class="gradient-line">
+        </div>
+      </div>
+      <div class="panel__body">
+        <!--<button (click)="signIn(0)">signIn Guest</button>-->
+        <!--<button (click)="signIn(1)">signIn Student</button>-->
+        <!--<button (click)="signIn(2)">signIn Elder</button>-->
+        <!--<button (click)="signIn(3)">signIn Teacher</button>-->
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
