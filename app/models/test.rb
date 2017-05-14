@@ -48,7 +48,7 @@ class Test < ApplicationRecord
     completed_test[:test_type] = test[:test_type]
     completed_test[:answers] = answers.map { |item| item.empty? ? '' : item.to_s}
 
-    completed_test[:variant] = 0
+    completed_test[:variant] = TestWatcher.find_by(user_id: user[:id], test_id: test_id)[:variant]
     completed_test[:receive_manual] = send_mode
 
     test_watcher = TestWatcher.find_by user_id: user[:id], test_id: test_id
