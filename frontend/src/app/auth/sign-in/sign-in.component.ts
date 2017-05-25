@@ -12,7 +12,7 @@ import { Angular2TokenService } from '../../shared/api-factory/angular2-token.se
 })
 
 export class SignInComponent implements OnInit {
-  private signInForm: FormGroup;
+  public signInForm: FormGroup;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,

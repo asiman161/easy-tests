@@ -6,11 +6,10 @@ import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
   templateUrl: 'variant.component.html'
 })
 export class VariantComponent {
-  @Input('group')
-  public variantForm: FormGroup;
+  @Input('group') public variantForm: FormGroup;
+  @Input('testType') public testType: number;
 
-  @Input('testType')
-  public testType: number;
+  public questionsCountArray: number[] = [0];
 
   constructor(private _fb: FormBuilder){}
 
@@ -18,6 +17,7 @@ export class VariantComponent {
   addQuestion() {
     const control = <FormArray>this.variantForm.controls['questions'];
     control.push(this.initQuestions());
+    this.questionsCountArray.push(0);
   }
 
   initQuestions() {
@@ -45,6 +45,7 @@ export class VariantComponent {
   removeQuestion(i: number) {
     const control = <FormArray>this.variantForm.controls['questions'];
     control.removeAt(i);
+    this.questionsCountArray.pop();
   }
 
 }

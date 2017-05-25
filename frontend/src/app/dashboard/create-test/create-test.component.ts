@@ -21,6 +21,7 @@ export class CreateTestComponent implements OnInit {
   public testType: number = 1;
   public subjects: Object[] = [];
   public createWork: FormGroup;
+  public variantsCount: number[] = [0];
 
   constructor(@Inject(NgZone) private zone: NgZone,
               private _router: Router,
@@ -102,11 +103,13 @@ export class CreateTestComponent implements OnInit {
   addVariant() {
     const control = <FormArray>this.createWork.controls['variants'];
     control.push(this.initVariants());
+    this.variantsCount.push(0);
   }
 
   removeVariant(i: number) {
     const control = <FormArray>this.createWork.controls['variants'];
     control.removeAt(i);
+    this.variantsCount.pop();
   }
 
   changeTestType(testType) {

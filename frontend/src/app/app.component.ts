@@ -4,9 +4,8 @@ import { Angular2TokenService } from './shared/api-factory/angular2-token.servic
 import { ToastsManager } from 'ng2-toastr';
 
 @Component({
-  selector: 'my-app',
+  selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['../styles/application.scss'],
   encapsulation: ViewEncapsulation.None
 })
 

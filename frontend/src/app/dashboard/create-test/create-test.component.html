@@ -76,12 +76,12 @@
     </div>
   </div>
   <div formArrayName="variants">
-    <div *ngFor="let variant of createWork.controls.variants.controls; index as i;last as last">
+    <div *ngFor="let tmp of variantsCount; index as i;last as last">
       <span>Вариант № {{i + 1}}</span>
       <i class="fa fa-times" *ngIf="createWork.controls.variants.controls.length > 1" (click)="removeVariant(i)"
          aria-hidden="true"></i>
       <div class="left-border" [formGroupName]="i">
-        <et-variant [group]="variant" [testType]="testType"></et-variant>
+        <et-variant [group]="createWork.controls.variants.controls[i]" [testType]="testType"></et-variant>
       </div>
       <button class="btn btn-default btn-sm" *ngIf="last" (click)="addVariant()">Добавить вариант</button>
     </div>

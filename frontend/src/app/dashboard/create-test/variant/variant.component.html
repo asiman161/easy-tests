@@ -1,9 +1,9 @@
 <div [formGroup]="variantForm">
   <div class="form-group col-xs-12">
     <div formArrayName="questions">
-      <div *ngFor="let question of variantForm.controls.questions.controls; index as i">
+      <div *ngFor="let question of questionsCountArray; index as i">
         <div [formGroupName]="i">
-          <et-question [group]="question"
+          <et-question [group]="variantForm.controls.questions.controls[i]"
                        [testType]="testType"
                        [questionIndex]="i"
                        [questionsCount]="variantForm.controls.questions.controls.length"

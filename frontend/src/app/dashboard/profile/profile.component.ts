@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms'
 import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
-import { UserData } from '../../shared/api-factory/angular2-token.model';
 import { ProfileRegexp, ProfileRegexps } from './profile-regexps.model';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
@@ -14,7 +13,7 @@ import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 })
 
 export class ProfileComponent implements OnInit {
-  public user: UserData = <UserData>{};
+  public user: any = {};
   public key: string;
   public editingProfile: boolean = false;
   public profileForm: FormGroup;
