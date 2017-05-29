@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
 
@@ -19,7 +20,8 @@ export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
   private regexps: ProfileRegexp = new ProfileRegexps().regexps;
 
-  constructor(private _token: Angular2TokenService,
+  constructor(private _router: Router,
+              private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
               private _sidebarEventsService: SidebarEventsService) {
@@ -67,6 +69,7 @@ export class ProfileComponent implements OnInit {
           let role = this._token.currentUserData.role;
           this._toastr.success('Ваш профиль успешно обновлен', 'Успешно!');
           this._sidebarEventsService.sidebarUpdate.emit({target: 'updateRole', data: {role: role}});
+          this._router.navigateByUrl(role === 3 ? 'groups-list' : 'group-list');
         });
       }, error => {
         this._toastr.error('Что-то пошло не так', 'Ошибка!');
