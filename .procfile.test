@@ -1,0 +1,2 @@
+web-server: rails db:environment:set RAILS_ENV=test && rails db:reset RAILS_ENV=test && rails s -e test -p 3000
+frontend: cd ./frontend && ng e2e --proxy-config proxy.conf.json

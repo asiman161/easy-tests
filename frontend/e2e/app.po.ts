@@ -2,7 +2,7 @@ import { browser, by, element } from 'protractor';
 
 export class AngCliPage {
   navigateTo() {
-    return browser.get('/');
+    return browser.get('/#/auth/sign-in');
   }
 
   getParagraphText() {
