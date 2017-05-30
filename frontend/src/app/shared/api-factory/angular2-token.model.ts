@@ -30,7 +30,7 @@ export interface OAuthPaths {
 }
 
 export interface GlobalOptions {
-    headers?:       { [key:string]: string; }
+    headers?:       { [key: string]: string; };
 }
 
 export interface Angular2TokenOptions {

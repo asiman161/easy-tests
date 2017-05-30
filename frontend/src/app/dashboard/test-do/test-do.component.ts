@@ -10,15 +10,15 @@ import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 
 @Component({
-  selector: 'et-test-do',
+  selector: 'app-test-do',
   templateUrl: './test-do.component.html',
   styleUrls: ['./test-do.component.scss']
 })
 export class TestDoComponent implements OnInit, OnDestroy {
-  public testPreparing: boolean = true;
-  public started: boolean = false;
+  public testPreparing = true;
+  public started = false;
   public testType: number;
-  public testName: string = '';
+  public testName = '';
   public testData: any = {};
   public timer: any;
   public testTime: any = {min: undefined, sec: undefined};
@@ -49,7 +49,7 @@ export class TestDoComponent implements OnInit, OnDestroy {
           this.testPreparing = true;
           let parsedData = JSON.parse(res._body).data;
           this.testName = parsedData.name;
-          if(!parsedData.started){
+          if (!parsedData.started) {
             this.variants = parsedData.variants;
             this.testTime.min = parsedData.time;
             this.started = false;
@@ -142,8 +142,12 @@ export class TestDoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.timer);
-    this._routeParamsSub && this._routeParamsSub.unsubscribe();
-    this._userTestSub && this._userTestSub.unsubscribe();
+    if (this._routeParamsSub) {
+      this._routeParamsSub.unsubscribe();
+    }
+    if (this._userTestSub) {
+      this._userTestSub.unsubscribe();
+    }
   }
 }
 

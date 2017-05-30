@@ -6,14 +6,14 @@ import { Angular2TokenService } from '../shared/api-factory/angular2-token.servi
 import { AuthService } from './auth.service';
 
 @Component({
-  selector: 'et-auth',
+  selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
   providers: [AuthService]
 })
 
 export class AuthComponent implements OnInit {
-  public isSigning: boolean = true;
+  public isSigning = true;
 
   constructor(private _router: Router,
               private _tokenService: Angular2TokenService) {
@@ -23,8 +23,8 @@ export class AuthComponent implements OnInit {
     this.isSigning = this._router.url === '/auth/sign-in';
   }
 
-  changeStatus(status){
-    if (status !== this.isSigning){
+  changeStatus(status) {
+    if (status !== this.isSigning) {
       this.isSigning = !this.isSigning;
     }
   }

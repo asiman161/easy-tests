@@ -1,26 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
-import { UserData } from '../../shared/api-factory/angular2-token.model';
 import { ProfileRegexp, ProfileRegexps } from './profile-regexps.model';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
-  selector: 'et-profile',
+  selector: 'app-profile',
   templateUrl: 'profile.component.html',
 })
 
 export class ProfileComponent implements OnInit {
-  public user: UserData = <UserData>{};
+  public user: any = {};
   public key: string;
-  public editingProfile: boolean = false;
+  public editingProfile = false;
   public profileForm: FormGroup;
   private regexps: ProfileRegexp = new ProfileRegexps().regexps;
 
-  constructor(private _token: Angular2TokenService,
+  constructor(private _router: Router,
+              private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
               private _sidebarEventsService: SidebarEventsService) {
@@ -68,6 +69,7 @@ export class ProfileComponent implements OnInit {
           let role = this._token.currentUserData.role;
           this._toastr.success('Ваш профиль успешно обновлен', 'Успешно!');
           this._sidebarEventsService.sidebarUpdate.emit({target: 'updateRole', data: {role: role}});
+          this._router.navigateByUrl(role === 3 ? 'groups-list' : 'group-list');
         });
       }, error => {
         this._toastr.error('Что-то пошло не так', 'Ошибка!');

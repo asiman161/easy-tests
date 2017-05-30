@@ -2,11 +2,11 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'et-answer',
+  selector: 'app-answer',
   templateUrl: 'answer.component.html'
 })
 export class AnswerComponent {
-  @Input('group') public answerForm: FormGroup;
+  @Input('answerForm') public answerForm: FormGroup;
   @Input('answerIndex') public answerIndex: number;
   @Input('answersCount') public answersCount: number;
   @Output() public setAnswer: EventEmitter<any> = new EventEmitter();
@@ -17,7 +17,7 @@ export class AnswerComponent {
     this.setAnswer.emit(this.answerIndex);
   }
 
-  removeAnswerIndex(){
+  removeAnswerIndex() {
     this.removeAnswer.emit(this.answerIndex);
   }
 }

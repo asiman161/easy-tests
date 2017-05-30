@@ -5,7 +5,7 @@ import { SidebarEventsService } from './sidebar-events.service';
 import { SidebarEvent } from './sidebar-event.model';
 
 @Component({
-  selector: 'et-sidebar',
+  selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public expandedLists: Object = {currentTasks: true, completedTasks: true};
   public studentLists: any = {currentTasks: [], completedTasks: []};
   public sidebarTestsList: any;
-  public userRole: number = 0;
+  public userRole = 0;
   private _sidebarEventsListener: EventEmitter<SidebarEvent>;
 
   constructor(private _token: Angular2TokenService,

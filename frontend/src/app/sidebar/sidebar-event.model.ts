@@ -1,8 +1,8 @@
 export interface SidebarEvent {
-  target: string,
+  target: string;
   data?: {
-    indexes?: any,
-    rate?: any,
-    role?: number
-  }
+    indexes?: any;
+    rate?: any;
+    role?: number;
+  };
 }

@@ -1,4 +1,4 @@
-<div>Список групп:</div>
+<div>Список групп: </div>
 <div *ngFor="let group of groups">
   <span>{{group.group_name}}</span>
   <button class="btn btn-danger btn-xs" (click)="deleteGroup(group.id)">Удалить</button>
