@@ -7,7 +7,7 @@ import { Angular2TokenService } from '../../shared/api-factory/angular2-token.se
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
-  selector: 'et-subjects-list',
+  selector: 'app-subjects-list',
   templateUrl: 'subjects-list.component.html',
 })
 

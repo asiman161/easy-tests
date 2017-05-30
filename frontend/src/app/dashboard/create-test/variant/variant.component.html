@@ -3,11 +3,11 @@
     <div formArrayName="questions">
       <div *ngFor="let question of questionsCountArray; index as i">
         <div [formGroupName]="i">
-          <et-question [group]="variantForm.controls.questions.controls[i]"
+          <app-question [questionForm]="variantForm.controls.questions.controls[i]"
                        [testType]="testType"
                        [questionIndex]="i"
                        [questionsCount]="variantForm.controls.questions.controls.length"
-                       (removeQuestion)="removeQuestion($event)"></et-question>
+                       (removeQuestion)="removeQuestion($event)"></app-question>
         </div>
       </div>
       <button class="btn btn-default btn-sm mr-minus-05" (click)="addQuestion()">добавить вопрос</button>

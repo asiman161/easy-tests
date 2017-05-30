@@ -1,12 +1,6 @@
 <div class="page-title">
   <h3>Создание работы</h3>
 </div>
-<!--<input type="file"
-       *ngIf="userIdLoaded"
-       ngFileSelect
-       [options]="options"
-       (onUpload)="handleUpload($event)"
->-->
 
 <div class="form-group">
   <div class="row">
@@ -81,7 +75,7 @@
       <i class="fa fa-times" *ngIf="createWork.controls.variants.controls.length > 1" (click)="removeVariant(i)"
          aria-hidden="true"></i>
       <div class="left-border" [formGroupName]="i">
-        <et-variant [group]="createWork.controls.variants.controls[i]" [testType]="testType"></et-variant>
+        <app-variant [variantForm]="createWork.controls.variants.controls[i]" [testType]="testType"></app-variant>
       </div>
       <button class="btn btn-default btn-sm" *ngIf="last" (click)="addVariant()">Добавить вариант</button>
     </div>

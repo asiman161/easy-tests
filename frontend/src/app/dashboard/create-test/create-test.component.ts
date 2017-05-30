@@ -2,23 +2,21 @@ import { Component, OnInit, NgZone, Inject, ViewChild } from '@angular/core';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { NgUploaderOptions } from 'ngx-uploader';
 import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
-  selector: 'et-create-work',
+  selector: 'app-create-work',
   templateUrl: './create-test.component.html',
 })
 export class CreateTestComponent implements OnInit {
   @ViewChild('select') select: any;
-  options: NgUploaderOptions;
   response: any;
   hasBaseDropZoneOver: boolean;
-  userIdLoaded: boolean = false;
-  public testType: number = 1;
+  userIdLoaded = false;
+  public testType = 1;
   public subjects: Object[] = [];
   public createWork: FormGroup;
   public variantsCount: number[] = [0];
@@ -36,22 +34,6 @@ export class CreateTestComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._token.validateToken().subscribe(() => {
-      this.userIdLoaded = true;
-      this.options = new NgUploaderOptions({
-        url: 'api/uploads',
-        filterExtensions: true,
-        allowedExtensions: ['doc', 'docx'],
-        data: {
-          user_id: this._token.currentUserData.id,
-          test_type: this.testType,
-          variants_count: 999
-        },
-        autoUpload: true,
-        calculateSpeed: true
-      });
-    });
-
     this.createWork = this._fb.group({
       subject_id: ['', Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
@@ -63,7 +45,7 @@ export class CreateTestComponent implements OnInit {
     });
 
     this._token.get('subjects').subscribe((res: any) => {
-      let subjectsResponse = JSON.parse(res._body).data;
+      const subjectsResponse = JSON.parse(res._body).data;
       this.subjects = subjectsResponse.map(item => {
         return {text: item.subject_name, id: item.id};
       });

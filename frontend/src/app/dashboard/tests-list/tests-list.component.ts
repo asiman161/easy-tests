@@ -5,7 +5,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
-  selector: 'et-dashboard',
+  selector: 'app-tests-list',
   templateUrl: './tests-list.component.html'
 })
 export class TestsListComponent implements OnInit {
@@ -37,7 +37,7 @@ export class TestsListComponent implements OnInit {
       });
   }
 
-  deleteTest(id: number, subject_index: number, test_index: number){
+  deleteTest(id: number, subject_index: number, test_index: number) {
     this._token.delete(`tests/${id}`)
       .subscribe((res: any) => {
         this._toastr.success('Работа успешно удалена', 'Успешно!');

@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'et-dashboard',
+  selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
   public showSidebar = false;
 
-  constructor() {}
+  constructor() {
+  }
 
-  openSidebar(){
+  openSidebar() {
     this.showSidebar = !this.showSidebar;
   }
 }

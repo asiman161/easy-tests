@@ -9,14 +9,14 @@ import { ProfileRegexp, ProfileRegexps } from './profile-regexps.model';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
-  selector: 'et-profile',
+  selector: 'app-profile',
   templateUrl: 'profile.component.html',
 })
 
 export class ProfileComponent implements OnInit {
   public user: any = {};
   public key: string;
-  public editingProfile: boolean = false;
+  public editingProfile = false;
   public profileForm: FormGroup;
   private regexps: ProfileRegexp = new ProfileRegexps().regexps;
 

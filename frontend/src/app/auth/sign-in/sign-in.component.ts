@@ -7,7 +7,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 
 @Component({
-  selector: 'et-sign-in',
+  selector: 'app-sign-in',
   templateUrl: './sign-in.component.html'
 })
 
@@ -28,7 +28,7 @@ export class SignInComponent implements OnInit {
   }
 
   signIn() {
-    if(this.signInForm.valid){
+    if (this.signInForm.valid) {
       this._tokenService.signIn(
         this.signInForm.value.email,
         this.signInForm.value.password

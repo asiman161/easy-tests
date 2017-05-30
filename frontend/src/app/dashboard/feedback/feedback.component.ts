@@ -7,7 +7,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 
 @Component({
-  selector: 'et-feedback',
+  selector: 'app-feedback',
   templateUrl: './feedback.component.html'
 })
 
@@ -18,7 +18,8 @@ export class FeedbackComponent implements OnInit {
   constructor(private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _router: Router,
-              private _toastr: ToastsManager) {}
+              private _toastr: ToastsManager) {
+  }
 
 
   ngOnInit() {
@@ -29,9 +30,9 @@ export class FeedbackComponent implements OnInit {
   }
 
 
-  leftFeedback(){
-    if(this.feedbackForm.valid){
-      this._token.post('feedback', this.feedbackForm.value).subscribe((res:any) => {
+  leftFeedback() {
+    if (this.feedbackForm.valid) {
+      this._token.post('feedback', this.feedbackForm.value).subscribe((res: any) => {
         this._router.navigateByUrl('/');
         this._toastr.success('Отзыв успешно отправлен', 'Успешно!');
 

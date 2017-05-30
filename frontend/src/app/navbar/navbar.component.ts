@@ -5,7 +5,7 @@ import { Angular2TokenService } from '../shared/api-factory/angular2-token.servi
 
 
 @Component({
-  selector: 'et-navbar',
+  selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })

@@ -14,14 +14,13 @@
     </div>
   </div>
   <div class="mr-left-1" formArrayName="question_answers" *ngIf="testType === 1">
-    <div class="mr-bottom-05" *ngFor="let answer of questionForm.controls.question_answers.controls; index as i">
-      <et-answer [group]="questionForm.controls.question_answers.controls[i]"
+    <div class="mr-bottom-05" *ngFor="let answer of questionForm.controls.question_answers.controls; index as i; last as last">
+      <app-answer [answerForm]="questionForm.controls.question_answers.controls[i]"
                  [answerIndex]="i"
                  [answersCount]="questionForm.controls.question_answers.controls.length"
                  (removeAnswer)="removeAnswer($event)"
-                 (setAnswer)="setAnswer($event)"></et-answer>
-      <button class="btn btn-default btn-sm mr-minus-05" (click)="addAnswer()">добавить ответ</button>
+                 (setAnswer)="setAnswer($event)"></app-answer>
+      <button class="btn btn-default btn-sm mr-minus-05" *ngIf="last" (click)="addAnswer()">добавить ответ</button>
     </div>
-
   </div>
 </div>

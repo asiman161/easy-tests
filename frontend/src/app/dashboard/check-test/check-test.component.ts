@@ -8,7 +8,7 @@ import { Angular2TokenService } from '../../shared/api-factory/angular2-token.se
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 
 @Component({
-  selector: 'et-check-test',
+  selector: 'app-check-test',
   templateUrl: './check-test.component.html'
 })
 export class CheckTestComponent implements OnInit {
@@ -37,7 +37,7 @@ export class CheckTestComponent implements OnInit {
 
       this._token.get(`check-test/${res.test_id}/${res.user_id}`).subscribe((res: any) => {
         this.testData = JSON.parse(res._body).data;
-        this.minutes = Math.round(this.testData.time/60);
+        this.minutes = Math.round(this.testData.time / 60);
         this.seconds = this.testData.time % 60;
         this.rateForm = this._fb.group({
           rate: ['', Validators.pattern(/^([A-Z]?|\d{0,2})$/)]
@@ -47,12 +47,14 @@ export class CheckTestComponent implements OnInit {
   }
 
   saveRate() {
-    let rate = this.rateForm.value.rate;
+    const rate = this.rateForm.value.rate;
     this._token.patch(`test-rate/${this._testId}/${this._userId}`, {rate: rate}).subscribe((res: any) => {
-      this._sidebarEventsService.sidebarUpdate.emit({target: 'updateRate', data: {
-        indexes: this._updateRateData,
-        rate: rate
-      }});
+      this._sidebarEventsService.sidebarUpdate.emit({
+        target: 'updateRate', data: {
+          indexes: this._updateRateData,
+          rate: rate
+        }
+      });
       this._toastr.success('Вы выставили оценку', 'Успешно!');
     }, error => {
       this._toastr.success('Что-то пошло не так', 'Ошибка!');

@@ -4,11 +4,11 @@ import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'et-question',
+  selector: 'app-question',
   templateUrl: 'question.component.html'
 })
 export class QuestionComponent implements OnInit {
-  @Input('group') public questionForm: FormGroup;
+  @Input('questionForm') public questionForm: FormGroup;
   @Input('questionIndex') public questionIndex: number;
   @Input('testType') public testType: number;
   @Input('questionsCount') public questionsCount: number;

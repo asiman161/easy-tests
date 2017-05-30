@@ -11,16 +11,11 @@ describe('authentication users', () => {
     expect(browser.getCurrentUrl()).toMatch(/\/#\/auth\/sign-in$/);
     element(by.css('input[type=text]')).sendKeys(USERS[1].email);
     element.all(by.css('input[type=password]')).get(0).sendKeys(USERS[1].password);
-    //element.all(by.css('input[type=password]')).get(1).sendKeys('teacher1');
+    // element.all(by.css('input[type=password]')).get(1).sendKeys('teacher1');
     element(by.css('.btn')).click();
     expect(browser.getCurrentUrl()).toMatch(/\/#\/profile$/);
-    //browser.pause();
     element(by.cssContainingText('.btn.btn-default', 'Заполнить профиль')).click();
     element.all(by.css('input[type=radio]')).get(1).click();
-    //element.all(by.css('input[type=text]')).get(0).sendKeys('111');
-    //element.all(by.css('input[type=text]')).get(1).sendKeys('222');
-    //element.all(by.css('input[type=text]')).get(2).sendKeys('333');
-    //element.all(by.css('input[type=text]')).get(3).sendKeys('444');
     element.all(by.css('input[type=text]')).get(0).sendKeys(textService.generateText(5, {
       onlyText: true, lowerCase: true
     }));
@@ -35,8 +30,7 @@ describe('authentication users', () => {
     }));
     element.all(by.css('input[type=text]')).get(4).sendKeys('3');
     element(by.cssContainingText('.btn.btn-success.btn-sm', 'Сохранить')).click();
-    //element(by.cssContainingText('.navbar-profile button', 'Выход')).click();
-    //browser.get('/#/group-list');
+    // element(by.cssContainingText('.navbar-profile button', 'Выход')).click();
     expect(browser.getCurrentUrl()).toMatch(/\/#\/group-list$/);
     browser.pause();
   });

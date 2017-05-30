@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-import { NgUploaderModule } from 'ngx-uploader';
 import { SelectModule } from 'ng2-select';
 import { ToastModule } from 'ng2-toastr';
 
@@ -32,8 +31,6 @@ import { AuthComponent } from './auth/auth.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 
-import { InputTextComponent } from './shared/elements/input-text/input-text.component';
-import { TextAreaComponent } from './shared/elements/text-area/text-area.component';
 import { AuthService } from './auth/auth.service';
 import { routing } from './app.routing';
 
@@ -46,7 +43,6 @@ import { routing } from './app.routing';
     routing,
     ReactiveFormsModule,
     FormsModule,
-    NgUploaderModule,
     SelectModule,
     ToastModule.forRoot()
   ],
@@ -70,9 +66,7 @@ import { routing } from './app.routing';
     FeedbackComponent,
     AuthComponent,
     SignInComponent,
-    SignUpComponent,
-    InputTextComponent, // TODO: remove this components or made them
-    TextAreaComponent // TODO: remove this components or made them
+    SignUpComponent
   ],
   providers: [
     AuthService,

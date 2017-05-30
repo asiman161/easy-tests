@@ -5,15 +5,16 @@ export interface GeneratorConfig {
 }
 
 export class TextService {
-  private ALPHABET: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  private ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   private ALL_LETTERS = 52;
   private ALL_DIGITS = -10;
   private LOWER_LETTERS = 26;
-  generateText(length: number, config?: GeneratorConfig){
-    let text: string = '';
-    let newAlphabet = this.alphabetSlice(config);
-    for (let i = 0; i < length; i++){
-      text += newAlphabet.charAt(Math.floor(Math.random() * newAlphabet.length))
+
+  generateText(length: number, config?: GeneratorConfig) {
+    let text = '';
+    const newAlphabet = this.alphabetSlice(config);
+    for (let i = 0; i < length; i++) {
+      text += newAlphabet.charAt(Math.floor(Math.random() * newAlphabet.length));
     }
 
     return text;
