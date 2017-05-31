@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { ToastsManager } from 'ng2-toastr';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
+import { TestsListService } from './tests-list.service';
 
 @Component({
   selector: 'app-tests-list',
-  templateUrl: './tests-list.component.html'
+  templateUrl: './tests-list.component.html',
+  providers: [TestsListService]
 })
 export class TestsListComponent implements OnInit {
   public subjectsList;
 
-  constructor(private _token: Angular2TokenService,
-              private _toastr: ToastsManager,
-              private _sidebarEventsService: SidebarEventsService) {
+  constructor(private _toastr: ToastsManager,
+              private _sidebarEventsService: SidebarEventsService,
+              private _testsListService: TestsListService) {
   }
 
   ngOnInit() {
@@ -21,25 +22,22 @@ export class TestsListComponent implements OnInit {
   }
 
   getTests() {
-    this._token.get('teacher-tests')
-      .subscribe((res: any) => {
-        this.subjectsList = JSON.parse(res._body).data;
-      });
+    this._testsListService.getTests().subscribe((res: any) => {
+      this.subjectsList = JSON.parse(res._body).data;
+    });
   }
 
   changeTestVisibility(id: number, visibility: boolean, subject_index: number, test_index: number) {
-    this._token.patch(`test-visibility/${id}`, {show_test: visibility})
-      .subscribe((res: any) => {
-        this._toastr.success('Видимость работы изменена', 'Успешно!');
-        this.subjectsList[subject_index].tests[test_index].show_test = !visibility;
-      }, error => {
-        this._toastr.error('Что-то пошло не так', 'Ошибка!');
-      });
+    this._testsListService.changeTestVisibility(id, visibility).subscribe(() => {
+      this._toastr.success('Видимость работы изменена', 'Успешно!');
+      this.subjectsList[subject_index].tests[test_index].show_test = !visibility;
+    }, error => {
+      this._toastr.error('Что-то пошло не так', 'Ошибка!');
+    });
   }
 
   deleteTest(id: number, subject_index: number, test_index: number) {
-    this._token.delete(`tests/${id}`)
-      .subscribe((res: any) => {
+    this._testsListService.deleteTest(id).subscribe(() => {
         this._toastr.success('Работа успешно удалена', 'Успешно!');
         this.subjectsList[subject_index].tests.splice(test_index, 1);
         this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});

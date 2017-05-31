@@ -5,14 +5,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 import * as _ from 'lodash';
 
-import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
+import { TestDoService } from './test-do.service';
 
 
 @Component({
   selector: 'app-test-do',
   templateUrl: './test-do.component.html',
-  styleUrls: ['./test-do.component.scss']
+  styleUrls: ['./test-do.component.scss'],
+  providers: [TestDoService]
 })
 export class TestDoComponent implements OnInit, OnDestroy {
   public testPreparing = true;
@@ -34,17 +35,16 @@ export class TestDoComponent implements OnInit, OnDestroy {
 
   constructor(private _router: Router,
               private _routeActivated: ActivatedRoute,
-              private _token: Angular2TokenService,
               private _toastr: ToastsManager,
               private _sidebarEventsService: SidebarEventsService,
+              private _testDoService: TestDoService,
               private _fb: FormBuilder) {
   }
 
   ngOnInit() {
     this._routeParamsSub = this._routeActivated.params.subscribe((res: any) => {
       this._testId = res.id;
-      this._token.get(`check_test_variants_mode/${this._testId}`)
-        .subscribe((res: any) => {
+      this._testDoService.getVariantMode(this._testId).subscribe((res: any) => {
           clearInterval(this.timer);
           this.testPreparing = true;
           let parsedData = JSON.parse(res._body).data;
@@ -69,8 +69,7 @@ export class TestDoComponent implements OnInit, OnDestroy {
   }
 
   getTest() {
-    this._userTestSub = this._token.post(`user-test/${this._testId}`, {variant_number: parseInt(this.variantSelected)})
-      .subscribe((res: any) => {
+    this._testDoService.getTest(this._testId, this.variantSelected).subscribe((res: any) => {
         this.started = false;
         let parsedData = JSON.parse(res._body);
         this.testType = parsedData.test_type;
@@ -131,7 +130,7 @@ export class TestDoComponent implements OnInit, OnDestroy {
       answers: this.testType === 0 ? this.workForm.value.answers.map(item => item.answer) : this._userAnswers,
       send_mode: sendMode
     };
-    this._userTestSub = this._token.post(`user-test/complete/${this._testId}`, requestData).subscribe((res: any) => {
+    this._userTestSub = this._testDoService.completeTest(this._testId, requestData).subscribe(() => {
       this._toastr.success('Работа успешно выполнена', 'Успешно!');
       this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
       this._router.navigateByUrl('');
