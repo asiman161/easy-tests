@@ -6,10 +6,12 @@ import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
+import { CreateTestService } from './create-test.service';
 
 @Component({
   selector: 'app-create-work',
   templateUrl: './create-test.component.html',
+  providers: [CreateTestService]
 })
 export class CreateTestComponent implements OnInit {
   @ViewChild('select') select: any;
@@ -26,7 +28,8 @@ export class CreateTestComponent implements OnInit {
               private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
-              private _sidebarEventsService: SidebarEventsService) {
+              private _sidebarEventsService: SidebarEventsService,
+              private _createTestService: CreateTestService) {
   }
 
   setSubject(subject) {
@@ -109,42 +112,27 @@ export class CreateTestComponent implements OnInit {
 
   save() {
     if (this.createWork.valid) {
-      let test_data = {
-        test: {
-          title: this.createWork.value.title,
-          time: this.createWork.value.time,
-          random_variant: this.createWork.value.random_variant,
-          variants: this.createWork.value.variants
-        }
+      const test_data = {
+        title: this.createWork.value.title,
+        time: this.createWork.value.time,
+        random_variant: this.createWork.value.random_variant,
+        variants: this.createWork.value.variants
       };
-      this._token.post('create-test', {
+      this._createTestService.save({
+        test_data: test_data,
         subject_id: this.createWork.value.subject_id,
-        test_data: test_data.test,
-        test_type: this.testType,
-      }).subscribe(res => {
+        test_type: this.testType
+      }).subscribe(() => {
         this._toastr.success('Работа успешно создана', 'Успешно!');
         this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
         this._router.navigateByUrl('/tests-list');
+      }, () => {
+        this._toastr.error('Что-то пошло не так', 'Ошибка!');
       });
     } else {
       this._toastr.error('В форме присутствуют ошибки\nУбедитесь, что все поля заполненны верно', 'Ошибка!');
       console.error('form doesn\'t valid');
     }
-  }
-
-  handleUpload(data: any) {
-    setTimeout(() => {
-      this.zone.run(() => {
-        this.response = data;
-        if (data && data.response) {
-          this.response = JSON.parse(data.response);
-        }
-      });
-    });
-  }
-
-  fileOverBase(e: boolean) {
-    this.hasBaseDropZoneOver = e;
   }
 }
 

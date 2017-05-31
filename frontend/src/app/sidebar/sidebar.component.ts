@@ -3,11 +3,13 @@ import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Angular2TokenService } from '../shared/api-factory/angular2-token.service';
 import { SidebarEventsService } from './sidebar-events.service';
 import { SidebarEvent } from './sidebar-event.model';
+import { SidebarService } from './sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
+  providers: [SidebarService]
 })
 
 export class SidebarComponent implements OnInit, OnDestroy {
@@ -19,7 +21,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private _sidebarEventsListener: EventEmitter<SidebarEvent>;
 
   constructor(private _token: Angular2TokenService,
-              private _sidebarEventsService: SidebarEventsService) {
+              private _sidebarEventsService: SidebarEventsService,
+              private _sidebarService: SidebarService) {
   }
 
   ngOnInit(): void {
@@ -100,7 +103,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   // TODO: rename this method
   private _getSidebar(role: number) {
     if (role > 0) {
-      this._token.get('user-tests').subscribe((res: any) => {
+      this._sidebarService.getUserTests().subscribe((res: any) => {
         let tests: any = JSON.parse(res._body).data;
         switch (role) {
           case 1 :
