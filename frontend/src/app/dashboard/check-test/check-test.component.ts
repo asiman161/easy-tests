@@ -6,10 +6,12 @@ import { ToastsManager } from 'ng2-toastr';
 
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
+import { CheckTestService } from './check-test.service';
 
 @Component({
   selector: 'app-check-test',
-  templateUrl: './check-test.component.html'
+  templateUrl: './check-test.component.html',
+  providers: [CheckTestService]
 })
 export class CheckTestComponent implements OnInit {
   public testData: any;
@@ -24,7 +26,8 @@ export class CheckTestComponent implements OnInit {
               private _routeActivated: ActivatedRoute,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
-              private _sidebarEventsService: SidebarEventsService) {
+              private _sidebarEventsService: SidebarEventsService,
+              private _checkTestService: CheckTestService) {
   }
 
   ngOnInit() {
@@ -48,7 +51,7 @@ export class CheckTestComponent implements OnInit {
 
   saveRate() {
     const rate = this.rateForm.value.rate;
-    this._token.patch(`test-rate/${this._testId}/${this._userId}`, {rate: rate}).subscribe((res: any) => {
+    this._checkTestService.saveRate(this._testId, this._userId, rate).subscribe((res: any) => {
       this._sidebarEventsService.sidebarUpdate.emit({
         target: 'updateRate', data: {
           indexes: this._updateRateData,

@@ -24,7 +24,7 @@
     </div>
   </div>
   <div>Вы готовы начать?</div>
-  <button [disabled]="variants !== 'random' && !variantSelected" (click)="getTest()">Начать</button>
+  <button class="btn btn-success btn-sm" [disabled]="variants !== 'random' && !variantSelected" (click)="getTest()">Начать</button>
 </div>
 
 <div *ngIf="started">
@@ -56,5 +56,5 @@
       </div>
     </div>
   </div>
-  <button (click)="completeTest(true)">Закончить</button>
+  <button class="btn btn-success btn-sm" (click)="completeTest(true)">Закончить</button>
 </div>

@@ -7,10 +7,12 @@ import * as _ from 'lodash';
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { UserData } from '../../shared/api-factory/angular2-token.model';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
+import { GroupListService } from './group-list.service';
 
 @Component({
   selector: 'app-group-list',
-  templateUrl: './group-list.component.html'
+  templateUrl: './group-list.component.html',
+  providers: [GroupListService]
 })
 
 export class GroupListComponent implements OnInit {
@@ -28,7 +30,8 @@ export class GroupListComponent implements OnInit {
   constructor(private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
-              private _sidebarEventsService: SidebarEventsService) {
+              private _sidebarEventsService: SidebarEventsService,
+  private _groupListService: GroupListService) {
   }
 
 
@@ -64,7 +67,7 @@ export class GroupListComponent implements OnInit {
 
   updateGroup(form) {
     if (form.valid) {
-      this._token.patch('update-group', form.value).subscribe(res => {
+      this._groupListService.updateGroup(form.value).subscribe(() => {
         this.editingGroup = false;
         this._toastr.success('Группа успешно обновлена', 'Успешно!');
         this.groupInfo.group_name = form.value.group_name;
@@ -79,7 +82,7 @@ export class GroupListComponent implements OnInit {
 
   addTeacher(form) {
     if (form.valid) {
-      this._token.post('add-teacher', form.value).subscribe(res => {
+      this._groupListService.addTeacher(form.value).subscribe(() => {
         this._toastr.success('Новый преподаватель добавлен', 'Успешно!');
         this.addingTeacher = false;
         this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
@@ -94,20 +97,20 @@ export class GroupListComponent implements OnInit {
   }
 
   getTeachersAndGroup() {
-    this._token.get('group').subscribe((res: any) => {
+    this._groupListService.getTeachers().subscribe((res: any) => {
+      this.teachers = JSON.parse(res._body).data;
+    });
+    this._groupListService.getGroup().subscribe((res: any) => {
       this.groupInfo = JSON.parse(res._body).data;
       if (this.user.role === 1) {
         let elder: any = _.find(this.groupInfo.students, {role: 2});
         this.elderName = `${elder.last_name} ${elder.first_name} ${elder.patronymic}`;
       }
     });
-    this._token.get('teachers').subscribe((res: any) => {
-      this.teachers = JSON.parse(res._body).data;
-    });
   }
 
   deleteTeacher(id, index) {
-    this._token.delete(`teachers/${id}`).subscribe((res: any) => {
+    this._groupListService.deleteTeacher(id).subscribe(() => {
       this._toastr.success('Преподаватель успешно удален', 'Успешно!');
       this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
       this.teachers.splice(index, 1);
@@ -117,7 +120,7 @@ export class GroupListComponent implements OnInit {
   }
 
   deleteStudent(id, index) {
-    this._token.delete(`students/${id}`).subscribe((res: any) => {
+    this._groupListService.deleteStudent(id).subscribe(() => {
       this._toastr.success('Студент успешно удален', 'Успешно!');
       this.groupInfo.students.splice(index, 1);
     }, error => {

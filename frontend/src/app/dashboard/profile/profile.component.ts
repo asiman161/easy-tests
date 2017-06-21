@@ -7,10 +7,12 @@ import { ToastsManager } from 'ng2-toastr';
 import { Angular2TokenService } from '../../shared/api-factory/angular2-token.service';
 import { ProfileRegexp, ProfileRegexps } from './profile-regexps.model';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
+import { ProfileService } from './profile.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: 'profile.component.html',
+  providers: [ProfileService]
 })
 
 export class ProfileComponent implements OnInit {
@@ -24,7 +26,8 @@ export class ProfileComponent implements OnInit {
               private _token: Angular2TokenService,
               private _fb: FormBuilder,
               private _toastr: ToastsManager,
-              private _sidebarEventsService: SidebarEventsService) {
+              private _sidebarEventsService: SidebarEventsService,
+              private _profileService: ProfileService) {
   }
 
   ngOnInit() {
@@ -64,7 +67,7 @@ export class ProfileComponent implements OnInit {
 
   saveProfile() {
     if (this.profileForm.valid) {
-      this._token.patch('profiles', this.profileForm.value).subscribe((res: any) => {
+      this._profileService.saveProfile(this.profileForm.value).subscribe((res: any) => {
         this._token.validateToken().subscribe(() => {
           let role = this._token.currentUserData.role;
           this._toastr.success('Ваш профиль успешно обновлен', 'Успешно!');
@@ -82,14 +85,14 @@ export class ProfileComponent implements OnInit {
 
   getKey() {
     if (this.user.role === 2 || this.user.role === 3) {
-      this._token.get('get-key').subscribe((res: any) => {
+      this._profileService.getKey().subscribe((res: any) => {
         this.key = JSON.parse(res._body).key;
       });
     }
   }
 
   resetKey() {
-    this._token.get('reset-key').subscribe((res: any) => {
+    this._profileService.resetKey().subscribe((res: any) => {
       this._toastr.success('Вы сменили ключ доступа', 'Успешно!');
       this.key = JSON.parse(res._body).key;
     }, error => {
