@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 import { SidebarEventsService } from '../../sidebar/sidebar-events.service';
 import { TestsListService } from './tests-list.service';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-tests-list',
@@ -14,11 +15,18 @@ export class TestsListComponent implements OnInit {
 
   constructor(private _toastr: ToastsManager,
               private _sidebarEventsService: SidebarEventsService,
-              private _testsListService: TestsListService) {
+              private _testsListService: TestsListService,
+              private _http: Http) {
   }
 
   ngOnInit() {
     this.getTests();
+    const headers = new Headers();
+    headers.append('Access-Control-Allow-Credentials', 'true');
+    headers.append('Access-Control-Allow-Origin', '*');
+    this._http.get(
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=rostov-on-don&types=geocode&language=en&key=AIzaSyAHff6zpLMbCgj2tfbl6k1RyAhj8pPoi5E`,
+      headers).subscribe(res => console.log(res, 'success'), err => console.log(err, 'err'));
   }
 
   getTests() {
@@ -38,12 +46,12 @@ export class TestsListComponent implements OnInit {
 
   deleteTest(id: number, subject_index: number, test_index: number) {
     this._testsListService.deleteTest(id).subscribe(() => {
-        this._toastr.success('Работа успешно удалена', 'Успешно!');
-        this.subjectsList[subject_index].tests.splice(test_index, 1);
-        this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
-      }, error => {
-        this._toastr.error('Что-то пошло не так', 'Ошибка!');
-      });
+      this._toastr.success('Работа успешно удалена', 'Успешно!');
+      this.subjectsList[subject_index].tests.splice(test_index, 1);
+      this._sidebarEventsService.sidebarUpdate.emit({target: 'update'});
+    }, error => {
+      this._toastr.error('Что-то пошло не так', 'Ошибка!');
+    });
   }
 }
 
