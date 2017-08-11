@@ -102,6 +102,15 @@ class Api::TestsController < ApplicationController
 
     user_tests = []
     #TODO: need to return only test_data
+    #TODO: fix n + 1
+=begin
+    replace it with this sql:
+    SELECT group_name, subject_name, test_name, test_rate, first_name FROM groups
+      JOIN subjects on subjects.user_id = 4
+      JOIN users ON groups.id = users.group_id
+      JOIN tests ON tests.subject_id = subjects.id
+      JOIN completed_tests AS ct ON ct.user_id = users.id AND ct.test_id = tests.id
+=end
     if current_user.teacher?
       tests = current_user.groups.select(:id, :group_name).map do |gr|
         {
